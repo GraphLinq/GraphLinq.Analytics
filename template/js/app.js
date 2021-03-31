@@ -86,6 +86,31 @@ var $win = $(window),
     }
 
 
+/************ resize scroll load ************/
+
+    $body.on('resize scroll load', function(){
+
+        var o = $body.scrollTop();
+        0 < o ? $body.addClass("fx") : $body.removeClass("fx");
+
+    });
+
+
+/************ select ************/
+ 
+    $('#sl').on({
+        mouseenter(){
+            var $n = $('#sl').find('li').length
+            var $h = $n*50
+            $('#sl').height($h);
+        },
+        mouseleave(){
+            $('#sl').height(50);
+            $('#sl ul').scrollTop(0);
+        }
+    })
+
+
 /************ nav ************/
  
     var $nav = {
@@ -98,6 +123,11 @@ var $win = $(window),
                     $body.addClass('onav');
                 }
             });
+            $doc.on('click', function(e){
+                if(!$(e.target).is('.bnv, .bnv *, #a, #a *')){
+                    $body.removeClass('onav');
+                }
+            })
         }
     }
 

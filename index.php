@@ -7,50 +7,182 @@
 	    <link rel="icon" type="image/png" href="./template/img/favicon.png?v=5">
 	    <meta name="msapplication-TileColor" content="#f20350">
 	    <meta name="theme-color" content="#f20350">
-	    <link rel="stylesheet" href="./template/css/fontawesome.css">
 	    <link rel="stylesheet" href="./template/css/app.css?v=<?php echo time(); ?>">
 	</head>
 	<body>
         <div id="app">
         	<aside id="a">
         		<div>
-	        		<a href="index.html" title="Back to home" class="lo">
-	        			<img src="/template/img/logo.svg?v=3" alt="graphlinq analytics">
-	        		</a>
-	        		<nav id="n">
-	        			<ul>
-	        				<li class="ac"><a href="" title=""><span>Overview</span></a></li>
-	        				<li><a href="" title=""><span>Graph IDE</span></a></li>
-	        				<li><a href="" title=""><span>Dashboard</span></a></li>
-	        				<li><a href="" title=""><span>Documentation</span></a></li>
-	        			</ul>
-	        		</nav>
-	        	</div>
+            		<a href="index.html" title="Back to home" class="lo">
+            			<img src="/template/img/logo.svg?v=3" alt="graphlinq analytics">
+            		</a>
+            		<nav id="n">
+            			<ul>
+            				<li class="ac"><a href="" title=""><i class="fal fa-chart-line"></i><span>Overview</span></a></li>
+            				<li><a href="" title=""><i class="fal fa-chart-network"></i><span>Graph IDE</span></a></li>
+            				<li><a href="" title=""><i class="fal fa-tachometer"></i><span>Dashboard</span></a></li>
+            				<li><a href="" title=""><i class="fal fa-folder-tree"></i><span>Documentation</span></a></li>
+            			</ul>
+            		</nav>
+                    <div id="sl">
+                        <ul>
+                            <li class='sl'><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Unicrypt</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                            <li><a data-href=""><div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div><strong>Projet</strong></a></li>
+                        </ul>
+                    </div>
+    	        </div>
         	</aside>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-        	<br>
-			<div id="x"><div id="xx"></div></div>
+            <header id="h">
+                <div class="top">
+                    <div class="l">
+                        <button class="bnv" data-nav="">
+                            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <path class="l-1" d="M0,42h62c13,0,6,26-4,16L35,35"></path>
+                                <path class="l-2" d="M0,50h70"></path>
+                                <path class="l-3" d="M0,58h62c13,0,6-26-4-16L35,65"></path>
+                            </svg>
+                        </button>
+                        <div class="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt"></div> 
+                        <div class="tit">
+                            <h1>Unicrypt</h1>
+                            <div class="pri">
+                            GLQ Price : <strong>0.05 $US</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="r">
+                        <a href="" class="b"><span>Connect wallet</span><i class="fal fa-lock"></i></a>
+                    </div>
+                </div>
+                <div class="bot">
+                    <ul>
+                        <li class="ac"><a href="">Section</a></li>
+                        <li><a href="">Section</a></li>
+                        <li><a href="">Section</a></li>
+                        <li><a href="">Section</a></li>
+                    </ul>
+                </div>
+            </header>
+            <main id="m">
+                <div>
+                    <div class="cl">
+                        <div class="blc cl2">
+                            <div>
+                                <div class="top">
+                                    <small>Liquidity</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="gr">+4.73%</span>
+                                    </h2>
+                                </div>
+                                <div class="chart">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl2">
+                            <div>
+                                <div class="top">
+                                    <small>Volume (24h)</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="re">-4.73%</span>
+                                    </h2>
+                                </div>
+                                <div class="chart">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl1">
+                            <div>
+                                <div class="top">
+                                    <small>Last 663 trades</small>
+                                    <h2>
+                                        <strong>GLQ Trades</strong>
+                                    </h2>
+                                </div>
+                                <div class="tbl">
+                                    <div class="tblc">
+                                        <div>
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Type</th>
+                                                        <th>Price USD</th>
+                                                        <th>Price ETH</th>
+                                                        <th>Amount GLQ</th>
+                                                        <th>Total ETH</th>
+                                                        <th>Marker</th>
+                                                        <th>Other</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>2021-03-31 19:03:26</td>
+                                                        <td class="gre">Buy</td>
+                                                        <td>$0.07410636</td>
+                                                        <td>0.000004002</td>
+                                                        <td>5,000.00</td>
+                                                        <td>0.200009925</td>
+                                                        <td><a href="">...bad8z8ddd4fcc87</a></td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2021-03-31 19:03:26</td>
+                                                        <td class="red">Sell</td>
+                                                        <td>$0.07410636</td>
+                                                        <td>0.000004002</td>
+                                                        <td>5,000.00</td>
+                                                        <td>0.200009925</td>
+                                                        <td><a href="">...bad8z8ddd4fcc87</a></td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2021-03-31 19:03:26</td>
+                                                        <td class="gre">Buy</td>
+                                                        <td>$0.07410636</td>
+                                                        <td>0.000004002</td>
+                                                        <td>5,000.00</td>
+                                                        <td>0.200009925</td>
+                                                        <td><a href="">...bad8z8ddd4fcc87</a></td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2021-03-31 19:03:26</td>
+                                                        <td class="gre">Buy</td>
+                                                        <td>$0.07410636</td>
+                                                        <td>0.000004002</td>
+                                                        <td>5,000.00</td>
+                                                        <td>0.200009925</td>
+                                                        <td><a href="">...bad8z8ddd4fcc87</a></td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2021-03-31 19:03:26</td>
+                                                        <td class="gre">Buy</td>
+                                                        <td>$0.07410636</td>
+                                                        <td>0.000004002</td>
+                                                        <td>5,000.00</td>
+                                                        <td>0.200009925</td>
+                                                        <td><a href="">...bad8z8ddd4fcc87</a></td>
+                                                        <td>-</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div id="x"><div id="xx"></div></div>
         </div>
    		<script id="shader-vertex-terrain-perlinsombrero" type="x-shader/x-vertex">
 		vec3 mod289(vec3 x)
