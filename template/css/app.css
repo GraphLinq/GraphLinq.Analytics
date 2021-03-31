@@ -1,0 +1,118 @@
+/*
+    @ Copyright © 2021 www.nuixw.fr
+    @ Site : graphlinq.io
+
+/************* font-face **************/
+
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Regular.eot');src:local('Gilroy Regular'),local('Gilroy-Regular'),url('../fonts/gilroy/Gilroy-Regular.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Regular.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Regular.woff') format('woff'),url('../fonts/gilroy/Gilroy-Regular.ttf') format('truetype');font-weight:normal;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Bold.eot');src:local('Gilroy Bold'),local('Gilroy-Bold'),url('../fonts/gilroy/Gilroy-Bold.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Bold.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Bold.woff') format('woff'),url('../fonts/gilroy/Gilroy-Bold.ttf') format('truetype');font-weight:bold;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Black.eot');src:local('Gilroy Black'),local('Gilroy-Black'),url('../fonts/gilroy/Gilroy-Black.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Black.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Black.woff') format('woff'),url('../fonts/gilroy/Gilroy-Black.ttf') format('truetype');font-weight:900;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Light.eot');src:local('Gilroy Light'),local('Gilroy-Light'),url('../fonts/gilroy/Gilroy-Light.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Light.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Light.woff') format('woff'),url('../fonts/gilroy/Gilroy-Light.ttf') format('truetype');font-weight:300;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Medium.eot');src:local('Gilroy Medium'),local('Gilroy-Medium'),url('../fonts/gilroy/Gilroy-Medium.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Medium.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Medium.woff') format('woff'),url('../fonts/gilroy/Gilroy-Medium.ttf') format('truetype');font-weight:500;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-MediumItalic.eot');src:local('Gilroy Medium Italic'),local('Gilroy-MediumItalic'),url('../fonts/gilroy/Gilroy-MediumItalic.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-MediumItalic.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-MediumItalic.woff') format('woff'),url('../fonts/gilroy/Gilroy-MediumItalic.ttf') format('truetype');font-weight:500;font-style:italic;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-UltraLight.eot');src:local('Gilroy UltraLight'),local('Gilroy-UltraLight'),url('../fonts/gilroy/Gilroy-UltraLight.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-UltraLight.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-UltraLight.woff') format('woff'),url('../fonts/gilroy/Gilroy-UltraLight.ttf') format('truetype');font-weight:200;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-RegularItalic.eot');src:local('Gilroy Regular Italic'),local('Gilroy-RegularItalic'),url('../fonts/gilroy/Gilroy-RegularItalic.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-RegularItalic.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-RegularItalic.woff') format('woff'),url('../fonts/gilroy/Gilroy-RegularItalic.ttf') format('truetype');font-weight:normal;font-style:italic;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-Extrabold.eot');src:local('Gilroy Extrabold'),local('Gilroy-Extrabold'),url('../fonts/gilroy/Gilroy-Extrabold.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-Extrabold.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-Extrabold.woff') format('woff'),url('../fonts/gilroy/Gilroy-Extrabold.ttf') format('truetype');font-weight:800;font-style:normal;}
+    @font-face{font-family:'Gilroy';src:url('../fonts/gilroy/Gilroy-LightItalic.eot');src:local('Gilroy Light Italic'),local('Gilroy-LightItalic'),url('../fonts/gilroy/Gilroy-LightItalic.eot?#iefix') format('embedded-opentype'),url('../fonts/gilroy/Gilroy-LightItalic.woff2') format('woff2'),url('../fonts/gilroy/Gilroy-LightItalic.woff') format('woff'),url('../fonts/gilroy/Gilroy-LightItalic.ttf') format('truetype');font-weight:300;font-style:italic;}
+
+/************* general **************/
+
+    *,*:after,*:before{font-family:'Gilroy', sans-serif;position:relative;box-sizing:border-box;}
+    html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video,button{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+    input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,textarea:-webkit-autofill,textarea:-webkit-autofill:hover,textarea:-webkit-autofill:focus,select:-webkit-autofill,select:-webkit-autofill:hover,select:-webkit-autofill:focus{box-shadow:0 0 0 0 transparent inset;transition:0s;background-color:inherit;}
+    article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+    a,button,[data-mail]{transition:.3s;cursor:pointer;color:inherit;}
+    button{border:0;padding:0;background:none;display:inline-block;}
+    a,a:hover,button,button:hover,*:focus,*:active{text-decoration:none;outline:none;}
+    body{overflow:hidden;font-weight:400;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;}
+    ol,ul{list-style:none;}
+    blockquote,q{quotes:none;}
+    blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+    table{border-collapse:collapse;border-spacing:0;}
+    strong{font-weight:800;}
+    img{max-width:100%;}
+    svg, img{vertical-align:bottom;}
+    input,textarea{background:transparent;border:0;resize:none;}
+
+    /* selection styling */
+        *::-moz-selection{background-color:#f20350;color:#fff;}
+        *::selection{background-color:#f20350;color:#fff;}
+
+    /* selection placeholder */
+        ::-webkit-input-placeholder{color:inherit;opacity:.5;}
+        ::-moz-placeholder{color:inherit;opacity:.5;}
+        ::-ms-input-placeholder{color:inherit;opacity:.5;}
+
+
+/*----------------------------------------------------< PRESET APP >---------------------------------------------------*/
+
+    /* * */
+        html, body{background-color:#0c0a17;color:#ece7fd;width:100%;height:100%;overflow:hidden;font-family:'Gilroy', sans-serif;font-weight:300;}
+
+    /* ct */
+        .ct{width:90%;max-width:1300px;margin:auto;padding:0 3%;}
+
+    /* gradient */
+        .dg{background:linear-gradient(to right, #5519ee, #9a23e6);background-clip:border-box;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .dguni{background:linear-gradient(to right, #ff286f, #ff007a);background-clip:border-box;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    
+    /* b */
+        .b{color:#fff;font-weight:bold;cursor:pointer;display:inline-block;transition:transform .2s;padding:19px 25px 17px;font-size:calc(12px + 2 * (100vw - 320px) / 1080);border-radius:100px;overflow:hidden;}
+        .b:active{transform:scale(.9);}
+        .b:before{transition:transform .8s;content:'';position:absolute;top:0;left:0;width:200%;height:100%;background:linear-gradient(to right, #5519ee, #9a23e6, #ff286f);}
+        .b.bs:before{background:linear-gradient(to left, #5519ee, #9a23e6, #ff286f);}
+        .b.buni:before{background:linear-gradient(to right, #9a23e6, #ff286f, #ff007a);}
+        .b:hover:before{transform:translateX(-50%);}
+        .b img{width:20px;top:-3px;margin-left:5px;}
+
+    /* h */
+        .h3{font-size:calc(20px + 5 * (100vw - 320px) / 1080);font-weight:200}
+        .h3 strong{font-size:125%;display:block;margin-top:calc(2px + 2 * (100vw - 320px) / 1080);}
+        
+        .ti{font-weight:bold;font-size:calc(18px + 20 * (100vw - 320px) / 1080);}
+        .tp{line-height:1.5;font-size:calc(15px + 3 * (100vw - 320px) / 1080);color:#b4a5e7;margin:calc(15px + 15 * (100vw - 320px) / 1080) auto;max-width:85%;width:calc(400px + 200 * (100vw - 320px) / 1080);}
+    
+    /* p */
+        .p{font-size:calc(14px + 3 * (100vw - 320px) / 1080);line-height:1.7;font-weight:400;color:#b4a5e7;}
+        * + .p{margin-top:calc(20px + 5 * (100vw - 320px) / 1080);}
+        .p > * + *{margin-top:calc(10px + 3 * (100vw - 320px) / 1080);}
+
+
+/*----------------------------------------------------< APP >---------------------------------------------------*/
+
+/************* app **************/
+
+    #app{position:absolute;width:100%;min-height:100%;z-index:1;}
+
+
+/************* aside **************/
+
+    #a{position:fixed;top:0;left:0;background:linear-gradient(to bottom, #0e0b1a, #110e24);width:250px;height:100vh;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
+    #a .lo img{width:100%;}
+    #a .lo{padding:27px;display:block;}
+
+
+/************* nav **************/
+
+    #n{display:block;font-size:13px;}
+    #n li + li{}
+    #n a{color:#ece7fd;display:flex;font-weight:bold;width:100%;padding:20px 35px;}
+    #n a:before{opacity:0;transition:.6s;content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to left, #18122c, transparent);}
+    #n a:hover:before{opacity:.5;}
+    #n li.ac a:before{opacity:1;}
+    #n li a:after{transition:.4s;box-shadow:0;background:linear-gradient(to bottom, #fe0071, #ff052a);height:0;width:2px;position:absolute;top:50%;transform:translateY(-50%);right:0;content:'';}
+    #n li.ac a:after{height:100%;box-shadow:0 0 20px #f20350;}
+
+
+/************* x **************/
+    
+    #x{position:absolute;width:calc(100vw - 250px);height:calc(300px + 150 * (100vw - 320px) / 1080);opacity:.5;position:absolute;top:0;left:250px;z-index:-1;transform:translateY(-30%);pointer-events:none;}
+    #x canvas{width:100%!important;height:calc(300px + 150 * (100vw - 320px) / 1080)!important;}
+
+    
+/*----------------------------------------------------< MEDIA QUERIES >---------------------------------------------------*/
+
+/************* max 1100 **************/ @media screen and (max-width:1100px){
+
+
+}
