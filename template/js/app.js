@@ -11,6 +11,16 @@ var $win = $(window),
     $res = 850;
 
 
+/************* * **************/
+
+    $.fn.app = function () {
+
+        this.allChange = $form.allChange;
+
+        return this;
+
+    }
+
 /************ if ie ************/
 
     function ifIE(){
@@ -132,6 +142,107 @@ var $win = $(window),
     }
 
     $nav.init();
+
+
+/************ form ************/
+    
+    $form = {
+        allChange: function (callback, el) {
+            var l = "",
+                inf = function () {
+                    if (el.val() !== l) {
+                        l = el.val();
+                        callback();
+                    }
+                    setTimeout(inf, 1);
+                }
+            setTimeout(inf, 1);
+        },
+        check: function () {
+            $('.first-focus input, .first-focus textarea').each(function () {
+                var $t = $(this);
+                if ($t.is(':valid')) {
+                    $t.parents('fieldset').removeClass('invalid').addClass('valid');
+                } else if ($t.is(':invalid')) {
+                    $t.parents('fieldset').removeClass('valid').addClass('invalid');
+                }
+            });
+        },
+        label: function (t) {
+            var v = t.val();
+            v != null && v != '' ? t.parents('fieldset').addClass('act') : t.parents('fieldset').removeClass('act');
+        },
+        focus: function () {
+            var t = this;
+            $('fieldset input, fieldset textarea').on({
+                focusin: function () {
+                    $(this).parents('fieldset').addClass('act foc first-focus');
+                },
+                focusout: function () {
+                    $(this).parents('fieldset').removeClass('foc');
+                    t.label($(this));
+                    t.check();
+                },
+            });
+        },
+        require: function () {
+            $('input:required, textarea:required').each(function () {
+                $(this).parents('fieldset').addClass('required');
+            });
+        },
+        pattern: function () {
+            $('input[data-pattern]').each(function () {
+                var $t = $(this);
+                var $d = $t.data('pattern');
+                $t.on({
+                    keypress: function () {
+                        if ($d == 'cb') {
+                            $t.val($t.val().replace(/(\d{4})(\d+)/g, '$1 $2'));
+                        } else if ($d == 'dt') {
+                            $t.val($t.val().replace(/(\d{2})(\d+)/g, '$1/$2'));
+                        }
+                    },
+                    focusout: function () {
+                        $v = $t.val();
+                        if ($d == 'cb') {
+                            $t.val($v.replace(/ /g, 'a'));
+                            $t.val($v.replace(/(\d{4})(\d{4})(\d{4})(\d{4})(\d{2})/g, '$1 $2 $3 $4 $5'));
+                        } else if ($d == 'dt') {
+                            $t.val($v.replace(/ /g, 'a'));
+                            $t.val($v.replace(/(\d{2})(\d{2})/g, '$1/$2'));
+                        }
+                    }
+                });
+            });
+            $('input[data-pattern="cb"]').on({
+                keypress: function () {
+                    var $t = $(this);
+                    $t.val($t.val().replace(/(\d{4})(\d+)/g, '$1 $2'));
+                },
+                focusout: function () {
+                    var $t = $(this);
+                    var $v = $t.val();
+                    $t.val($v.replace(/ /g, ''));
+                    $t.val($v.replace(/(\d{4})(\d{4})(\d{4})(\d{4})(\d{2})/g, '$1 $2 $3 $4 $5'));
+                }
+            });
+        },
+        init: function () {
+            var t = this;
+            t.pattern(),
+                t.focus(),
+                t.require(),
+                $('fieldset input, fieldset textarea').each(function () {
+                    var c = $(this);
+                    t.label(c);
+                    t.allChange(function () {
+                        t.label(c);
+                    }, c);
+                });
+        }
+    }
+
+    $form.init();
 
 
 /************ shader ************/

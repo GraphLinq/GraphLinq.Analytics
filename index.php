@@ -56,6 +56,14 @@
                         </div>
                     </div>
                     <div class="r">
+                        <div id="sc">
+                            <form>
+                                <fieldset>
+                                    <label for="scr">Search token...</label>
+                                    <input id="scr" type="text">
+                                </fieldset>
+                            </form>
+                        </div>
                         <a href="" class="b"><span>Connect wallet</span><i class="fal fa-lock"></i></a>
                     </div>
                 </div>
@@ -71,7 +79,7 @@
             <main id="m">
                 <div>
                     <div class="cl">
-                        <div class="blc cl2">
+                        <div class="blc cl33">
                             <div>
                                 <div class="top">
                                     <small>Liquidity</small>
@@ -84,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="blc cl2">
+                        <div class="blc cl33">
                             <div>
                                 <div class="top">
                                     <small>Volume (24h)</small>
@@ -97,7 +105,60 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="blc cl1">
+                        <div class="blc cl33">
+                            <div>
+                                <div class="top">
+                                    <small>Volume (24h)</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="re">-4.73%</span>
+                                    </h2>
+                                </div>
+                                <div class="chart">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl50">
+                            <div>
+                                <div class="top">
+                                    <small>Liquidity</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="gr">+4.73%</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl50">
+                            <div>
+                                <div class="top">
+                                    <small>Volume (24h)</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="re">-4.73%</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl33">
+                            <div>
+                                <div class="top">
+                                    <small>Volume (24h)</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="re">-4.73%</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl66">
+                            <div>
+                                <div class="top">
+                                    <small>Volume (24h)</small>
+                                    <h2>
+                                        <strong>$2.22M</strong> <span class="gr">-4.73%</span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blc cl100">
                             <div>
                                 <div class="top">
                                     <small>Last 663 trades</small>

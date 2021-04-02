@@ -160,6 +160,18 @@
     .onav #h .bnv .l-2{--length:0;--offset:-50;}
 
 
+/************* sc **************/
+    
+    #sc{width:calc(250px + 100 * (100vw - 320px) / 1080);max-width:100%;margin-right:15px;}
+    #sc form{height:45px;background-color:#110e24;border-radius:50px;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
+    #sc fieldset{position:absolute;left:0;top:0;width:100%;height:100%;}
+    #sc fieldset:before{content:'\f002';width:45px;height:45px;display:flex;padding-left:5px;transition:.4s;align-items:center;justify-content:center;text-align:center;font-size:13px;font-family:'Font Awesome 5 Pro';}
+    #sc fieldset.act:before{color:#f20350;text-shadow:0 0 10px #f20350, 0 0 20px #f20350;}
+    #sc fieldset > *{color:#ece7fd;font-family:'Gilroy';line-height:1;position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;font-size:13px;padding:2px 25px 0 50px;}
+    #sc fieldset > label{opacity:.5;transition:.4s;z-index:100;pointer-events:none;}
+    #sc fieldset.act > label{left:-10px;opacity:0;}
+
+
 /************* main **************/
     
     #m{width:calc(100% - 250px);left:250px;padding-top:110px;}
@@ -167,8 +179,11 @@
     .hbot + #m > div{padding-top:0;}
 
     #m .cl{display:flex;flex-wrap:wrap;margin:calc(-10px - 5 * (100vw - 320px) / 1080);padding:calc(10px + 5 * (100vw - 320px) / 1080);}
-    #m .cl2{width:50%;}
-    #m .cl1{width:100%;}
+    #m .cl > *{flex:1;}
+    #m .cl > .cl66{min-width:66.66%;}
+    #m .cl > .cl33{min-width:33.33%;}
+    #m .cl > .cl50{min-width:50%;}
+    #m .cl > .cl100{min-width:100%;}
 
 
 /************* bloc **************/
@@ -202,9 +217,14 @@
     
 /*----------------------------------------------------< MEDIA QUERIES >---------------------------------------------------*/
 
+/************* max 1200 **************/ @media screen and (max-width:1200px){
+
+    #m .cl > .cl33{min-width:50%;}
+
+}
 /************* max 1100 **************/ @media screen and (max-width:1100px){
 
-    #m .cl2{width:100%;}
+    #m .cl > .cl50{min-width:100%;}
 
 }
 /************* max 900 **************/ @media screen and (max-width:900px){
@@ -215,7 +235,7 @@
     .onav #a{transform:translateX(0%);}
 
     #m{width:100%;left:0;padding-top:110px;}
-    #m .cl2{width:50%;}
+    #m .cl > .cl50{min-width:50%;}
 
     #x{left:0;width:100%;}
 
@@ -223,7 +243,8 @@
 /************* max 750 **************/ @media screen and (max-width:750px){
 
     #m > div{padding:calc(20px + 20 * (100vw - 320px) / 1080);}
-    #m .cl2{width:100%;}
+    #m .cl > .cl50,
+    #m .cl > .cl33{min-width:100%;}
 
     #h .bnv{display:flex;}
     #h .bot ul li + li{margin-left:5px;}
