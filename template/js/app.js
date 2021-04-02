@@ -227,18 +227,29 @@ var $win = $(window),
                 }
             });
         },
+        search: function(){
+            $('[data-search-res]').on('click', function(){
+                $('#sc').addClass('open')
+                $('#scr').focus()
+            })
+            $('#scr').on('focusout', function(){
+                $('#sc').removeClass('open')
+                $('#scr').val('')
+            })
+        },
         init: function () {
             var t = this;
+            t.search(),
             t.pattern(),
-                t.focus(),
-                t.require(),
-                $('fieldset input, fieldset textarea').each(function () {
-                    var c = $(this);
+            t.focus(),
+            t.require(),
+            $('fieldset input, fieldset textarea').each(function () {
+                var c = $(this);
+                t.label(c);
+                t.allChange(function () {
                     t.label(c);
-                    t.allChange(function () {
-                        t.label(c);
-                    }, c);
-                });
+                }, c);
+            });
         }
     }
 
