@@ -39,7 +39,7 @@
 
     /* scrollbar styling */
         *{scrollbar-color:#f20350 #000;scrollbar-width:thin;}    
-        *::-webkit-scrollbar{width:3px;height:3px;background-color:#000;}
+        *::-webkit-scrollbar{width:5px;height:5px;background-color:#000;}
         *::-webkit-scrollbar-thumb{background-color:#f20350;}
 
     /* selection styling */
@@ -95,7 +95,7 @@
 
 /************* aside **************/
 
-    #a{z-index:9999;position:fixed;top:0;left:0;background:linear-gradient(to top, #0e0b1a, #110e24);width:250px;height:100vh;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
+    #a{z-index:9999;position:fixed;top:0;left:0;background:linear-gradient(to top, #0e0b1a, #16132b);width:250px;height:100vh;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
     #a > div{height:100%;}
     #a .lo img{width:100%;}
     #a .lo{padding:27px;display:block;}
@@ -119,7 +119,7 @@
     #n{display:block;font-size:13px;}
     #n li + li{}
     #n a{color:#ece7fd;display:flex;font-weight:bold;width:100%;padding:20px 30px;}
-    #n a:before{opacity:0;transition:.6s;content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to left, #18122c, transparent);}
+    #n a:before{opacity:0;transition:.6s;content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to left, #1d193b, transparent);}
     #n a:hover:before{opacity:.5;}
     #n li.ac a:before{opacity:1;}
     #n li a:after{transition:.4s;box-shadow:0;background:linear-gradient(to bottom, #fe0071, #ff052a);height:0;width:2px;position:absolute;top:50%;transform:translateY(-50%);right:0;content:'';}
@@ -147,7 +147,7 @@
     .fx #h .bot{height:50px;background-color:rgba(0,0,0,.2);padding:0 calc(20px + 5 * (100vw - 320px) / 1080);}
     #h .bot ul{display:flex;align-items:center;}
     #h .bot ul li + li{margin-left:10px;}
-    #h .bot ul a{display:inline-flex;align-items:center;color:#b7aed6;background-color:#110e24;padding:0 20px 1px;justify-content:center;height:30px;border-radius:50px;font-size:11px;font-weight:bold;}
+    #h .bot ul a{display:inline-flex;align-items:center;color:#b7aed6;background-color:#16132b;padding:0 20px 1px;justify-content:center;height:30px;border-radius:50px;font-size:11px;font-weight:bold;}
     #h .bot ul a:hover{background-color:#f20350;color:#fff;}
     #h .bot ul .ac a{background-color:#f20350;color:#fff;}
     
@@ -164,14 +164,14 @@
     
     #sc{width:45px;height:45px;max-width:100%;margin-right:15px;}
     #sc [data-search-res]{width:45px;height:45px;position:absolute;left:0;top:0;display:none;}
-    #sc form{position:absolute;right:0;top:0;width:calc(250px + 100 * (100vw - 320px) / 1080);height:45px;background-color:#110e24;border-radius:50px;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
+    #sc form{position:absolute;right:0;top:0;width:calc(250px + 100 * (100vw - 320px) / 1080);height:45px;background-color:#16132b;border-radius:50px;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
     #sc fieldset{overflow:hidden;position:absolute;left:0;top:0;width:100%;height:100%;}
     #sc fieldset:before{content:'\f002';width:45px;height:45px;display:flex;padding-left:5px;transition:.4s;align-items:center;justify-content:center;text-align:center;font-size:13px;font-family:'Font Awesome 5 Pro';}
     #sc fieldset.act:before{color:#f20350;text-shadow:0 0 10px #f20350, 0 0 20px #f20350;}
     #sc fieldset > *{color:#ece7fd;white-space:nowrap;font-family:'Gilroy';line-height:1;position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;font-size:13px;padding:2px 25px 0 50px;}
     #sc fieldset > label{opacity:.5;transition:.4s;z-index:100;pointer-events:none;}
     #sc fieldset.act > label{left:-10px;opacity:0;}
-    #sc .res{pointer-events:none;opacity:0;transition:.4s;position:absolute;overflow:hidden;left:0;top:50px;width:100%;background-color:#110e24;border-radius:20px;box-shadow:0 5px calc(15px + 5 * (100vw - 320px) / 1080) #07060d;}
+    #sc .res{pointer-events:none;opacity:0;transition:.4s;position:absolute;overflow:hidden;left:0;top:50px;width:100%;background-color:#16132b;border-radius:20px;box-shadow:0 5px calc(15px + 5 * (100vw - 320px) / 1080) #07060d;}
     #sc fieldset.act + .res{opacity:1;pointer-events:auto;}
     #sc .res li{padding:2px;display:flex;transition:.2s;cursor:pointer;align-items:center;}
     #sc .res li:hover{background-color:#16122d;}
@@ -201,7 +201,7 @@
 /************* bloc **************/
     
     .blc{padding:calc(10px + 5 * (100vw - 320px) / 1080);}
-    .blc > div{height:100%;overflow:hidden;border-radius:calc(20px + 5 * (100vw - 320px) / 1080);background-color:#0f0d1f;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
+    .blc > div{height:100%;overflow:hidden;border-radius:calc(20px + 5 * (100vw - 320px) / 1080);background-color:#16132b;box-shadow:0 0 calc(30px + 20 * (100vw - 320px) / 1080) #07060d;}
     .blc .top{padding:calc(22px + 7 * (100vw - 320px) / 1080) calc(25px + 7 * (100vw - 320px) / 1080);}
     .blc .top small{display:block;font-size:calc(12px + 1 * (100vw - 320px) / 1080);font-weight:400;color:#b6add6;}
     .blc .top h2{display:flex;align-items:center;font-weight:bold;font-size:calc(20px + 5 * (100vw - 320px) / 1080);color:#ece7fd;margin-top:10px;}
@@ -215,10 +215,10 @@
     .blc .tbl .tblc{overflow:hidden;border-radius:10px;box-shadow:0 5px calc(15px + 10 * (100vw - 320px) / 1080) rgba(0,0,0,.5);}
     .blc .tbl .tblc > div{overflow-x:scroll;}
     .blc .tbl table{white-space:nowrap;width:100%;border-radius:10px;}
-    .blc .tbl th{color:#b6add6;font-size:9px;letter-spacing:2px;font-weight:500;text-transform:uppercase;text-align:left;padding:10px 10px 9px;background-color:#130f25;}
+    .blc .tbl th{color:#b6add6;font-size:10px;letter-spacing:2px;font-weight:600;text-transform:uppercase;text-align:left;padding:10px 10px 9px;background-color:#100d1f;}
     .blc .tbl th:first-child{border-top-left-radius:10px;}
     .blc .tbl th:last-child{border-top-right-radius:10px;}
-    .blc .tbl td{border-top:1px solid #0c0a17;font-size:11px;padding:10px;font-weight:500;}
+    .blc .tbl td{border-top:1px solid #0c0a17;font-size:12px;padding:10px;font-weight:600;}
 
 
 /************* x **************/
