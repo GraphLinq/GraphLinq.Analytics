@@ -5,7 +5,7 @@ import { store } from "./redux/store";
 
 import { useActiveWeb3React } from "./hooks";
 import Web3ReactManager from "./web3/web3Manager";
-import LayoutIndex from "./layout/index"
+import LayoutIndex from "./components/layout/index"
 
 const AppWrapper = () => {
 

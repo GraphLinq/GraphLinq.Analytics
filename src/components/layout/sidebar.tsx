@@ -1,15 +1,20 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { Flex, Box } from '@chakra-ui/react';
 
-import routes from '../routes';
-import { SuspenseSpinner } from '../components/suspenseSpinner';
+import routes from '../../routes/sidebar';
+import { SuspenseSpinner } from '../suspenseSpinner';
 
 interface LayoutProps {
 
 }
 
 const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <aside id="a">
         <div>
