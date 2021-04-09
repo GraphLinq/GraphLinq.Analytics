@@ -6,19 +6,14 @@
  */
 const routes = [
     {
-      path: '/app/home', // the url
-      icon: 'HiOutlineHome', // the component being exported from react-icons
-      name: 'Home', // name displayed in Sidebar
+      path: '/analytics/graphlinq', // the url
+      imgSrc: '/template/img/unicrypt.svg', // Project Icon
+      name: 'GraphLinq', // name displayed in Sidebar
     },
     {
-      path: '/app/graphs',
-      icon: 'HiOutlinePuzzle',
-      name: 'Graphs',
-    },
-    {
-      path: '/app/private-sale',
-      icon: 'HiOutlineDatabase',
-      name: 'Private Sale',
+      path: '/analytics/unicrypt',
+      imgSrc: '/template/img/unicrypt.svg',
+      name: 'Unicrypt',
     },
   ]
   
