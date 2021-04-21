@@ -15,7 +15,6 @@ const IndexLayout: React.FC<LayoutProps> = ({children}) => {
         let app = document.createElement("script")
         app.src = `/template/js/app.js?v=2`
         document.body.appendChild(app)
-        console.log('loaded')
     }, [])
 
     return (

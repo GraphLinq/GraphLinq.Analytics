@@ -1,11 +1,16 @@
 import React from 'react'
-
+import { useHistory } from 'react-router-dom';
 import routes from '../../routes/sidebar';
 interface HeaderLayout {
 
 }
 
 const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
+  let history = useHistory();
+
+  function searchFunc(url: string) {
+    history.push(url);
+  }
 
     return (
         <header id="h">
@@ -36,13 +41,14 @@ const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
                   </fieldset>
                   <ul className="res">
                     {routes.map((route: any, index) => (
-                        <li key={index}>
+
+                        <li key={index} onClick={()=>searchFunc(route.path)}>
                           <div className="il">
                               <img src={route.imgSrc} alt={route.name} />
                             </div>
                             <div className="cot">
                               <div className="nme">{route.name}</div>
-                              {/* <div className="tot">Total value : <span>$10,845,94.00</span></div> */}
+                              <div className="tot">Total value : <span>$10,845,94.00</span></div>
                           </div>
                         </li>
                     ))}

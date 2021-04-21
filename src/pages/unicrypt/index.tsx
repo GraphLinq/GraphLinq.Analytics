@@ -18,7 +18,6 @@ const Unicrypt: React.FC<UnclProps> = ({}) => {
     useEffect (() => {
         dispatch({type: POST_SELECTED_UNCL, payLoad: {partient: 2}})
     }, [])
-    console.log("unclselect::", state.market_cap)
     return (
         <main id="m">
             <div>

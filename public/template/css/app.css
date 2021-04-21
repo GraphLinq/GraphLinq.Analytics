@@ -171,7 +171,7 @@
     #sc fieldset > *{color:#ece7fd;white-space:nowrap;font-family:'Gilroy';line-height:1;position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;font-size:13px;padding:2px 25px 0 50px;}
     #sc fieldset > label{opacity:.5;transition:.4s;z-index:100;pointer-events:none;}
     #sc fieldset.act > label{left:-10px;opacity:0;}
-    #sc .res{pointer-events:none;opacity:0;transition:.4s;position:absolute;overflow:hidden;left:0;top:50px;width:100%;background-color:#16132b;border-radius:20px;box-shadow:0 5px calc(15px + 5 * (100vw - 320px) / 1080) #07060d;}
+    #sc .res{opacity:0;transition:.4s;position:absolute;overflow:hidden;left:0;top:50px;width:100%;background-color:#16132b;border-radius:20px;box-shadow:0 5px calc(15px + 5 * (100vw - 320px) / 1080) #07060d;}
     #sc fieldset.act + .res{opacity:1;pointer-events:auto;}
     #sc .res li{padding:2px;display:flex;transition:.2s;cursor:pointer;align-items:center;}
     #sc .res li:hover{background-color:#16122d;}
