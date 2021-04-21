@@ -1,9 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom';
-import { Flex, Box } from '@chakra-ui/react';
-
-import routes from '../../routes/index';
-import { SuspenseSpinner } from '../suspenseSpinner';
+import React, { useEffect } from 'react'
 import SideBarLayout from './sidebar';
 import HeaderLayout from './header';
 
@@ -11,7 +6,7 @@ interface LayoutProps {
 
 }
 
-const IndexLayout: React.FC<LayoutProps> = ({ }) => {
+const IndexLayout: React.FC<LayoutProps> = ({children}) => {
     useEffect(() => {
         let vendor = document.createElement("script")
         vendor.src = `/template/js/vendor.js?v=3`
@@ -27,8 +22,8 @@ const IndexLayout: React.FC<LayoutProps> = ({ }) => {
     <div id="app">
         <SideBarLayout />
         <HeaderLayout />
-         Main Layout
-         <div id="x"><div id="xx"></div></div>
+         {children}
+        <div id="x"><div id="xx"></div></div>
     </div>
     );
 }

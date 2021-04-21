@@ -7,9 +7,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({}) => {
         return (
-            <div>
-            Hello world!
-            </div>
+           <div>Home</div>
         );
 }
 

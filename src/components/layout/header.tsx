@@ -1,19 +1,13 @@
-import React, { Suspense, useEffect } from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom';
-import { Flex, Box } from '@chakra-ui/react';
+import React from 'react'
 
 import routes from '../../routes/sidebar';
-import { SuspenseSpinner } from '../suspenseSpinner';
-
 interface HeaderLayout {
 
 }
 
 const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
 
-
     return (
-
         <header id="h">
           <div className="top">
             <div className="l">
@@ -24,7 +18,7 @@ const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
                   <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65" />
                 </svg>
               </button>
-              <div className="illu"><img src="./template/img/unicrypt.svg" alt="Unicrypt" /></div> 
+              <div className="illu"><img src="../../../template/img/unicrypt.svg" alt="Unicrypt" /></div>
               <div className="tit">
                 <h1>Unicrypt</h1>
                 <div className="pri">
@@ -41,27 +35,17 @@ const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
                     <input id="scr" type="text" />
                   </fieldset>
                   <ul className="res">
-                    <li>
-                      <div className="il"><img src="./template/img/unicrypt.svg" alt="Unicrypt" /></div>
-                      <div className="cot">
-                        <div className="nme">Unicrypt UNC</div>
-                        <div className="tot">Total value : <span>$10,845,94.00</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="il"><img src="./template/img/unicrypt.svg" alt="Unicrypt" /></div>
-                      <div className="cot">
-                        <div className="nme">Unicrypt UNC</div>
-                        <div className="tot">Total value : <span>$10,845,94.00</span></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="il"><img src="./template/img/unicrypt.svg" alt="Unicrypt" /></div>
-                      <div className="cot">
-                        <div className="nme">Unicrypt UNC</div>
-                        <div className="tot">Total value : <span>$10,845,94.00</span></div>
-                      </div>
-                    </li>
+                    {routes.map((route: any, index) => (
+                        <li key={index}>
+                          <div className="il">
+                              <img src={route.imgSrc} alt={route.name} />
+                            </div>
+                            <div className="cot">
+                              <div className="nme">{route.name}</div>
+                              {/* <div className="tot">Total value : <span>$10,845,94.00</span></div> */}
+                          </div>
+                        </li>
+                    ))}
                   </ul>
                 </form>
               </div>
@@ -70,10 +54,10 @@ const HeaderLayout: React.FC<HeaderLayout> = ({ }) => {
           </div>
           <div className="bot">
             <ul>
-              <li className="ac"><a href="">Section</a></li>
-              <li><a href="">Section</a></li>
-              <li><a href="">Section</a></li>
-              <li><a href="">Section</a></li>
+              <li className="ac"><a href="#">Section</a></li>
+              <li><a href="#">Section</a></li>
+              <li><a href="#">Section</a></li>
+              <li><a href="#">Section</a></li>
             </ul>
           </div>
         </header>

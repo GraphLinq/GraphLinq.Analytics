@@ -9,6 +9,7 @@ import getLibrary from './utils/getLibrary';
 
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
 
+
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);
 
 if ('ethereum' in window) {

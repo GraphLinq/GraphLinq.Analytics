@@ -4,7 +4,6 @@ import { Image, Box, Link } from '@chakra-ui/react';
 import { NavLink, Route } from 'react-router-dom';
 
 import routes from '../../routes/sidebar';
-import { SuspenseSpinner } from '../suspenseSpinner';
 
 interface LayoutProps {
 
@@ -12,19 +11,15 @@ interface LayoutProps {
 
 const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
 
-    useEffect(() => {
-
-    }, [])
-
     return (
         <aside id="a">
         <div>
           <a href="index.html" title="Back to home" className="lo">
-            <img src="./template/img/logo.svg?v=3" alt="graphlinq analytics" />
+            <img src="../../../template/img/logo.svg?v=3" alt="graphlinq analytics" />
           </a>
           <nav id="n">
             <ul>
-              <li className="ac"><a href="" title=""><i className="fal fa-chart-line" /><span>Overview</span></a></li>
+              <li className="ac"><a href="/analytics/graphlinq" title=""><i className="fal fa-chart-line" /><span>Overview</span></a></li>
               <li><a href="https://ide.graphlinq.io" title="GraphLinq IDE"><i className="fal fa-chart-network" /><span>Graph IDE</span></a></li>
               <li><a href="https://app.graphlinq.io" title="GraphLinq Interface"><i className="fal fa-tachometer" /><span>Dashboard</span></a></li>
               <li><a href="https://docs.graphlinq.io" title="GraphLinq Documentation"><i className="fal fa-folder-tree" /><span>Documentation</span></a></li>
@@ -32,8 +27,8 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
           </nav>
           <div id="sl">
             <ul>
-            {routes.map((route: any) => (
-              <li>
+            {routes.map((route: any, index) => (
+              <li key={index}>
                 <Link
                 as={NavLink}
                 exact

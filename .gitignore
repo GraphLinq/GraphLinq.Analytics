@@ -23,7 +23,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+.env.example
+.eslintcache
 .prod
 .pre
 package-lock.json
 dist/
+
