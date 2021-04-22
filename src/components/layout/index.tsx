@@ -6,11 +6,11 @@ interface LayoutProps {
 
 }
 
-const IndexLayout: React.FC<LayoutProps> = ({children}) => {
-    useEffect(() => {
-        let vendor = document.createElement("script")
-        vendor.src = `/template/js/vendor.js?v=3`
-        document.body.appendChild(vendor)
+const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
+  useEffect(() => {
+    let vendor = document.createElement("script")
+    vendor.src = `/template/js/vendor.js?v=3`
+    document.body.appendChild(vendor)
 
         let app = document.createElement("script")
         app.src = `/template/js/app.js?v=2`
