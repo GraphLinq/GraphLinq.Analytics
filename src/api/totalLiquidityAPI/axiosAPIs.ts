@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:4744/706364f99ee8354232b99bc8060fe59b0442986c1e5b147900e825f905080245/glq';
+const URL = 'http://localhost:4744/b03a5a2462cb7df99f85daff6f97a8a7abc462c80ac8fd98d3a6205ce29df20f/uniswap/total_liquidity_v2';
 
 export function result(endPointURL: any) {
     return axios.post(URL + endPointURL)
 }
 
-export const postUnclSelectInfo = async (partient: any): Promise<any> => {
+export const postTotalLiquiditySelectInfo = async (state: any): Promise<any> => {
     try {
         const response = await axios.post(URL);
         return response.data;

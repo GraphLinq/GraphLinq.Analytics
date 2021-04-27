@@ -8,9 +8,9 @@ export function result(endPointURL: any) {
 
 export const postGlqSelectInfo = async (partient: any): Promise<any> => {
     try {
-        const response = await axios.post(URL); 
+        const response = await axios.post(URL);
         return response.data;
     } catch (error) {
-        console.log(error, 'axios error')        
+        console.log(error, 'axios error')
     }
 }

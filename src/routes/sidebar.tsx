@@ -5,17 +5,16 @@
  * Actual Router routes, go to `routes/index.tsx`
  */
 const routes = [
-    {
-      path: '/analytics/graphlinq', // the url
-      imgSrc: '/template/img/unicrypt.svg', // Project Icon
-      name: 'GraphLinq', // name displayed in Sidebar
-    },
-    {
-      path: '/analytics/unicrypt',
-      imgSrc: '/template/img/unicrypt.svg',
-      name: 'Unicrypt',
-    },
-  ]
-  
-  export default routes
-  
+  {
+    path: '/analytics/graphlinq', // the url
+    imgSrc: '/template/img/graphlinq.svg', // Project Icon
+    name: 'GraphLinq', // name displayed in Sidebar
+  },
+  {
+    path: '/analytics/unicrypt',
+    imgSrc: '/template/img/unicrypt.svg',
+    name: 'Unicrypt',
+  },
+]
+
+export default routes

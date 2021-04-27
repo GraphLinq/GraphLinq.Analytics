@@ -1,18 +1,20 @@
-import { combineReducers } from 'redux';
-import { glqSelect, unclSelect, uncxSelect } from './glqReducers';
-
-// export default combineReducers({
-//     glqSelect,
-//     unclSelect,
-//     uncxSelect
-// })
+import { combineReducers } from "redux";
+import {
+  glqSelect,
+  unclSelect,
+  uncxSelect,
+  liquiditySelect,
+  totalLiquiditySelect,
+} from "./glqReducers";
 
 const rootReducer = combineReducers({
-    glqSelect,
-    unclSelect,
-    uncxSelect
-})
+  glqSelect,
+  unclSelect,
+  uncxSelect,
+  liquiditySelect,
+  totalLiquiditySelect,
+});
 
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;
 
-export default rootReducer
+export default rootReducer;

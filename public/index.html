@@ -4,7 +4,7 @@
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	    <title>GraphLinq Analytics • Powerful visualization and analysis on-chain.</title>
-		    <meta
+		<meta
 		name="description"
 		content="Interface analytics of graphs and chain-data on the GraphLinq Protocol"
 		/>
@@ -12,11 +12,12 @@
 	    <meta name="msapplication-TileColor" content="#f20350">
 	    <meta name="theme-color" content="#f20350">
 	    <link rel="stylesheet" href="/template/css/app.css?v=3">
+		<link rel="stylesheet" href="https://unpkg.com/react-vis/dist/style.css">
 	</head>
 	<body >
 		 <noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root"></div>
-	
+
    		<script id="shader-vertex-terrain-perlinsombrero" type="x-shader/x-vertex">
 		vec3 mod289(vec3 x)
 		{
@@ -256,11 +257,9 @@
 		    void main()
 		    {
 		        vec4 temp;
-		       
+
 		        float alpha = sin(v_uv.y * M_PI) / 4.;
 		        temp = vec4(v_line_color, alpha);
-		        
-
 
 		        gl_FragColor = temp;
 		    }
@@ -269,5 +268,6 @@
 		<script src="/template/js/jquery.js"></script>
 		<script src="/template/js/vendor.js?v=3"></script>
 		<!-- <script src="/template/js/app.js?v=2"></script> -->
+		<script type="text/javascript" src="https://unpkg.com/react-vis/dist/dist.min.js"></script>
     </body>
 </html>

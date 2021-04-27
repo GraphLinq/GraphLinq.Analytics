@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom';
 import routes from '../../routes/sidebar';
 
-interface HeaderLayoutProps {
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers';
+import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY } from '../../store/actionNames/glqAction';
+
+interface UnicyptProps {
 }
 
-const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
-  let history = useHistory();
-  let src = "";
-  let title = "";
+const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
   const [isOpen, setIsOpen] = useState(false);
+  let history = useHistory();
 
   function searchFunc(url: string) {
     history.push(url);
@@ -21,16 +23,22 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
     }, 250);
   }
 
-  const location = useLocation()
+  const dispatch = useDispatch();
+  const unclState = useSelector((state: RootState) => state.unclSelect || {});
+  const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
+  const totalLiquidityState = useSelector((state: RootState) => state.totalLiquiditySelect || {});
+  const liquidityState = useSelector((state: RootState) => state.liquiditySelect[0] || {});
 
-  if (location.pathname === "/analytics/unicrypt") {
-    src = '/template/img/unicrypt.svg';
-    title = "Unicrypt";
-  }
-  if (location.pathname === "/analytics/graphlinq") {
-    src = '/template/img/graphlinq.svg';
-    title = "Graphliq";
-  }
+  useEffect(() => {
+    dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState })
+    dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState })
+    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState })
+    dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
+  }, [])
+  // console.log("unicrypt header unclstate:: ", unclState)
+  // console.log("unicrypt header uncxState:: ", uncxState)
+  // console.log("unicrypt header liquidityState:: ", liquidityState)
+  // console.log("unicrypt header totalLiquidityState:: ", totalLiquidityState)
 
   return (
     <header id="h">
@@ -43,11 +51,11 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
               <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65" />
             </svg>
           </button>
-          <div className="illu"><img src={src} alt={title} /></div>
+          <div className="illu"><img src="/template/img/unicrypt.svg" alt="unicrypt" /></div>
           <div className="tit">
-            <h1>{title}</h1>
+            <h1>Unicrypt</h1>
             <div className="pri">
-              GLQ Price : <strong> 123342342 $US</strong>
+              UNCX: <strong> ${parseFloat(uncxState.price).toFixed(2)}</strong> | UNCL: <strong> ${parseFloat(unclState.price).toFixed(6)}</strong>
             </div>
           </div>
         </div>
@@ -74,7 +82,8 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
                     </div>
                   </li>
                 ))}
-              </ul>}
+              </ul>
+              }
             </form>
           </div>
           <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
@@ -82,10 +91,10 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
       </div>
       <div className="bot">
         <ul>
-          <li className="ac"><a href="#">Section</a></li>
-          <li><a href="#">Section</a></li>
-          <li><a href="#">Section</a></li>
-          <li><a href="#">Section</a></li>
+          <li className="ac"><a href="/analytics/unicrypt">Overview</a></li>
+          <li><a href="#">Liquidity</a></li>
+          <li><a href="#">Price</a></li>
+          <li><a href="#">Charts</a></li>
         </ul>
       </div>
     </header>

@@ -22,17 +22,18 @@ const AppWrapper = () => {
 
 const App: React.FC = () => {
   return (
-      <Router>
-          <Web3ReactManager>
-          <LayoutIndex>
-            <Switch>
-              <Redirect exact from="/" to="/analytics/graphlinq" />
-              <Route path="/analytics/graphlinq" component={GraphLinq} />
-              <Route path="/analytics/unicrypt" component={Unicrypt} />
-            </Switch>
-            </LayoutIndex>
-          </Web3ReactManager>
-      </Router>
+
+    <Router>
+      <Web3ReactManager>
+        <LayoutIndex>
+          <Switch>
+            <Redirect exact from="/" to="/analytics/graphlinq" />
+            <Route path="/analytics/graphlinq" component={GraphLinq} />
+            <Route path="/analytics/unicrypt" component={Unicrypt} />
+          </Switch>
+        </LayoutIndex>
+      </Web3ReactManager>
+    </Router>
   );
 };
 

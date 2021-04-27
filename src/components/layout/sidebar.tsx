@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect } from 'react'
+import React from 'react'
 
 import { Image, Box, Link } from '@chakra-ui/react';
-import { NavLink, Route } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import routes from '../../routes/sidebar';
 
@@ -11,10 +11,24 @@ interface LayoutProps {
 
 const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
 
+  let topRoute = [];
+  let newRoutes = [];
+  let sidebarRoutes = routes;
+
+  const location = useLocation()
+
+  if (location.pathname ===  "/analytics/graphlinq") {
+    sidebarRoutes = routes;
+  }else if (location.pathname ===  "/analytics/unicrypt") {
+    topRoute = routes.slice(1, 2);
+    newRoutes = routes.slice(0, 1);
+    sidebarRoutes = topRoute.concat(newRoutes);
+  }
+
   return (
     <aside id="a">
       <div>
-        <a href="index.html" title="Back to home" className="lo">
+        <a href="/" title="Back to home" className="lo">
           <img src="../../../template/img/logo.svg?v=3" alt="graphlinq analytics" />
         </a>
         <nav id="n">
@@ -27,8 +41,8 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
         </nav>
         <div id="sl">
           <ul>
-            {routes.map((route: any, index) => (
-              <li key={index}>
+            {sidebarRoutes.map((route: any, index) => (
+              <li key={index} >
                 <Link
                   as={NavLink}
                   exact

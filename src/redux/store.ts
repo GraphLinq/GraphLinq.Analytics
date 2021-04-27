@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import mySaga from './glqSaga';
+import mySaga from './mySaga';
 
 import reducer from '../store/reducers';
 

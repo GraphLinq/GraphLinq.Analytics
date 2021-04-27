@@ -57,7 +57,7 @@ var $win = $(window),
 //         }
 //         heightPart();
 //     });
-    
+
     $('[data-link]').each(function(){
         var $t = $(this),
             $a = $t.find('a:not([data-nlink])'),
@@ -86,8 +86,8 @@ var $win = $(window),
 /************ Scenes ************/
 
     if(!ifIE()){
-    
-        function $afterLoad(){  
+
+        function $afterLoad(){
 
         }
 
@@ -107,7 +107,7 @@ var $win = $(window),
 
 
 /************ select ************/
- 
+
     $('#sl').on({
         mouseenter(){
             var $n = $('#sl').find('li').length
@@ -122,7 +122,7 @@ var $win = $(window),
 
 
 /************ nav ************/
- 
+
     var $nav = {
         init: function(){
             var t = this;
@@ -145,7 +145,7 @@ var $win = $(window),
 
 
 /************ form ************/
-    
+
     $form = {
         allChange: function (callback, el) {
             var l = "",
@@ -405,17 +405,17 @@ function _classCallCheck(e, t) {
                 (e.prototype.plane_geometry = null),
                 (e.prototype.groundMaterial = null),
                 (e.prototype.clock = new THREE.Clock(!0)),
-                (e.prototype.options = { 
-                    elevation: 1, 
-                    noise_range: 1, 
-                    sombrero_amplitude: 0.6, 
-                    sombrero_frequency: 10, 
-                    speed: 0.3, 
-                    segments: 200, 
-                    wireframe_color: "#f20350", 
-                    perlin_passes: 1, 
-                    wireframe: !0, 
-                    floor_visible: !0 
+                (e.prototype.options = {
+                    elevation: 1,
+                    noise_range: 1,
+                    sombrero_amplitude: 0.6,
+                    sombrero_frequency: 10,
+                    speed: 0.3,
+                    segments: 200,
+                    wireframe_color: "#f20350",
+                    perlin_passes: 1,
+                    wireframe: !0,
+                    floor_visible: !0
                 }),
                 (e.prototype.scene = null),
                 e

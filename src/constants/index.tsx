@@ -64,5 +64,5 @@ export const SUPPORTED_WALLETS = {
       mobile: true
     }
   }
-  
+
   export const NetworkContextName = 'NETWORK'
