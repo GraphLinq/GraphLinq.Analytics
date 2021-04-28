@@ -3,12 +3,13 @@ import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQU
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries } from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot } from 'react-vis';
+
 interface UnclProps {
 
 }
 let CurrencyFormat = require('react-currency-format');
-let pow =( Math.pow(10, 8));
+let pow = (Math.pow(10, 8));
 
 const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
@@ -21,7 +22,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   useEffect(() => {
     dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState })
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState })
-    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState})
+    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState })
     dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
   }, [])
   // console.log("unicrypt content unclstate:: ", unclState)
@@ -55,9 +56,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const [crosshairValues, setCrosshairValues] = useState<any[]>(totalLiquidityData);
   const [iscrosshair, setIscrosshair] = useState(false);
 
-  const yMinValue = (Math.floor(Math.min(...totalLiquidityState)/100000000)*100000000);
-  const yMaxValue = Math.ceil(Math.max(...totalLiquidityState)/100000000)*100000000;
-  const xMaxValue = (Math.floor(newArr.length/20) + 1)*20;
+  const yMinValue = (Math.floor(Math.min(...totalLiquidityState) / 100000000) * 100000000);
+  const yMaxValue = Math.ceil(Math.max(...totalLiquidityState) / 100000000) * 100000000;
+  const xMaxValue = (Math.floor(newArr.length / 20) + 1) * 20;
 
   return (
     <main id="m">
@@ -70,7 +71,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <h2>
                   <strong>
                     <CurrencyFormat
-                      style={{font: 'inherit'}}
+                      style={{ font: 'inherit' }}
                       value={parseFloat(liquidityState.USDValue).toFixed(2)}
                       displayType={'text'}
                       thousandSeparator={true}
@@ -80,11 +81,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 </h2>
               </div>
               <div className="chart">
-                <XYPlot
-                  style={{margin: 'auto'}}
-                  height={200}
-                  width={300}
-                  margin={{top: 10, left: 40, bottom: 40, right: 10}}
+                <FlexibleXYPlot
+                  style={{ margin: 'auto' }}
+                  margin={{ top: 10, left: 10, bottom: 10, right: 10 }}
                   xDomain={[0, xMaxValue]}
                   yDomain={[yMinValue, yMaxValue]}
                   onMouseLeave={() => setIscrosshair(false)}
@@ -94,20 +93,20 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     curve={'curveMonotoneX'}
                     data={totalLiquidityData[0]}
                     color="#f20350"
-                    onNearestX={(value, {index}) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
+                    onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
                   {/* TODO: group Y ticks by K, M, B, T? */}
                   {/* <YAxis title="Value" left={50} tickLabelAngle={0} tickValues={[yMinValue, 4.5*pow, 5*pow, 6*pow, 7*pow, 8*pow, 9*pow, 9.5*pow, yMaxValue]} /> */}
                   <YAxis />
-                  <XAxis hideTicks/>
-                  {/* {iscrosshair && <Crosshair values={crosshairValues}>
+                  <XAxis hideTicks />
+                  {iscrosshair && <Crosshair values={crosshairValues}>
                     <div>
                       <h3>{crosshairValues[1].y}</h3>
                     </div>
                   </Crosshair>
-                  } */}
+                  }
 
-                </XYPlot>
+                </FlexibleXYPlot>
               </div>
             </div>
           </div>
