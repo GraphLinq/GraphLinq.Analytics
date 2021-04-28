@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries } from 'react-vis';
-import GraphLinqContent from '../graphlinq/graphlinq';
 interface UnclProps {
 
 }
 let CurrencyFormat = require('react-currency-format');
+let pow =( Math.pow(10, 8));
 
 const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
-  const [crosshairValues, setCrosshairValues] = useState<any[]>([]);
   const dispatch = useDispatch();
   const unclState = useSelector((state: RootState) => state.unclSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
@@ -30,14 +29,35 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   // console.log("unicrypt content liquidityState:: ", liquidityState)
   // console.log("unicrypt content totalLiquidityState:: ", totalLiquidityState)
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  })
+
   const newArr = totalLiquidityState.map((item: any, index: number) => {
     return { x: index, y: parseFloat(item).toFixed(2) }
   });
 
+  const reArr = totalLiquidityState.map((item: any, index: number) => {
+    // TODO: multiple by price and get $ value?
+    // It kinda doesn't make sense that the title shows the dollar amount and graph shows total tokens?
+    //return { x: index, y:('$' + parseFloat(item).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')) }
+    // displaying as is for now or we just hide this?
+    // Hiding this for now...
+    return { x: index, y: (parseFloat(item).toFixed(0)) }
+  });
+
   const totalLiquidityData = [
-    newArr,
-    []
-  ]
+    newArr, reArr
+  ];
+
+  const [crosshairValues, setCrosshairValues] = useState<any[]>(totalLiquidityData);
+  const [iscrosshair, setIscrosshair] = useState(false);
+
+  const yMinValue = (Math.floor(Math.min(...totalLiquidityState)/100000000)*100000000);
+  const yMaxValue = Math.ceil(Math.max(...totalLiquidityState)/100000000)*100000000;
+  const xMaxValue = (Math.floor(newArr.length/20) + 1)*20;
 
   return (
     <main id="m">
@@ -64,9 +84,11 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   style={{margin: 'auto'}}
                   height={200}
                   width={300}
-                  xDomain={[0, 100]}
-                  yDomain={[400000000, 1000000000]}
-                  onMouseLeave={() => setCrosshairValues([])}
+                  margin={{top: 10, left: 40, bottom: 40, right: 10}}
+                  xDomain={[0, xMaxValue]}
+                  yDomain={[yMinValue, yMaxValue]}
+                  onMouseLeave={() => setIscrosshair(false)}
+                  onMouseEnter={() => setIscrosshair(true)}
                 >
                   <LineSeries
                     curve={'curveMonotoneX'}
@@ -74,9 +96,17 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     color="#f20350"
                     onNearestX={(value, {index}) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
-                  <XAxis title="" />
-                  <YAxis title="" />
-                  <Crosshair values={crosshairValues}/>
+                  {/* TODO: group Y ticks by K, M, B, T? */}
+                  {/* <YAxis title="Value" left={50} tickLabelAngle={0} tickValues={[yMinValue, 4.5*pow, 5*pow, 6*pow, 7*pow, 8*pow, 9*pow, 9.5*pow, yMaxValue]} /> */}
+                  <YAxis />
+                  <XAxis hideTicks/>
+                  {/* {iscrosshair && <Crosshair values={crosshairValues}>
+                    <div>
+                      <h3>{crosshairValues[1].y}</h3>
+                    </div>
+                  </Crosshair>
+                  } */}
+
                 </XYPlot>
               </div>
             </div>
