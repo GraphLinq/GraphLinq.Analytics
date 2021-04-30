@@ -46,7 +46,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           <div className="tit">
             <h1>Graphliq</h1>
             <div className="pri">
-              GLQ : <strong>${parseFloat(glqState.price).toFixed(6)}</strong>
+              GLQ : <strong>${parseFloat(glqState.price).toFixed(12)}</strong>
             </div>
           </div>
         </div>
