@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot } from 'react-vis';
+import { Box } from '@chakra-ui/react';
 
 interface UnclProps {
 
 }
-let CurrencyFormat = require('react-currency-format');
 let pow = (Math.pow(10, 8));
 
 const UnicryptContent: React.FC<UnclProps> = ({ }) => {
@@ -28,13 +28,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   // console.log("unicrypt content unclstate:: ", unclState)
   // console.log("unicrypt content uncxState:: ", uncxState)
   // console.log("unicrypt content liquidityState:: ", liquidityState)
-  // console.log("unicrypt content totalLiquidityState:: ", totalLiquidityState)
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-  })
+  //console.log("unicrypt content totalLiquidityState:: ", totalLiquidityState)
 
   const newArr = totalLiquidityState.map((item: any, index: number) => {
     return { x: index, y: parseFloat(item).toFixed(2) }
@@ -46,7 +40,8 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     //return { x: index, y:('$' + parseFloat(item).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')) }
     // displaying as is for now or we just hide this?
     // Hiding this for now...
-    return { x: index, y: (parseFloat(item).toFixed(0)) }
+
+    return { x: index, y: parseFloat(item).toFixed(2) }
   });
 
   const totalLiquidityData = [
@@ -60,6 +55,40 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const yMaxValue = Math.ceil(Math.max(...totalLiquidityState) / 100000000) * 100000000;
   const xMaxValue = (Math.floor(newArr.length / 20) + 1) * 20;
 
+
+  function formatNum(num: any) {
+
+    num = parseFloat(num).toFixed(2)
+    let format = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num)
+
+    return format
+  }
+
+  function abbrNum(num: any) {
+    // 2 decimal places => 100, 3 => 1000, etc
+    let decPlaces = Math.pow(10,2);
+
+    // Enumerate number abbreviations
+    let abbrev = [ "K", "M", "B", "T" ];
+
+    // Go through the array backwards, so we do the largest first
+    for (let i=abbrev.length-1; i>=0; i--) {
+        // Convert array index to "1000", "1000000", etc
+        let size = Math.pow(10,(i+1)*3);
+        // If the number is bigger or equal do the abbreviation
+        if(size <= num) {
+             num = Math.round(num*decPlaces/size)/decPlaces;
+             if((num == 1000) && (i < abbrev.length - 1)) {
+                 num = 1;
+                 i++;
+             }
+             num += abbrev[i];
+             break;
+        }
+    }
+    return num;
+}
+
   return (
     <main id="m">
       <div>
@@ -70,44 +99,36 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <small>Total Value Locked</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{ font: 'inherit' }}
-                      value={parseFloat(liquidityState.USDValue).toFixed(2)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                    formatNum(liquidityState.USDValue)
+                    }
                   </strong> <span className="gr">+4.73%</span>
                 </h2>
               </div>
-              <div className="chart">
+              <Box w="100%" h="250px" p={1}>
                 <FlexibleXYPlot
-                  style={{ margin: 'auto' }}
-                  margin={{ top: 10, left: 10, bottom: 10, right: 10 }}
                   xDomain={[0, xMaxValue]}
                   yDomain={[yMinValue, yMaxValue]}
                   onMouseLeave={() => setIscrosshair(false)}
                   onMouseEnter={() => setIscrosshair(true)}
                 >
                   <LineSeries
-                    curve={'curveMonotoneX'}
+                    curve={'curveLinear'}
                     data={totalLiquidityData[0]}
                     color="#f20350"
                     onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
-                  {/* TODO: group Y ticks by K, M, B, T? */}
-                  {/* <YAxis title="Value" left={50} tickLabelAngle={0} tickValues={[yMinValue, 4.5*pow, 5*pow, 6*pow, 7*pow, 8*pow, 9*pow, 9.5*pow, yMaxValue]} /> */}
-                  <YAxis />
+                  <YAxis title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
                   <XAxis hideTicks />
                   {iscrosshair && <Crosshair values={crosshairValues}>
                     <div>
-                      <h3>{crosshairValues[1].y}</h3>
+                      <h3>{abbrNum(crosshairValues[1].y)}</h3>
                     </div>
                   </Crosshair>
                   }
 
                 </FlexibleXYPlot>
-              </div>
+              </Box>
             </div>
           </div>
           <div className="blc cl33">
