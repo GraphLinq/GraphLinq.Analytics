@@ -31,7 +31,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                   <strong>
                     <CurrencyFormat
                       style={{font: 'inherit'}}
-                      value={glqState.price}
+                      value={parseFloat(glqState.price).toFixed(12)}
                       displayType={'text'}
                       thousandSeparator={true}
                       prefix={'$'}
