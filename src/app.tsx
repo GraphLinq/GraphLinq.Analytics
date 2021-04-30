@@ -8,6 +8,8 @@ import Web3ReactManager from "./web3/web3Manager";
 import LayoutIndex from "./components/layout/index"
 import GraphLinq from "./pages/graphlinq";
 import Unicrypt from "./pages/unicrypt";
+import GraphLinqSoon from "./pages/graphlinq/soon";
+import UnicryptSoon from "./pages/unicrypt/soon";
 
 const AppWrapper = () => {
 
@@ -28,8 +30,10 @@ const App: React.FC = () => {
         <LayoutIndex>
           <Switch>
             <Redirect exact from="/" to="/analytics/graphlinq" />
-            <Route path="/analytics/graphlinq" component={GraphLinq} />
-            <Route path="/analytics/unicrypt" component={Unicrypt} />
+            <Route exact path="/analytics/graphlinq" component={GraphLinq} />
+            <Route exact path="/analytics/unicrypt" component={Unicrypt} />
+            <Route path="/analytics/graphlinq" component={GraphLinqSoon} />
+            <Route path="/analytics/unicrypt" component={UnicryptSoon} />
           </Switch>
         </LayoutIndex>
       </Web3ReactManager>

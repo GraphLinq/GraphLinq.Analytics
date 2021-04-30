@@ -92,9 +92,9 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
       <div className="bot">
         <ul>
           <li className="ac"><a href="/analytics/unicrypt">Overview</a></li>
-          <li><a href="#">Liquidity</a></li>
-          <li><a href="#">Price</a></li>
-          <li><a href="#">Charts</a></li>
+          <li><a href="/analytics/unicrypt/liquidity">Liquidity</a></li>
+          <li><a href="/analytics/unicrypt/prices">Prices</a></li>
+          <li><a href="/analytics/unicrypt/charts">Charts</a></li>
         </ul>
       </div>
     </header>

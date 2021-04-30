@@ -83,9 +83,9 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
         <div className="bot">
           <ul>
             <li className="ac"><a href="/analytics/graphlinq">Overview</a></li>
-            <li><a href="#">Charts</a></li>
-            <li><a href="#">Trades</a></li>
-            <li><a href="#">Staking</a></li>
+            <li><a href="/analytics/graphlinq/charts">Charts</a></li>
+            <li><a href="/analytics/graphlinq/trades">Trades</a></li>
+            <li><a href="/analytics/graphlinq/staking">Staking</a></li>
           </ul>
         </div>
     </header>
