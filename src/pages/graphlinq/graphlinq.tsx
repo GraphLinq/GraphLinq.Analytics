@@ -16,7 +16,8 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
   }, [])
-  // console.log("Graphliq header glqState::", glqState)
+
+let DilutedMarketCap = glqState.total_supply * glqState.price;
 
   return (
     <main id="m">
@@ -30,7 +31,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                   <strong>
                     <CurrencyFormat
                       style={{font: 'inherit'}}
-                      value={parseFloat(glqState.price).toFixed(6)}
+                      value={glqState.price}
                       displayType={'text'}
                       thousandSeparator={true}
                       prefix={'$'}
@@ -53,7 +54,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong> <span className="re">-4.73%</span>
+                  </strong>
                 </h2>
               </div>
             </div>
@@ -70,7 +71,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       displayType={'text'}
                       thousandSeparator={true}
                     />
-                  </strong> <span className="re">-4.73%</span>
+                  </strong>
                 </h2>
               </div>
             </div>
@@ -88,12 +89,12 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong> <span className="gr">-4.73%</span>
+                  </strong>
                 </h2>
               </div>
             </div>
           </div>
-          <div className="blc cl66">
+          <div className="blc cl50">
             <div>
               <div className="top">
                 <small>Market Cap</small>
@@ -106,12 +107,47 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong> <span className="gr">-4.73%</span>
+                  </strong>
                 </h2>
               </div>
             </div>
           </div>
-          <div className="blc cl66">
+          <div className="blc cl50">
+            <div>
+              <div className="top">
+                <small>Fully Diluted Market Cap</small>
+                <h2>
+                  <strong>
+                    <CurrencyFormat
+                      style={{font: 'inherit'}}
+                      value={parseFloat(DilutedMarketCap.toString()).toFixed(2)}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      prefix={'$'}
+                    />
+                  </strong>
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div className="blc cl33">
+            <div>
+              <div className="top">
+                <small>Circulating Supply</small>
+                <h2>
+                  <strong>
+                    <CurrencyFormat
+                      style={{font: 'inherit'}}
+                      value="323000000"
+                      displayType={'text'}
+                      thousandSeparator={true}
+                    />
+                  </strong>
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Total Supply</small>
@@ -123,12 +159,29 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       displayType={'text'}
                       thousandSeparator={true}
                     />
-                  </strong> <span className="gr">-4.73%</span>
+                  </strong>
                 </h2>
               </div>
             </div>
           </div>
-          <div className="blc cl100">
+          <div className="blc cl33">
+            <div>
+              <div className="top">
+                <small>Maximum Supply</small>
+                <h2>
+                  <strong>
+                    <CurrencyFormat
+                      style={{font: 'inherit'}}
+                      value="500000000"
+                      displayType={'text'}
+                      thousandSeparator={true}
+                    />
+                  </strong>
+                </h2>
+              </div>
+            </div>
+          </div>
+          {/*<div className="blc cl100">
             <div>
               <div className="top">
                 <small>Last 663 trades</small>
@@ -209,7 +262,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
     </main>
