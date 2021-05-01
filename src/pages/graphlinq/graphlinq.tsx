@@ -9,6 +9,9 @@ interface GlqProps {
 
 }
 
+const circSupply = 323000000;
+const maxSupply = 500000000;
+
 function upCarot() {
     return <FaCaretUp />
 }
@@ -65,9 +68,6 @@ function formatDelta(num: any) {
   let format = deltaFormatter.format(num);
   return format;
 }
-
-const circSupply = 323000000;
-const maxSupply = 500000000;
 
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
