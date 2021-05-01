@@ -54,6 +54,18 @@ function formatMcap(num: any) {
   return format;
 }
 
+const deltaConfig = {
+   style: 'percent',
+   minimumFractionDigits: 2,
+   maximumFractionDigits: 2
+};
+const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
+
+function formatDelta(num: any) {
+  let format = deltaFormatter.format(num);
+  return format;
+}
+
 const circSupply = 323000000;
 const maxSupply = 500000000;
 
@@ -70,22 +82,22 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   // clean this mess up...
   let dilutedMarketCap = glqState.total_supply * glqState.price;
 
-  let priceDelta = (((glqState.price - glqHistory.price) * 100) / glqHistory.price);
+  let priceDelta = ((glqState.price - glqHistory.price) / glqHistory.price);
   let priceDeltaResult = Math.abs(priceDelta);
   let priceDeltaClass = (priceDelta >= 0) ? "gr" : "re";
   let priceDeltaPrefix = (priceDelta >= 0) ? upCarot() : downCarot();
 
-  let holderDelta = (((glqState.holders - glqHistory.holders) * 100) / glqHistory.holders);
+  let holderDelta = ((glqState.holders - glqHistory.holders) / glqHistory.holders);
   let holderDeltaResult = Math.abs(holderDelta);
   let holderDeltaClass = (holderDelta >= 0) ? "gr" : "re";
   let holderDeltaPrefix = (holderDelta >= 0) ? upCarot() : downCarot();
 
-  let mcDelta = (((glqState.market_cap - glqHistory.market_cap) * 100) / glqHistory.market_cap);
+  let mcDelta = ((glqState.market_cap - glqHistory.market_cap) / glqHistory.market_cap);
   let mcDeltaResult = Math.abs(mcDelta);
   let mcDeltaClass = (mcDelta >= 0) ? "gr" : "re";
   let mcDeltaPrefix = (mcDelta >= 0) ? upCarot() : downCarot();
 
-  let volDelta = (((glqState.volume - glqHistory.volume) * 100) / glqHistory.volume);
+  let volDelta = ((glqState.volume - glqHistory.volume) / glqHistory.volume);
   let volDeltaResult = Math.abs(volDelta);
   let volDeltaClass = (volDelta >= 0) ? "gr" : "re";
   let volDeltaPrefix = (volDelta >= 0) ? upCarot() : downCarot();
@@ -103,7 +115,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     {
                       formatNum(glqState.price)
                     }
-                  </strong> <span className={priceDeltaClass}> {priceDeltaPrefix} {parseFloat(priceDeltaResult.toString()).toFixed(2)} %</span>
+                  </strong> <span className={priceDeltaClass}> {priceDeltaPrefix} {formatDelta(priceDeltaResult)}</span>
                 </h2>
               </div>
             </div>
@@ -131,7 +143,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     {
                       glqState.holders
                     }
-                  </strong> <span className={holderDeltaClass}> {holderDeltaPrefix} {parseFloat(holderDeltaResult.toString()).toFixed(2)} %</span>
+                  </strong> <span className={holderDeltaClass}> {holderDeltaPrefix} {formatDelta(holderDeltaResult)}</span>
                 </h2>
               </div>
             </div>
@@ -145,7 +157,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     {
                       formatNum(glqState.volume)
                     }
-                  </strong> <span className={volDeltaClass}> {volDeltaPrefix} {parseFloat(volDeltaResult.toString()).toFixed(2)} %</span>
+                  </strong> <span className={volDeltaClass}> {volDeltaPrefix} {formatDelta(volDeltaResult)}</span>
                 </h2>
               </div>
             </div>
@@ -159,7 +171,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     {
                       formatMcap(glqState.market_cap)
                     }
-                  </strong> <span className={mcDeltaClass}> {mcDeltaPrefix} {parseFloat(mcDeltaResult.toString()).toFixed(2)} %</span>
+                  </strong> <span className={mcDeltaClass}> {mcDeltaPrefix} {formatDelta(mcDeltaResult)}</span>
                 </h2>
               </div>
             </div>
