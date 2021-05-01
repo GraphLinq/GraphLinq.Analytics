@@ -236,14 +236,17 @@
     #sc{width:45px;z-index:1000;}
     #sc [data-search-res]{display:block;pointer-events:auto;z-index:1000;}
     #sc form{transition:.6s;padding-left:0;width:45px;}
-    #sc.open form{width:calc(100vw - 118px);}
+    #sc.open form{width:calc(50vw - 118px);}
     #sc fieldset:before{padding-left:0;}
-    #sc .res{width:calc(100vw - 118px);}
+    #sc .res{width:calc(50vw - 118px);}
 
 }
 /************* max 1100 **************/ @media screen and (max-width:1100px){
 
     #m .cl > .cl50{min-width:100%;}
+    #sc.open form{width:calc(60vw - 118px);}
+    #sc .res{width:calc(60vw - 118px);}
+
 
 }
 /************* max 900 **************/ @media screen and (max-width:900px){
@@ -257,6 +260,10 @@
     #m .cl > .cl50{min-width:50%;}
 
     #x{left:0;width:100%;}
+
+    #sc.open form{width:calc(70vw - 118px);}
+    #sc .res{width:calc(70vw - 118px);}
+
 
 }
 /************* max 750 **************/ @media screen and (max-width:750px){
@@ -274,5 +281,10 @@
     #h .top .r .b{padding:0 15px;}
     #h .top .r .b span{display:none;}
     #h .top .r .b i{display:block;}
+
+    #sc.open form{width:calc(100vw - 118px);}
+    #sc .res{width:calc(100vw - 118px);}
+
+
 
 }
