@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { POST_SELECTED_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
-
-import { NavLink, Route, useHistory } from 'react-router-dom';
-import routes from '../../routes/sidebar';
+import { NavLink, Route } from 'react-router-dom';
 import tabs from '../../routes/graphlinq';
 import { Link } from '@chakra-ui/react';
+import { SearchBar } from '../../components/SearchBar';
 
 interface HeaderLayoutProps {
 }
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  let history = useHistory();
-
-  function searchFunc(url: string) {
-    history.push(url);
-  }
-
-  function onCloseMenu() {
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 250);
-  }
 
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
@@ -46,39 +33,14 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           </button>
           <div className="illu"><img src="/template/img/graphlinq.svg" alt="graphliq" /></div>
           <div className="tit">
-            <h1>Graphliq</h1>
+            <h1>Graphlinq</h1>
             <div className="pri">
               GLQ : <strong>${parseFloat(glqState.price).toFixed(12)}</strong>
             </div>
           </div>
         </div>
           <div className="r">
-            <div id="sc">
-              <form>
-                <fieldset>
-                  <div data-search-res />
-                  <label htmlFor="scr">Search token...</label>
-                  <input id="scr" type="text" onFocus={() => setIsOpen(true)} onBlur={() => onCloseMenu()} />
-                </fieldset>
-                {isOpen && <ul className="res">
-                  {routes.map((route: any, index) => (
-                    <li
-                      key={index}
-                      onClick={() => searchFunc(route.path)}
-                    >
-                      <div className="il">
-                        <img src={route.imgSrc} alt={route.name} />
-                      </div>
-                      <div className="cot">
-                        <div className="nme">{route.name}</div>
-                        <div className="tot">Total value : <span>$10,845,94.00</span></div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                }
-              </form>
-            </div>
+            <SearchBar />
             <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
           </div>
         </div>

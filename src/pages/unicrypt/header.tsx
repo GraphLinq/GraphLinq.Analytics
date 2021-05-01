@@ -7,23 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY } from '../../store/actionNames/glqAction';
 import { Link } from '@chakra-ui/react';
+import { SearchBar } from '../../components/SearchBar';
 
 interface UnicyptProps {
 }
 
 const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  let history = useHistory();
-
-  function searchFunc(url: string) {
-    history.push(url);
-  }
-
-  function onCloseMenu() {
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 250);
-  }
 
   const dispatch = useDispatch();
   const unclState = useSelector((state: RootState) => state.unclSelect || {});
@@ -62,32 +51,7 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
           </div>
         </div>
         <div className="r">
-          <div id="sc">
-            <form>
-              <fieldset>
-                <div data-search-res />
-                <label htmlFor="scr">Search token...</label>
-                <input id="scr" type="text" onFocus={() => setIsOpen(true)} onBlur={() => onCloseMenu()} />
-              </fieldset>
-              {isOpen && <ul className="res">
-                {routes.map((route: any, index) => (
-                  <li
-                    key={index}
-                    onClick={() => searchFunc(route.path)}
-                  >
-                    <div className="il">
-                      <img src={route.imgSrc} alt={route.name} />
-                    </div>
-                    <div className="cot">
-                      <div className="nme">{route.name}</div>
-                      <div className="tot">Total value : <span>$10,845,94.00</span></div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              }
-            </form>
-          </div>
+          <SearchBar />
           <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
         </div>
       </div>
