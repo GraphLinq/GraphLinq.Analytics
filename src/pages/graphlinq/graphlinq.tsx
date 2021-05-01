@@ -1,23 +1,53 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { POST_SELECTED_GLQ } from '../../store/actionNames/glqAction';
+import { POST_SELECTED_GLQ, POST_HISTORY_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 
 interface GlqProps {
 
 }
 let CurrencyFormat = require('react-currency-format');
 
+function upCarot() {
+    return <FaCaretUp />
+}
+function downCarot() {
+    return <FaCaretDown />
+}
+
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
+  const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
+    dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
   }, [])
 
-let DilutedMarketCap = glqState.total_supply * glqState.price;
+  let dilutedMarketCap = glqState.total_supply * glqState.price;
+
+  let priceDelta = (((glqState.price - glqHistory.price) * 100) / glqHistory.price);
+  let priceDeltaResult = Math.abs(priceDelta);
+  let priceDeltaClass = (priceDelta >= 0) ? "gr" : "re";
+  let priceDeltaPrefix = (priceDelta >= 0) ? upCarot() : downCarot();
+
+  let holderDelta = (((glqState.holders - glqHistory.holders) * 100) / glqHistory.holders);
+  let holderDeltaResult = Math.abs(holderDelta);
+  let holderDeltaClass = (holderDelta >= 0) ? "gr" : "re";
+  let holderDeltaPrefix = (holderDelta >= 0) ? upCarot() : downCarot();
+
+  let mcDelta = (((glqState.market_cap - glqHistory.market_cap) * 100) / glqHistory.market_cap);
+  let mcDeltaResult = Math.abs(mcDelta);
+  let mcDeltaClass = (mcDelta >= 0) ? "gr" : "re";
+  let mcDeltaPrefix = (mcDelta >= 0) ? upCarot() : downCarot();
+
+  let volDelta = (((glqState.volume - glqHistory.volume) * 100) / glqHistory.volume);
+  let volDeltaResult = Math.abs(volDelta);
+  let volDeltaClass = (volDelta >= 0) ? "gr" : "re";
+  let volDeltaPrefix = (volDelta >= 0) ? upCarot() : downCarot();
 
   return (
     <main id="m">
@@ -26,7 +56,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
           <div className="blc cl50">
             <div>
               <div className="top">
-                <small>Price</small>
+                <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
                     <CurrencyFormat
@@ -36,7 +66,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong> <span className="gr">+4.73%</span>
+                  </strong> <span className={priceDeltaClass}> {priceDeltaPrefix} {parseFloat(priceDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
             </div>
@@ -62,7 +92,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
           <div className="blc cl33">
             <div>
               <div className="top">
-                <small>Holders</small>
+                <small>Holders (24Hrs)</small>
                 <h2>
                   <strong>
                     <CurrencyFormat
@@ -71,7 +101,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                       displayType={'text'}
                       thousandSeparator={true}
                     />
-                  </strong>
+                  </strong> <span className={holderDeltaClass}> {holderDeltaPrefix} {parseFloat(holderDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
             </div>
@@ -79,7 +109,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
           <div className="blc cl66">
             <div>
               <div className="top">
-                <small>24hr Volume</small>
+                <small>Volume (24Hrs)</small>
                 <h2>
                   <strong>
                     <CurrencyFormat
@@ -89,7 +119,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong>
+                  </strong> <span className={volDeltaClass}> {volDeltaPrefix} {parseFloat(volDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
             </div>
@@ -97,7 +127,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
           <div className="blc cl50">
             <div>
               <div className="top">
-                <small>Market Cap</small>
+                <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
                     <CurrencyFormat
@@ -107,7 +137,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                       thousandSeparator={true}
                       prefix={'$'}
                     />
-                  </strong>
+                  </strong> <span className={mcDeltaClass}> {mcDeltaPrefix} {parseFloat(mcDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
             </div>
@@ -120,7 +150,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                   <strong>
                     <CurrencyFormat
                       style={{font: 'inherit'}}
-                      value={parseFloat(DilutedMarketCap.toString()).toFixed(2)}
+                      value={parseFloat(dilutedMarketCap.toString()).toFixed(2)}
                       displayType={'text'}
                       thousandSeparator={true}
                       prefix={'$'}
@@ -181,7 +211,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
               </div>
             </div>
           </div>
-          {/*<div className="blc cl100">
+          {<div className="blc cl100">
             <div>
               <div className="top">
                 <small>Last 663 trades</small>
@@ -201,7 +231,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                           <th>Price ETH</th>
                           <th>Amount GLQ</th>
                           <th>Total ETH</th>
-                          <th>Marker</th>
+                          <th>Maker</th>
                           <th>Other</th>
                         </tr>
                       </thead>
@@ -262,7 +292,7 @@ let DilutedMarketCap = glqState.total_supply * glqState.price;
                 </div>
               </div>
             </div>
-          </div>*/}
+          </div>}
         </div>
       </div>
     </main>

@@ -3,6 +3,7 @@ import * as Effects from "redux-saga/effects";
 import * as initialActions from "../store/actionNames/glqAction";
 import axios from "axios";
 import { postGlqSelectInfo } from "../api/glqAPI";
+import { postGlqHistoryInfo } from "../api/glqHistoryAPI";
 import { postUnclSelectInfo } from "../api/unclAPI";
 import { postUncxSelectInfo } from "../api/uncxAPI";
 
@@ -31,6 +32,21 @@ function* postGlqSelect(action: any) {
       yield call(delay, 3000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
+    }
+  }
+}
+
+function* postGlqHistory(action: any) {
+  while (true) {
+    try {
+      const glqHistoryInfo: ReturnType<typeof postGlqHistoryInfo> = yield call(
+        postGlqHistoryInfo,
+        action.payLoad
+      );
+      yield put({ type: "POST_HISTORY_GLQ_SUCCESS", payLoad: glqHistoryInfo });
+      yield call(delay, 3000);
+    } catch (e) {
+      yield put({ type: "POST_HISTORY_GLQ_FAILED" });
     }
   }
 }
@@ -98,6 +114,7 @@ function* postTotalLiquiditySelect(action: any) {
 
 export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqSelect);
+  yield takeLatest(initialActions.POST_HISTORY_GLQ, postGlqHistory);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUnclSelect);
   yield takeLatest(initialActions.POST_SELECTED_UNCX, postUncxSelect);
 

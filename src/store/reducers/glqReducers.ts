@@ -7,6 +7,15 @@ export const glqSelect = (state = {}, action: any) => {
   }
 }
 
+export const glqHistory = (state = {}, action: any) => {
+  switch (action.type) {
+    case "POST_HISTORY_GLQ_SUCCESS":
+        return action.payLoad;
+    default:
+        return state;
+  }
+}
+
 export const unclSelect = (state = {}, action: any) => {
   switch (action.type) {
     case "POST_SELECTED_UNCL_SUCCESS":
