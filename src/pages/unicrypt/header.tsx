@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom';
+import { NavLink, Route, useHistory } from 'react-router-dom';
 import routes from '../../routes/sidebar';
+import tabs from '../../routes/unicrypt';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY } from '../../store/actionNames/glqAction';
+import { Link } from '@chakra-ui/react';
 
 interface UnicyptProps {
 }
@@ -91,10 +93,21 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
       </div>
       <div className="bot">
         <ul>
-          <li className="ac"><a href="/analytics/unicrypt">Overview</a></li>
-          <li><a href="/analytics/unicrypt/liquidity">Liquidity</a></li>
-          <li><a href="/analytics/unicrypt/prices">Prices</a></li>
-          <li><a href="/analytics/unicrypt/charts">Charts</a></li>
+          {tabs.map((tab: any) => (
+            <li>
+              <Link
+                as={NavLink}
+                exact
+                to={tab.path}
+                bgColor="#16132b"
+                color="#b7aed6"
+                _activeLink={{ bgColor: '#f20350', color: "#ffffff" }}
+              >
+                <Route path={tab.path} exact={tab.exact}></Route>
+                {tab.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </header>

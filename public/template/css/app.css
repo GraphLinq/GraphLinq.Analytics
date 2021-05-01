@@ -147,9 +147,8 @@
     .fx #h .bot{height:50px;background-color:rgba(0,0,0,.2);padding:0 calc(20px + 5 * (100vw - 320px) / 1080);}
     #h .bot ul{display:flex;align-items:center;}
     #h .bot ul li + li{margin-left:10px;}
-    #h .bot ul a{display:inline-flex;align-items:center;color:#b7aed6;background-color:#16132b;padding:0 20px 1px;justify-content:center;height:30px;border-radius:50px;font-size:11px;font-weight:bold;}
+    #h .bot ul a{display:inline-flex;align-items:center;padding:0 20px 1px;justify-content:center;height:30px;border-radius:50px;font-size:11px;font-weight:bold;}
     #h .bot ul a:hover{background-color:#f20350;color:#fff;}
-    #h .bot ul .ac a{background-color:#f20350;color:#fff;}
 
     #h .bnv{background:linear-gradient(to right, #fe0071, #ff052a);margin-right:10px;border-radius:50%;width:35px;height:35px;overflow:hidden;display:none;right:0;}
     #h .bnv svg{width:60px;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);}

@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { POST_SELECTED_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 
-import { useHistory } from 'react-router-dom';
+import { NavLink, Route, useHistory } from 'react-router-dom';
 import routes from '../../routes/sidebar';
+import tabs from '../../routes/graphlinq';
+import { Link } from '@chakra-ui/react';
 
 interface HeaderLayoutProps {
 }
@@ -81,12 +83,23 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           </div>
         </div>
         <div className="bot">
-          <ul>
-            <li className="ac"><a href="/analytics/graphlinq">Overview</a></li>
-            <li><a href="/analytics/graphlinq/charts">Charts</a></li>
-            <li><a href="/analytics/graphlinq/trades">Trades</a></li>
-            <li><a href="/analytics/graphlinq/staking">Staking</a></li>
-          </ul>
+        <ul>
+          {tabs.map((tab: any) => (
+            <li>
+              <Link
+                as={NavLink}
+                exact
+                to={tab.path}
+                bgColor="#16132b"
+                color="#b7aed6"
+                _activeLink={{ bgColor: '#f20350', color: "#ffffff" }}
+              >
+                <Route path={tab.path} exact={tab.exact}></Route>
+                {tab.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
         </div>
     </header>
   );
