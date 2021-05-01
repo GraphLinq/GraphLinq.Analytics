@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { NavLink, Route, useHistory } from 'react-router-dom';
 import routes from '../../routes/sidebar';
 import tabs from '../../routes/unicrypt';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY } from '../../store/actionNames/glqAction';
 import { Link } from '@chakra-ui/react';
 import { SearchBar } from '../../components/SearchBar';
+import { formatCur } from '../../utils';
 
 interface UnicyptProps {
 }
@@ -46,7 +46,7 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
           <div className="tit">
             <h1>Unicrypt</h1>
             <div className="pri">
-              UNCX: <strong> ${parseFloat(uncxState.price).toFixed(2)}</strong> | UNCL: <strong> ${parseFloat(unclState.price).toFixed(6)}</strong>
+              UNCX: <strong> {formatCur(uncxState.price, 2, 2)}</strong> | UNCL: <strong> {formatCur(unclState.price, 2, 12)}</strong>
             </div>
           </div>
         </div>

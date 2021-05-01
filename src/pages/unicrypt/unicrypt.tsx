@@ -5,6 +5,7 @@ import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot } from 'react-vis';
 import { Box } from '@chakra-ui/react';
+import { formatCur } from '../../utils';
 
 interface UnclProps {
 
@@ -55,15 +56,6 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const yMaxValue = Math.ceil(Math.max(...totalLiquidityState) / 100000000) * 100000000;
   const xMaxValue = (Math.floor(newArr.length / 20) + 1) * 20;
 
-
-  function formatNum(num: any) {
-
-    num = parseFloat(num).toFixed(2)
-    let format = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num)
-
-    return format
-  }
-
   function abbrNum(num: any) {
     // 2 decimal places => 100, 3 => 1000, etc
     let decPlaces = Math.pow(10,2);
@@ -100,7 +92,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                    formatNum(liquidityState.USDValue)
+                    formatCur(liquidityState.USDValue, 2, 2)
                     }
                   </strong> <span className="gr">+4.73%</span>
                 </h2>

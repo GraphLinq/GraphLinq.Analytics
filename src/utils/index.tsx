@@ -3,6 +3,7 @@ import { getAddress } from '@ethersproject/address';
 import { AddressZero } from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import { JSBI, Percent } from '@uniswap/sdk';
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 
 // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any) {
@@ -99,4 +100,61 @@ export function escapeRegExp(string: any) {
 
 export function getDecimalsAmount (amount: number)  {
   return (amount * (10 ** 18)).toFixed()
+}
+
+export function formatCur(num: number, min: number, max: number) {
+    const formatConfig = {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: min,
+        maximumFractionDigits: max,
+        currencyDisplay: "symbol",
+    };
+    const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
+
+    return curFormatter.format(num);
+}
+
+export function formatDelta(num: any, min: number, max: number) {
+    const deltaConfig = {
+        style: 'percent',
+        minimumFractionDigits: min,
+        maximumFractionDigits: max,
+    };
+    const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
+
+    return deltaFormatter.format(num);
+}
+
+export function formatSupply(num: number, min: number, max: number) {
+    const supplyConfig = {
+        minimumFractionDigits: min,
+        maximumFractionDigits: max,
+    }
+    const supplyFormatter = new Intl.NumberFormat("en-US", supplyConfig);
+
+    return supplyFormatter.format(num);
+}
+
+export function deltaDirection(current: number, history: number) {
+    const calc = ((current - history) / history);
+    if (calc >= 0) {
+        const color  = 'gr',
+              caret  = <FaCaretUp />,
+              delta = formatDelta(Math.abs(calc), 2, 2);
+        return {
+            color,
+            caret,
+            delta,
+        };
+    } else {
+        const color  = 're',
+              caret  = <FaCaretDown />,
+              delta  = formatDelta(Math.abs(calc), 2, 2);
+        return {
+            color,
+            caret,
+            delta,
+        };
+    }
 }

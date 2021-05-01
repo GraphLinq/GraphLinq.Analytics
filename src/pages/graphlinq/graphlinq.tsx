@@ -3,71 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { POST_SELECTED_GLQ, POST_HISTORY_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
-import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
+import { formatCur, formatSupply, deltaDirection } from '../../utils';
 
 interface GlqProps {
 
 }
 
 const circSupply = 323000000;
-const maxSupply = 500000000;
-
-function upCarot() {
-    return <FaCaretUp />
-}
-function downCarot() {
-    return <FaCaretDown />
-}
-
-const formatConfig = {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 12,
-  currencyDisplay: "symbol",
-};
-const numFormatter = new Intl.NumberFormat("en-US", formatConfig);
-
-function formatNum(num: any) {
-  let format = numFormatter.format(num);
-  return format;
-}
-
-const supplyConfig = {
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 6,
-}
-const supplyFormatter = new Intl.NumberFormat("en-US", supplyConfig);
-
-function formatSupply(num: any) {
-  let format = supplyFormatter.format(num);
-  return format;
-}
-
-const mcConfig = {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2,
-  currencyDisplay: "symbol",
-}
-const mcFormatter = new Intl.NumberFormat("en-US", mcConfig);
-
-function formatMcap(num: any) {
-  let format = mcFormatter.format(num);
-  return format;
-}
-
-const deltaConfig = {
-   style: 'percent',
-   minimumFractionDigits: 2,
-   maximumFractionDigits: 2,
-};
-const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
-
-function formatDelta(num: any) {
-  let format = deltaFormatter.format(num);
-  return format;
-}
+const maxSupply  = 500000000;
 
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
@@ -79,28 +22,11 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
   }, [])
 
-  // clean this mess up...
-  let dilutedMarketCap = glqState.total_supply * glqState.price;
-
-  let priceDelta = ((glqState.price - glqHistory.price) / glqHistory.price);
-  let priceDeltaResult = Math.abs(priceDelta);
-  let priceDeltaClass = (priceDelta >= 0) ? "gr" : "re";
-  let priceDeltaPrefix = (priceDelta >= 0) ? upCarot() : downCarot();
-
-  let holderDelta = ((glqState.holders - glqHistory.holders) / glqHistory.holders);
-  let holderDeltaResult = Math.abs(holderDelta);
-  let holderDeltaClass = (holderDelta >= 0) ? "gr" : "re";
-  let holderDeltaPrefix = (holderDelta >= 0) ? upCarot() : downCarot();
-
-  let mcDelta = ((glqState.market_cap - glqHistory.market_cap) / glqHistory.market_cap);
-  let mcDeltaResult = Math.abs(mcDelta);
-  let mcDeltaClass = (mcDelta >= 0) ? "gr" : "re";
-  let mcDeltaPrefix = (mcDelta >= 0) ? upCarot() : downCarot();
-
-  let volDelta = ((glqState.volume - glqHistory.volume) / glqHistory.volume);
-  let volDeltaResult = Math.abs(volDelta);
-  let volDeltaClass = (volDelta >= 0) ? "gr" : "re";
-  let volDeltaPrefix = (volDelta >= 0) ? upCarot() : downCarot();
+  const dc = glqState.total_supply * glqState.price;
+  const pd = deltaDirection(glqState.price, glqHistory.price);
+  const hd = deltaDirection(glqState.holders, glqHistory.holders);
+  const vd = deltaDirection(glqState.volume, glqHistory.volume);
+  const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
 
   return (
     <main id="m">
@@ -113,9 +39,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatNum(glqState.price)
+                      formatCur(glqState.price, 2, 12)
                     }
-                  </strong> <span className={priceDeltaClass}> {priceDeltaPrefix} {formatDelta(priceDeltaResult)}</span>
+                  </strong> <span className={pd.color}> {pd.caret} {pd.delta}</span>
                 </h2>
               </div>
             </div>
@@ -127,7 +53,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatNum(glqState.ath)
+                      formatCur(glqState.ath, 2, 12)
                     }
                   </strong>
                 </h2>
@@ -143,7 +69,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     {
                       glqState.holders
                     }
-                  </strong> <span className={holderDeltaClass}> {holderDeltaPrefix} {formatDelta(holderDeltaResult)}</span>
+                  </strong> <span className={hd.color}> {hd.caret} {hd.delta}</span>
                 </h2>
               </div>
             </div>
@@ -155,9 +81,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatNum(glqState.volume)
+                      formatCur(glqState.volume, 2, 2)
                     }
-                  </strong> <span className={volDeltaClass}> {volDeltaPrefix} {formatDelta(volDeltaResult)}</span>
+                  </strong> <span className={vd.color}> {vd.caret} {vd.delta}</span>
                 </h2>
               </div>
             </div>
@@ -169,9 +95,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatMcap(glqState.market_cap)
+                      formatCur(glqState.market_cap, 2, 2)
                     }
-                  </strong> <span className={mcDeltaClass}> {mcDeltaPrefix} {formatDelta(mcDeltaResult)}</span>
+                  </strong> <span className={md.color}> {md.caret} {md.delta}</span>
                 </h2>
               </div>
             </div>
@@ -183,7 +109,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatMcap(dilutedMarketCap)
+                      formatCur(dc, 2, 2)
                     }
                   </strong>
                 </h2>
@@ -197,7 +123,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatSupply(circSupply)
+                      formatSupply(circSupply, 0, 0)
                     }
                   </strong>
                 </h2>
@@ -211,7 +137,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatSupply(glqState.total_supply)
+                      formatSupply(glqState.total_supply, 0, 0)
                     }
                   </strong>
                 </h2>
@@ -225,7 +151,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatSupply(maxSupply)
+                      formatSupply(maxSupply, 0, 0)
                     }
                   </strong>
                 </h2>
