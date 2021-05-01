@@ -119,7 +119,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     color="#f20350"
                     onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
-                  <YAxis tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
+                  <YAxis  style={{text: {fill: '#b7aed6', fontWeight: 400}}}  tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
                   <XAxis hideTicks />
                   {iscrosshair && <Crosshair values={crosshairValues}>
                     <div>
