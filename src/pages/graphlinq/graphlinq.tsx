@@ -8,7 +8,6 @@ import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 interface GlqProps {
 
 }
-let CurrencyFormat = require('react-currency-format');
 
 function upCarot() {
     return <FaCaretUp />
