@@ -3,7 +3,7 @@ import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQU
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot } from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot } from 'react-vis';
 import { Box } from '@chakra-ui/react';
 
 interface UnclProps {
@@ -105,8 +105,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   </strong> <span className="gr">+4.73%</span>
                 </h2>
               </div>
-              <Box w="100%" h="250px" p={1}>
-                <FlexibleXYPlot
+              <Box w="100%" pl={8}>
+                <FlexibleWidthXYPlot
+                  height={250}
                   xDomain={[0, xMaxValue]}
                   yDomain={[yMinValue, yMaxValue]}
                   onMouseLeave={() => setIscrosshair(false)}
@@ -118,7 +119,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     color="#f20350"
                     onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
-                  <YAxis title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
+                  <YAxis tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
                   <XAxis hideTicks />
                   {iscrosshair && <Crosshair values={crosshairValues}>
                     <div>
@@ -127,7 +128,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   </Crosshair>
                   }
 
-                </FlexibleXYPlot>
+                </FlexibleWidthXYPlot>
               </Box>
             </div>
           </div>
