@@ -17,6 +17,47 @@ function downCarot() {
     return <FaCaretDown />
 }
 
+const formatConfig = {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 12,
+  currencyDisplay: "symbol",
+};
+const numFormatter = new Intl.NumberFormat("en-US", formatConfig);
+
+function formatNum(num: any) {
+  let format = numFormatter.format(num);
+  return format;
+}
+
+const supplyConfig = {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 6,
+}
+const supplyFormatter = new Intl.NumberFormat("en-US", supplyConfig);
+
+function formatSupply(num: any) {
+  let format = supplyFormatter.format(num);
+  return format;
+}
+
+const mcConfig = {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  currencyDisplay: "symbol",
+}
+const mcFormatter = new Intl.NumberFormat("en-US", mcConfig);
+
+function formatMcap(num: any) {
+  let format = mcFormatter.format(num);
+  return format;
+}
+
+const circSupply = 323000000;
+const maxSupply = 500000000;
+
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
@@ -27,6 +68,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
   }, [])
 
+  // clean this mess up...
   let dilutedMarketCap = glqState.total_supply * glqState.price;
 
   let priceDelta = (((glqState.price - glqHistory.price) * 100) / glqHistory.price);
@@ -59,13 +101,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={parseFloat(glqState.price).toFixed(12)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                      formatNum(glqState.price)
+                    }
                   </strong> <span className={priceDeltaClass}> {priceDeltaPrefix} {parseFloat(priceDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
@@ -77,13 +115,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={parseFloat(glqState.ath).toFixed(6)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                      formatNum(glqState.ath)
+                    }
                   </strong>
                 </h2>
               </div>
@@ -95,12 +129,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Holders (24Hrs)</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={glqState.holders}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                    />
+                    {
+                      glqState.holders
+                    }
                   </strong> <span className={holderDeltaClass}> {holderDeltaPrefix} {parseFloat(holderDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
@@ -112,13 +143,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Volume (24Hrs)</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={parseFloat(glqState.volume).toFixed(2)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                      formatNum(glqState.volume)
+                    }
                   </strong> <span className={volDeltaClass}> {volDeltaPrefix} {parseFloat(volDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
@@ -130,13 +157,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={parseFloat(glqState.market_cap).toFixed(2)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                      formatMcap(glqState.market_cap)
+                    }
                   </strong> <span className={mcDeltaClass}> {mcDeltaPrefix} {parseFloat(mcDeltaResult.toString()).toFixed(2)} %</span>
                 </h2>
               </div>
@@ -148,13 +171,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Fully Diluted Market Cap</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={parseFloat(dilutedMarketCap.toString()).toFixed(2)}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                      prefix={'$'}
-                    />
+                    {
+                      formatMcap(dilutedMarketCap)
+                    }
                   </strong>
                 </h2>
               </div>
@@ -166,12 +185,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Circulating Supply</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value="323000000"
-                      displayType={'text'}
-                      thousandSeparator={true}
-                    />
+                    {
+                      formatSupply(circSupply)
+                    }
                   </strong>
                 </h2>
               </div>
@@ -183,12 +199,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Total Supply</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value={glqState.total_supply}
-                      displayType={'text'}
-                      thousandSeparator={true}
-                    />
+                    {
+                      formatSupply(glqState.total_supply)
+                    }
                   </strong>
                 </h2>
               </div>
@@ -200,12 +213,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Maximum Supply</small>
                 <h2>
                   <strong>
-                    <CurrencyFormat
-                      style={{font: 'inherit'}}
-                      value="500000000"
-                      displayType={'text'}
-                      thousandSeparator={true}
-                    />
+                    {
+                      formatSupply(maxSupply)
+                    }
                   </strong>
                 </h2>
               </div>
