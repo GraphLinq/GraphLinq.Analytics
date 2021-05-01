@@ -60,7 +60,7 @@ function formatMcap(num: any) {
 const deltaConfig = {
    style: 'percent',
    minimumFractionDigits: 2,
-   maximumFractionDigits: 2
+   maximumFractionDigits: 2,
 };
 const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
 

@@ -10,6 +10,20 @@ import { SearchBar } from '../../components/SearchBar';
 interface HeaderLayoutProps {
 }
 
+const formatConfig = {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 12,
+  currencyDisplay: "symbol",
+};
+const numFormatter = new Intl.NumberFormat("en-US", formatConfig);
+
+function formatNum(num: any) {
+  let format = numFormatter.format(num);
+  return format;
+}
+
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
 
   const dispatch = useDispatch();
@@ -35,7 +49,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           <div className="tit">
             <h1>Graphlinq</h1>
             <div className="pri">
-              GLQ : <strong>${parseFloat(glqState.price).toFixed(12)}</strong>
+              GLQ : <strong>{formatNum(glqState.price)}</strong>
             </div>
           </div>
         </div>
