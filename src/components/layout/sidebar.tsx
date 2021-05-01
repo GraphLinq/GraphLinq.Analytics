@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Image, Box, Link } from '@chakra-ui/react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { matchPath, NavLink, useLocation } from 'react-router-dom';
 
 import routes from '../../routes/sidebar';
 
@@ -15,11 +15,16 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
   let newRoutes = [];
   let sidebarRoutes = routes;
 
-  const location = useLocation()
+  let location = useLocation()
+  let matchUnicrypt = matchPath(location.pathname, {
+    path: ["/analytics/unicrypt", "/analytics/unicrypt/liquidity", "/analytics/unicrypt/prices", "/analytics/unicrypt/charts"],
+    exact: true,
+    strict: false
+  });
 
   if (location.pathname ===  "/analytics/graphlinq") {
     sidebarRoutes = routes;
-  }else if (location.pathname ===  "/analytics/unicrypt") {
+  } else if (matchUnicrypt) {
     topRoute = routes.slice(1, 2);
     newRoutes = routes.slice(0, 1);
     sidebarRoutes = topRoute.concat(newRoutes);
