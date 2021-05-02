@@ -243,6 +243,10 @@
 /************* max 1100 **************/ @media screen and (max-width:1100px){
 
     #m .cl > .cl50{min-width:100%;}
+    #sc{width:45px;z-index:1000;}
+    #sc [data-search-res]{display:block;pointer-events:auto;z-index:1000;}
+    #sc form{transition:.6s;padding-left:0;width:45px;}
+    #sc fieldset:before{padding-left:0;}
     #sc.open form{width:calc(60vw - 118px);}
     #sc .res{width:calc(60vw - 118px);}
 
@@ -260,8 +264,12 @@
 
     #x{left:0;width:100%;}
 
-    #sc.open form{width:calc(70vw - 118px);}
-    #sc .res{width:calc(70vw - 118px);}
+    #sc{width:45px;z-index:1000;}
+    #sc [data-search-res]{display:block;pointer-events:auto;z-index:1000;}
+    #sc form{transition:.6s;padding-left:0;width:45px;}
+    #sc fieldset:before{padding-left:0;}
+    #sc.open form{width:calc(88vw - 118px);}
+    #sc .res{width:calc(88vw - 118px);}
 
 
 }
@@ -281,6 +289,10 @@
     #h .top .r .b span{display:none;}
     #h .top .r .b i{display:block;}
 
+    #sc{width:45px;z-index:1000;}
+    #sc [data-search-res]{display:block;pointer-events:auto;z-index:1000;}
+    #sc form{transition:.6s;padding-left:0;width:45px;}
+    #sc fieldset:before{padding-left:0;}
     #sc.open form{width:calc(100vw - 118px);}
     #sc .res{width:calc(100vw - 118px);}
 
