@@ -21,12 +21,21 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
     exact: true,
     strict: false
   });
+  let matchPolygon = matchPath(location.pathname, {
+    path: ["/analytics/polygon", "/analytics/polygon/liquidity", "/analytics/polygon/prices", "/analytics/unicrpolygonypt/charts"],
+    exact: true,
+    strict: false
+  });
 
   if (location.pathname ===  "/analytics/graphlinq") {
     sidebarRoutes = routes;
   } else if (matchUnicrypt) {
-    topRoute = routes.slice(1, 2);
+    topRoute = routes.slice(1, 3);
     newRoutes = routes.slice(0, 1);
+    sidebarRoutes = topRoute.concat(newRoutes);
+  } else if (matchPolygon) {
+    topRoute = routes.slice(2, 3);
+    newRoutes = routes.slice(0, 2);
     sidebarRoutes = topRoute.concat(newRoutes);
   }
 

@@ -15,6 +15,11 @@ const routes = [
     imgSrc: '/template/img/unicrypt.svg',
     name: 'Unicrypt',
   },
+  {
+    path: '/analytics/polygon',
+    imgSrc: '/template/img/polygon-small.svg',
+    name: 'Polygon',
+  },
 ]
 
 export default routes
