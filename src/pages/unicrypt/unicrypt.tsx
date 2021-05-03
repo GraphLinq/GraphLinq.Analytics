@@ -83,112 +83,125 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
   return (
     <main id="m">
-      <div>
-        <div className="cl">
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Total Value Locked</small>
-                <h2>
-                  <strong>
-                    {
-                    formatCur(liquidityState.USDValue, 2, 2)
-                    }
-                  </strong> <span className="gr">+4.73%</span>
-                </h2>
-              </div>
-              <Box w="100%" pl={8}>
-                <FlexibleWidthXYPlot
-                  height={250}
-                  xDomain={[0, xMaxValue]}
-                  yDomain={[yMinValue, yMaxValue]}
-                  onMouseLeave={() => setIscrosshair(false)}
-                  onMouseEnter={() => setIscrosshair(true)}
-                >
-                  <LineSeries
-                    curve={'curveLinear'}
-                    data={totalLiquidityData[0]}
-                    color="#f20350"
-                    onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
-                  />
-                  <YAxis  style={{text: {fill: '#b7aed6', fontWeight: 400}}}  tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
-                  <XAxis hideTicks />
-                  {iscrosshair && <Crosshair values={crosshairValues}>
-                    <div>
-                      <h3>{abbrNum(crosshairValues[1].y)}</h3>
-                    </div>
-                  </Crosshair>
-                  }
-
-                </FlexibleWidthXYPlot>
-              </Box>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Total Farming Liquidity</small>
-                <h2>
-                  <strong>Chart Amount{/*liquidityState.Amount*/}</strong> <span className="re">-4.73%</span>
-                </h2>
-              </div>
-              <div className="chart">
-              </div>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Total Staked Liquidity</small>
-                <h2>
-                  <strong>Chart Amount{/*liquidityState.InitialAmount*/}</strong> <span className="re">-4.73%</span>
-                </h2>
-              </div>
-              <div className="chart">
-              </div>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Staking Rewards Available</small>
-                <h2>
-                  <strong>Total Amount{/*liquidityState.UnlockDate*/}</strong> <span className="re">-4.73%</span>
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Staking Rewards Distributed</small>
-                <h2>
-                  <strong>Rewards{/*liquidityState.LockID*/}</strong> <span className="gr">-4.73%</span>
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div style={{ height: "calc(50% - 10px)", marginBottom: '20px' }}>
-              <div className="top">
-                <small>Total Locked Liquidity</small>
-                <h2>
-                  <strong>Locked Amount{/*liquidityState.Owner*/}</strong> <span className="gr">-4.73%</span>
-                </h2>
-              </div>
-            </div>
-            <div style={{ height: "calc(50% - 10px)" }}>
-              <div className="top">
-                <small>Total Value Locked</small>
-                <h2>
-                  <strong>Vested Amount{/*liquidityState.USDValue*/}</strong> <span className="gr">-4.73%</span>
-                </h2>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="blc cl50">
+    <div>
+      <div className="top">
+        <h2>
+          <strong>
+            Coming Soon...
+          </strong>
+        </h2>
       </div>
-    </main>
+    </div>
+  </div>
+  </main>
+    // <main id="m">
+    //   <div>
+    //     <div className="cl">
+    //       <div className="blc cl33">
+    //         <div>
+    //           <div className="top">
+    //             <small>Total Value Locked</small>
+    //             <h2>
+    //               <strong>
+    //                 {
+    //                 formatCur(liquidityState.USDValue, 2, 2)
+    //                 }
+    //               </strong> <span className="gr">+4.73%</span>
+    //             </h2>
+    //           </div>
+    //           <Box w="100%" pl={8}>
+    //             <FlexibleWidthXYPlot
+    //               height={250}
+    //               xDomain={[0, xMaxValue]}
+    //               yDomain={[yMinValue, yMaxValue]}
+    //               onMouseLeave={() => setIscrosshair(false)}
+    //               onMouseEnter={() => setIscrosshair(true)}
+    //             >
+    //               <LineSeries
+    //                 curve={'curveLinear'}
+    //                 data={totalLiquidityData[0]}
+    //                 color="#f20350"
+    //                 onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
+    //               />
+    //               <YAxis  style={{text: {fill: '#b7aed6', fontWeight: 400}}}  tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
+    //               <XAxis hideTicks />
+    //               {iscrosshair && <Crosshair values={crosshairValues}>
+    //                 <div>
+    //                   <h3>{abbrNum(crosshairValues[1].y)}</h3>
+    //                 </div>
+    //               </Crosshair>
+    //               }
+
+    //             </FlexibleWidthXYPlot>
+    //           </Box>
+    //         </div>
+    //       </div>
+    //       <div className="blc cl33">
+    //         <div>
+    //           <div className="top">
+    //             <small>Total Farming Liquidity</small>
+    //             <h2>
+    //               <strong>Chart Amount{/*liquidityState.Amount*/}</strong> <span className="re">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //           <div className="chart">
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="blc cl33">
+    //         <div>
+    //           <div className="top">
+    //             <small>Total Staked Liquidity</small>
+    //             <h2>
+    //               <strong>Chart Amount{/*liquidityState.InitialAmount*/}</strong> <span className="re">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //           <div className="chart">
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="blc cl33">
+    //         <div>
+    //           <div className="top">
+    //             <small>Staking Rewards Available</small>
+    //             <h2>
+    //               <strong>Total Amount{/*liquidityState.UnlockDate*/}</strong> <span className="re">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="blc cl33">
+    //         <div>
+    //           <div className="top">
+    //             <small>Staking Rewards Distributed</small>
+    //             <h2>
+    //               <strong>Rewards{/*liquidityState.LockID*/}</strong> <span className="gr">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="blc cl33">
+    //         <div style={{ height: "calc(50% - 10px)", marginBottom: '20px' }}>
+    //           <div className="top">
+    //             <small>Total Locked Liquidity</small>
+    //             <h2>
+    //               <strong>Locked Amount{/*liquidityState.Owner*/}</strong> <span className="gr">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //         </div>
+    //         <div style={{ height: "calc(50% - 10px)" }}>
+    //           <div className="top">
+    //             <small>Total Value Locked</small>
+    //             <h2>
+    //               <strong>Vested Amount{/*liquidityState.USDValue*/}</strong> <span className="gr">-4.73%</span>
+    //             </h2>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </main>
   );
 }
 
