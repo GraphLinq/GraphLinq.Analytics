@@ -2,11 +2,21 @@ import React from 'react'
 import HeaderLayout from '../header'
 
 function ComingSoon() {
-   return (
+  return (
     <div>
       <HeaderLayout />
       <main id="m">
-        <div>Coming Soon...</div>
+      <div className="blc cl50">
+            <div>
+              <div className="top">
+                <h2>
+                  <strong>
+                    Coming Soon...
+                  </strong>
+                </h2>
+              </div>
+            </div>
+          </div>
       </main>
     </div>
    );

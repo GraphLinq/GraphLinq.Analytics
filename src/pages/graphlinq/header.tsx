@@ -34,7 +34,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           </button>
           <div className="illu"><img src="/template/img/graphlinq.svg" alt="graphliq" /></div>
           <div className="tit">
-            <h1>Graphlinq</h1>
+            <h1>GraphLinq</h1>
             <div className="pri">
               GLQ : <strong>{formatCur(glqState.price, 2, 12)}</strong>
             </div>
