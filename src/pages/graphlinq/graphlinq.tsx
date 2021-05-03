@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { POST_SELECTED_GLQ, POST_HISTORY_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { formatCur, formatSupply, deltaDirection } from '../../utils';
+import { SuspenseSpinner } from '../../components/SuspenseSpinner';
 
 interface GlqProps {
 
@@ -17,7 +18,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
 
-  useEffect(() => {
+  //const [loading, setLoading] = useState(true);
+
+useEffect( () => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
   }, [])
@@ -38,10 +41,14 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    {
-                      formatCur(glqState.price, 2, 12)
-                    }
-                  </strong> <span className={pd.color}> {pd.caret} {pd.delta}</span>
+                  {
+                  glqState.price ? formatCur(glqState.price, 2, 12) : 'Loading...'
+                  }
+                  </strong>
+                  {glqState.price
+                    ? <span className={pd.color}> {pd.caret} {pd.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
             </div>
@@ -53,7 +60,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatCur(glqState.ath, 2, 12)
+                      glqState.price ? formatCur(glqState.ath, 2, 12) : 'Loading...'
                     }
                   </strong>
                 </h2>
@@ -67,9 +74,13 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      glqState.holders
+                      glqState.holders ? glqState.holders : 'Loading...'
                     }
-                  </strong> <span className={hd.color}> {hd.caret} {hd.delta}</span>
+                  </strong>
+                  {glqState.holders
+                    ? <span className={hd.color}> {hd.caret} {hd.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
             </div>
@@ -81,9 +92,13 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatCur(glqState.volume, 2, 2)
+                      glqState.volume ? formatCur(glqState.volume, 2, 2) : 'Loading...'
                     }
-                  </strong> <span className={vd.color}> {vd.caret} {vd.delta}</span>
+                  </strong>
+                  {glqState.volume
+                    ? <span className={vd.color}> {vd.caret} {vd.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
             </div>
@@ -95,9 +110,13 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatCur(glqState.market_cap, 2, 2)
+                      glqState.market_cap ? formatCur(glqState.market_cap, 2, 2) : 'Loading...'
                     }
-                  </strong> <span className={md.color}> {md.caret} {md.delta}</span>
+                  </strong>
+                  {glqState.market_cap
+                    ? <span className={md.color}> {md.caret} {md.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
             </div>
@@ -109,7 +128,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      formatCur(dc, 2, 2)
+                      dc ? formatCur(dc, 2, 2) : 'Loading...'
                     }
                   </strong>
                 </h2>
