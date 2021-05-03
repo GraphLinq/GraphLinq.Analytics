@@ -1,10 +1,9 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { POST_SELECTED_GLQ, POST_HISTORY_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { formatCur, formatSupply, deltaDirection } from '../../utils';
-import { SuspenseSpinner } from '../../components/SuspenseSpinner';
 
 interface GlqProps {
 
@@ -17,8 +16,6 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
-
-  //const [loading, setLoading] = useState(true);
 
 useEffect( () => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
