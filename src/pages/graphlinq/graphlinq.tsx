@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { POST_SELECTED_GLQ, POST_HISTORY_GLQ } from '../../store/actionNames/glqAction';
+import { POST_SELECTED_GLQ, POST_HISTORY_GLQ, POST_GLQ_TRADES } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { formatCur, formatSupply, deltaDirection } from '../../utils';
+import Moment from 'react-moment';
 
 interface GlqProps {
 
@@ -16,10 +17,12 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
+  const glqTrades = useSelector((state: RootState) => state.postGlqTradesSelect || {});
 
-useEffect( () => {
+  useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
+    dispatch({type: POST_GLQ_TRADES, payLoad: glqTrades })
   }, [])
 
   const dc = glqState.total_supply * glqState.price;
@@ -27,6 +30,44 @@ useEffect( () => {
   const hd = deltaDirection(glqState.holders, glqHistory.holders);
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
   const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
+
+  function getBuyorSell(item: any, index: number) {
+    if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+      return (
+        <tr className="ar" key={index}>
+            <td>
+              <Moment format="YYYY-MM-DD HH:mm:ss">
+                {item.timestamp*1000}
+              </Moment>
+            </td>
+            <td><span className="gre">Buy</span></td>
+            <td>--</td>
+            <td>--</td>
+            <td>{item.amount0Out}</td>
+            <td>{item.amount1In}</td>
+            <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
+            <td>-</td>
+        </tr>
+      )
+    } else if ((item.amount0In > 0) && (item.amount1Out > 0)) {
+        return (
+      <tr className="ar" key={index}>
+            <td>
+              <Moment format="YYYY-MM-DD HH:mm:ss">
+                {item.timestamp*1000}
+              </Moment>
+            </td>
+            <td><span className="red">Sell</span></td>
+            <td>--</td>
+            <td>--</td>
+            <td>{item.amount0In}</td>
+            <td>{item.amount1Out}</td>
+            <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
+            <td>-</td>
+        </tr>
+    )}
+    return null;
+  }
 
   return (
     <main id="m">
@@ -177,7 +218,7 @@ useEffect( () => {
           {<div className="blc cl100">
             <div>
               <div className="top">
-                <small>Last 663 trades</small>
+                <small>Last {glqTrades.length} trades</small>
                 <h2>
                   <strong>GLQ Trades</strong>
                 </h2>
@@ -198,58 +239,12 @@ useEffect( () => {
                           <th>Other</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>2021-03-31 19:03:26</td>
-                          <td className="gre">Buy</td>
-                          <td>$0.07410636</td>
-                          <td>0.000004002</td>
-                          <td>5,000.00</td>
-                          <td>0.200009925</td>
-                          <td><a href="">...bad8z8ddd4fcc87</a></td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>2021-03-31 19:03:26</td>
-                          <td className="red">Sell</td>
-                          <td>$0.07410636</td>
-                          <td>0.000004002</td>
-                          <td>5,000.00</td>
-                          <td>0.200009925</td>
-                          <td><a href="">...bad8z8ddd4fcc87</a></td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>2021-03-31 19:03:26</td>
-                          <td className="gre">Buy</td>
-                          <td>$0.07410636</td>
-                          <td>0.000004002</td>
-                          <td>5,000.00</td>
-                          <td>0.200009925</td>
-                          <td><a href="">...bad8z8ddd4fcc87</a></td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>2021-03-31 19:03:26</td>
-                          <td className="gre">Buy</td>
-                          <td>$0.07410636</td>
-                          <td>0.000004002</td>
-                          <td>5,000.00</td>
-                          <td>0.200009925</td>
-                          <td><a href="">...bad8z8ddd4fcc87</a></td>
-                          <td>-</td>
-                        </tr>
-                        <tr>
-                          <td>2021-03-31 19:03:26</td>
-                          <td className="gre">Buy</td>
-                          <td>$0.07410636</td>
-                          <td>0.000004002</td>
-                          <td>5,000.00</td>
-                          <td>0.200009925</td>
-                          <td><a href="">...bad8z8ddd4fcc87</a></td>
-                          <td>-</td>
-                        </tr>
+                      {glqTrades.length > 0 && <tbody>
+                        { glqTrades.slice(0).reverse().map((item: any, index: number) => {
+                          return getBuyorSell(item, index)
+                        })}
                       </tbody>
+                    }
                     </table>
                   </div>
                 </div>

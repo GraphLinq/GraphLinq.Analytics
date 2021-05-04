@@ -51,3 +51,13 @@ export const totalLiquiditySelect = (state = [], action: any) => {
       return state;
   }
 };
+
+
+export const postGlqTradesSelect = (state = {}, action: any) => {
+  switch (action.type) {
+    case "POST_GLQ_TRADES_SUCCESS":
+      return action.payLoad;
+    default:
+      return state;
+  }
+};

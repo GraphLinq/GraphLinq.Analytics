@@ -9,6 +9,7 @@ import { postUncxSelectInfo } from "../api/uncxAPI";
 
 import { postLiquiditySelectInfo } from "../api/liquidityAPI";
 import { postTotalLiquiditySelectInfo } from "../api/totalLiquidityAPI";
+import { postGlqTradesSelectInfo } from "../api/glqTradeAPI";
 const call: any = Effects.call;
 const put: any = Effects.put;
 const takeEvery: any = Effects.takeEvery;
@@ -112,6 +113,23 @@ function* postTotalLiquiditySelect(action: any) {
   }
 }
 
+function* postGlqTradesSelect(action: any) {
+  while (true) {
+    try {
+      const postGlqTradesInfo: ReturnType<
+        typeof postGlqTradesSelectInfo
+      > = yield call(postGlqTradesSelectInfo, action.payLoad);
+      yield put({
+        type: "POST_GLQ_TRADES_SUCCESS",
+        payLoad: postGlqTradesInfo,
+      });
+      yield call(delay, 3000);
+    } catch (e) {
+      yield put({ type: "POST_GLQ_TRADES_FAILED" });
+    }
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqSelect);
   yield takeLatest(initialActions.POST_HISTORY_GLQ, postGlqHistory);
@@ -119,8 +137,7 @@ export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_UNCX, postUncxSelect);
 
   yield takeLatest(initialActions.POST_LIQUIDITY, postLiquiditySelect);
-  yield takeLatest(
-    initialActions.POST_TOTAL_LIQUIDITY,
-    postTotalLiquiditySelect
-  );
+  yield takeLatest(initialActions.POST_TOTAL_LIQUIDITY, postTotalLiquiditySelect);
+
+  yield takeLatest(initialActions.POST_GLQ_TRADES, postGlqTradesSelect);
 }
