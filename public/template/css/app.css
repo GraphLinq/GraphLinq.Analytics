@@ -218,6 +218,12 @@
     .blc .tbl th:first-child{border-top-left-radius:10px;}
     .blc .tbl th:last-child{border-top-right-radius:10px;}
     .blc .tbl td{border-top:1px solid #0c0a17;font-size:12px;padding:10px;font-weight:600;}
+    .blc .tbl .ar:hover{background-color:#0e0b1a;text-shadow: 0 0 10px #f20350;}
+    @-webkit-keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
+    @-moz-keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
+    @-o-keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
+    @keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
+    .blc .tbl .ar {-webkit-animation:newtrade 1s;-moz-animation:newtrade 1s;-o-animation:newtrade 1s;animation:newtrade 1s;}
 
 
 /************* x **************/
