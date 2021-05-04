@@ -115,7 +115,7 @@ export function formatCur(num: number, min: number, max: number) {
     return curFormatter.format(num);
 }
 
-export function formatDelta(num: any, min: number, max: number) {
+export function formatDelta(num: number, min: number, max: number) {
     const deltaConfig = {
         style: 'percent',
         minimumFractionDigits: min,

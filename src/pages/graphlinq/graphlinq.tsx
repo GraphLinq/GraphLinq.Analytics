@@ -43,8 +43,8 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
             <td><span className="gre">Buy</span></td>
             <td>--</td>
             <td>--</td>
-            <td>{item.amount0Out}</td>
-            <td>{item.amount1In}</td>
+            <td>{formatSupply(item.amount0Out, 0, 0)}</td>
+            <td>{formatSupply(item.amount1In, 8, 8)}</td>
             <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
             <td>-</td>
         </tr>
@@ -60,8 +60,8 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
             <td><span className="red">Sell</span></td>
             <td>--</td>
             <td>--</td>
-            <td>{item.amount0In}</td>
-            <td>{item.amount1Out}</td>
+            <td>{formatSupply(item.amount0In, 0, 0)}</td>
+            <td>{formatSupply(item.amount1Out, 8, 8)}</td>
             <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
             <td>-</td>
         </tr>

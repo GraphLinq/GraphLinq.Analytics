@@ -16,5 +16,5 @@ const tabs = [
       name: 'Staking',
     },
   ]
-  
+
   export default tabs
