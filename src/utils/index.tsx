@@ -103,58 +103,58 @@ export function getDecimalsAmount (amount: number)  {
 }
 
 export function formatCur(num: number, min: number, max: number) {
-    const formatConfig = {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: min,
-        maximumFractionDigits: max,
-        currencyDisplay: "symbol",
-    };
-    const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
+  const formatConfig = {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: min,
+    maximumFractionDigits: max,
+    currencyDisplay: "symbol",
+  };
+  const curFormatter = new Intl.NumberFormat("en-US", formatConfig);
 
-    return curFormatter.format(num);
+  return curFormatter.format(num);
 }
 
 export function formatDelta(num: number, min: number, max: number) {
-    const deltaConfig = {
-        style: 'percent',
-        minimumFractionDigits: min,
-        maximumFractionDigits: max,
-    };
-    const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
+  const deltaConfig = {
+    style: 'percent',
+    minimumFractionDigits: min,
+    maximumFractionDigits: max,
+  };
+  const deltaFormatter = new Intl.NumberFormat("en-US",deltaConfig);
 
-    return deltaFormatter.format(num);
+  return deltaFormatter.format(num);
 }
 
 export function formatSupply(num: number, min: number, max: number) {
-    const supplyConfig = {
-        minimumFractionDigits: min,
-        maximumFractionDigits: max,
-    }
-    const supplyFormatter = new Intl.NumberFormat("en-US", supplyConfig);
+  const supplyConfig = {
+    minimumFractionDigits: min,
+    maximumFractionDigits: max,
+  }
+  const supplyFormatter = new Intl.NumberFormat("en-US", supplyConfig);
 
-    return supplyFormatter.format(num);
+  return supplyFormatter.format(num);
 }
 
 export function deltaDirection(current: number, history: number) {
-    const calc = ((current - history) / history);
-    if (calc >= 0) {
-        const color  = 'gr',
-              caret  = <FaCaretUp />,
-              delta = formatDelta(Math.abs(calc), 2, 2);
-        return {
-            color,
-            caret,
-            delta,
-        };
-    } else {
-        const color  = 're',
-              caret  = <FaCaretDown />,
-              delta  = formatDelta(Math.abs(calc), 2, 2);
-        return {
-            color,
-            caret,
-            delta,
-        };
-    }
+  const calc = ((current - history) / history);
+  if (calc >= 0) {
+    const color  = 'gr',
+      caret  = <FaCaretUp />,
+      delta = formatDelta(Math.abs(calc), 2, 2);
+    return {
+      color,
+      caret,
+      delta,
+    };
+  } else {
+    const color  = 're',
+      caret  = <FaCaretDown />,
+      delta  = formatDelta(Math.abs(calc), 2, 2);
+    return {
+      color,
+      caret,
+      delta,
+    };
+  }
 }

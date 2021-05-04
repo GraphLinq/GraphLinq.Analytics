@@ -135,9 +135,7 @@ export default function* mySaga() {
   yield takeLatest(initialActions.POST_HISTORY_GLQ, postGlqHistory);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUnclSelect);
   yield takeLatest(initialActions.POST_SELECTED_UNCX, postUncxSelect);
-
   yield takeLatest(initialActions.POST_LIQUIDITY, postLiquiditySelect);
   yield takeLatest(initialActions.POST_TOTAL_LIQUIDITY, postTotalLiquiditySelect);
-
   yield takeLatest(initialActions.POST_GLQ_TRADES, postGlqTradesSelect);
 }

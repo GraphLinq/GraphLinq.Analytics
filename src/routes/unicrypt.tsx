@@ -16,5 +16,5 @@ const tabs = [
       name: 'Charts',
     },
   ]
-  
+
   export default tabs

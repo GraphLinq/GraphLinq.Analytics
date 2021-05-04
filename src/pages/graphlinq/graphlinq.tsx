@@ -5,10 +5,18 @@ import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { formatCur, formatSupply, deltaDirection } from '../../utils';
 import Moment from 'react-moment';
+import moment from 'moment-timezone';
+import jstz from 'jstz';
 
 interface GlqProps {
-
 }
+
+// TODO: refactor and move so all projects can access this
+Moment.globalFormat = "YYYY-MM-DD HH:mm:ss";
+const m = moment();
+const tzName = jstz.determine().name();
+const z = moment().format("Z");
+const zz = m.tz(tzName).zoneAbbr();
 
 const circSupply = 323000000;
 const maxSupply  = 500000000;
@@ -22,7 +30,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
-    dispatch({type: POST_GLQ_TRADES, payLoad: glqTrades })
+    dispatch({ type: POST_GLQ_TRADES, payLoad: glqTrades })
   }, [])
 
   const dc = glqState.total_supply * glqState.price;
@@ -36,16 +44,17 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
       return (
         <tr className="ar" key={index}>
             <td>
-              <Moment format="YYYY-MM-DD HH:mm:ss">
+              <Moment interval={0}>
                 {item.timestamp*1000}
               </Moment>
             </td>
             <td><span className="gre">Buy</span></td>
-            <td>--</td>
-            <td>--</td>
+            <td>-</td>
+            <td>-</td>
             <td>{formatSupply(item.amount0Out, 0, 0)}</td>
             <td>{formatSupply(item.amount1In, 8, 8)}</td>
             <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
+            <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
             <td>-</td>
         </tr>
       )
@@ -53,16 +62,17 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
         return (
       <tr className="ar" key={index}>
             <td>
-              <Moment format="YYYY-MM-DD HH:mm:ss">
+              <Moment interval={0}>
                 {item.timestamp*1000}
               </Moment>
             </td>
             <td><span className="red">Sell</span></td>
-            <td>--</td>
-            <td>--</td>
+            <td>-</td>
+            <td>-</td>
             <td>{formatSupply(item.amount0In, 0, 0)}</td>
             <td>{formatSupply(item.amount1Out, 8, 8)}</td>
             <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length-10)}</a></td>
+            <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
             <td>-</td>
         </tr>
     )}
@@ -215,7 +225,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
               </div>
             </div>
           </div>
-          {<div className="blc cl100">
+          <div className="blc cl100">
             <div>
               <div className="top">
                 <small>Last {glqTrades.length} trades</small>
@@ -229,13 +239,14 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     <table>
                       <thead>
                         <tr>
-                          <th>Date</th>
+                          <th>Date ({z} {zz})</th>
                           <th>Type</th>
                           <th>Price USD</th>
                           <th>Price ETH</th>
                           <th>Amount GLQ</th>
                           <th>Total ETH</th>
                           <th>Maker</th>
+                          <th>Exch</th>
                           <th>Other</th>
                         </tr>
                       </thead>
@@ -244,13 +255,13 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                           return getBuyorSell(item, index)
                         })}
                       </tbody>
-                    }
+                      }
                     </table>
                   </div>
                 </div>
               </div>
             </div>
-          </div>}
+          </div>
         </div>
       </div>
     </main>
