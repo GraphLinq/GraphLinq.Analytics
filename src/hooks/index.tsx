@@ -1,5 +1,5 @@
 import { useWeb3React as useWeb3ReactCore } from '@web3-react/core';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef  } from 'react';
 import { isMobile } from 'react-device-detect';
 import { injected } from '../connectors';
 import { NetworkContextName } from '../constants';
@@ -79,4 +79,12 @@ export function useInactiveListener(suppress = false) {
     }
     return undefined
   }, [active, error, suppress, activate])
+}
+
+export function usePrevious<T>(value: T): T {
+  const ref: any = useRef<T>();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 }

@@ -223,13 +223,16 @@
     @-moz-keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
     @-o-keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
     @keyframes newtrade{from{background-color:rgb(242,3,80,0.2);}to{background-color:inherit;}from{color:rgb(242,3,80,0.2);}to{color:inherit;}}
-    .blc .tbl .ar {-webkit-animation:newtrade 1s;-moz-animation:newtrade 1s;-o-animation:newtrade 1s;animation:newtrade 1s;}
+    .blc .tbl .ar {-webkit-animation:newtrade 1.5s;-moz-animation:newtrade 1.5s;-o-animation:newtrade 1.5s;animation:newtrade 1.5s;}
 
 
 /************* x **************/
 
     #x{position:fixed;width:calc(100vw - 250px);height:calc(300px + 150 * (100vw - 320px) / 1080);opacity:.5;top:0;left:250px;z-index:-1;transform:translateY(-30%);pointer-events:none;}
     #x canvas{width:100%!important;height:calc(300px + 150 * (100vw - 320px) / 1080)!important;}
+
+/************other************/
+    .float-right{float: right;}
 
 
 /*----------------------------------------------------< MEDIA QUERIES >---------------------------------------------------*/
