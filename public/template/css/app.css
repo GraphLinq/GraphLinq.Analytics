@@ -264,7 +264,7 @@
     .tjcenter {text-align: center;}
     .tclearfix::after {content: ""!important;clear: both!important;display: table!important;}
     .settings-modal:hover {color: #f20350;}
-    .tmp-spin {height: 350px;margin: auto;padding: 25px;right: auto;left: auto;text-align: center;}
+    .tmp-spin {height: 350px;margin: auto;padding: 10px;right: auto;left: auto;text-align: center;}
     .sort-disabled {cursor: not-allowed;}
 
 /*----------------------------------------------------< MEDIA QUERIES >---------------------------------------------------*/
