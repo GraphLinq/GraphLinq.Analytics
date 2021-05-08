@@ -341,18 +341,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       </h2>
                     </div>
                     <div className="tzcenter">
-                      <GaugeChart id="gauge-chart1"
-                        animate={true}
-                        nrOfLevels={4}
-                        percent={(isNaN(gaugePr) ? .5 : gaugePr)}
-                        needleColor="#f20350"
-                        style={{ width: '33%', margin: 'auto', top: '-25px' }}
-                        colors={['#ff052a', '#38ff17']}
-                        arcsLength={[0.5, 0.5, 0.5, 0.5]}
-                        hideText={true}
-                        arcPadding={0.04}
-                        cornerRadius={10}
-                      />
+                      &nbsp;
                     </div>
                     <div className="tzright">
                       <GaugeChart id="gauge-chart1"
@@ -374,11 +363,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       &nbsp;
                     </div>
                     <div className="tcenter">
-                    <small>
-                      <span className="red"><FaCaretDown />&nbsp;{(isNaN(sellPr) ? 50 : sellPr)}%</span>
-                          &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span className="gre"><FaCaretUp />&nbsp;{(isNaN(buyPr) ? 50 : buyPr)}%</span>
-                      </small>
+                      &nbsp;
                     </div>
                     <div className="tright">
                       <small>
@@ -393,7 +378,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                       &nbsp;
                     </div>
                     <div className="tbcenter">
-                      <small>{(isNaN(sellPr) ? 'Loading...' : 'Buy / Sell Pressure')}</small>
+                     &nbsp;
                     </div>
                     <div className="tbright">
                       <small>{(isNaN(sellPr) ? 'Loading...' : 'Buy / Sell Pressure')}</small>
