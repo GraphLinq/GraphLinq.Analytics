@@ -1,15 +1,14 @@
 import * as Effects from "redux-saga/effects";
-
 import * as initialActions from "../store/actionNames/glqAction";
 import axios from "axios";
 import { postGlqSelectInfo } from "../api/glqAPI";
 import { postGlqHistoryInfo } from "../api/glqHistoryAPI";
 import { postUnclSelectInfo } from "../api/unclAPI";
 import { postUncxSelectInfo } from "../api/uncxAPI";
-
 import { postLiquiditySelectInfo } from "../api/liquidityAPI";
 import { postTotalLiquiditySelectInfo } from "../api/totalLiquidityAPI";
 import { postGlqTradesSelectInfo } from "../api/glqTradeAPI";
+
 const call: any = Effects.call;
 const put: any = Effects.put;
 const takeEvery: any = Effects.takeEvery;

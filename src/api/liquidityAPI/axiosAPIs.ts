@@ -7,10 +7,10 @@ export function result(endPointURL: any) {
 }
 
 export const postLiquiditySelectInfo = async (state: any): Promise<any> => {
-    try {
-        const response = await axios.post(URL);
-        return response.data;
-    } catch (error) {
-        console.log(error, 'axios error')
-    }
+  try {
+    const response = await axios.post(URL);
+    return response.data;
+  } catch (error) {
+    console.log(error, 'axios error')
+  }
 }

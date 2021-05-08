@@ -3,7 +3,6 @@ import GraphLinqContent from './graphlinq';
 import HeaderLayout from './header'
 
 interface GlqLinqProps {
-
 }
 
 const GraphLinq: React.FC<GlqLinqProps> = ({ }) => {

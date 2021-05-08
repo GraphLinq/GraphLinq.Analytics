@@ -1,25 +1,22 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { POST_SELECTED_GLQ } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import { NavLink, Route } from 'react-router-dom';
-import tabs from '../../routes/graphlinq';
+import tabs from '../../routes/polygon';
 import { Link } from '@chakra-ui/react';
 import { SearchBar } from '../../components/SearchBar';
-import { formatCur } from '../../utils';
 
 interface HeaderLayoutProps {
 }
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
 
-  const dispatch = useDispatch();
-  const glqState = useSelector((state: RootState) => state.glqSelect || {});
+  //const dispatch = useDispatch();
+  //const glqState = useSelector((state: RootState) => state.glqSelect || {});
 
-  useEffect(() => {
-    dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
-  }, [])
-  // console.log("Graphliq content glqState::", glqState)
+  //useEffect(() => {
+  //  dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
+  //}, [])
 
   return (
     <header id="h">
@@ -32,11 +29,11 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
               <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65" />
             </svg>
           </button>
-          <div className="illu"><img src="/template/img/graphlinq.svg" alt="graphliq" /></div>
+          <div className="illu"><img src="/template/img/polygon-small.svg" alt="polygon" /></div>
           <div className="tit">
             <h1>Polygon</h1>
             <div className="pri">
-              MATIC : <strong>{formatCur(glqState.price, 2, 12)}</strong>
+              MATIC : <strong>Coming Soon...</strong>
             </div>
           </div>
         </div>

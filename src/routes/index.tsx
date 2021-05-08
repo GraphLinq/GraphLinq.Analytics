@@ -11,8 +11,8 @@ const Analytics = lazy(() => import('../pages/analytics'))
  */
 const routes = [
   {
-    path: '/home', // the url
-    component: Home, // view rendered
+    path: '/home',
+    component: Home,
   },
   {
     path: '/analytics',

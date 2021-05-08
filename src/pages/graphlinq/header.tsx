@@ -19,7 +19,6 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
   }, [])
-  // console.log("Graphliq content glqState::", glqState)
 
   return (
     <header id="h">
@@ -36,7 +35,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
           <div className="tit">
             <h1>GraphLinq</h1>
             <div className="pri">
-              GLQ : <strong>{formatCur(glqState.price, 2, 12)}</strong>
+              GLQ : <strong>{formatCur(glqState.price, 2, 5)}</strong>
             </div>
           </div>
         </div>

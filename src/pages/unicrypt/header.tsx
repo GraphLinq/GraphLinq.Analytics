@@ -26,10 +26,6 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
     dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState })
     dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
   }, [])
-  // console.log("unicrypt header unclstate:: ", unclState)
-  // console.log("unicrypt header uncxState:: ", uncxState)
-  // console.log("unicrypt header liquidityState:: ", liquidityState)
-  // console.log("unicrypt header totalLiquidityState:: ", totalLiquidityState)
 
   return (
     <header id="h">

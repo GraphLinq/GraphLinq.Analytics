@@ -26,22 +26,12 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState })
     dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
   }, [])
-  // console.log("unicrypt content unclstate:: ", unclState)
-  // console.log("unicrypt content uncxState:: ", uncxState)
-  // console.log("unicrypt content liquidityState:: ", liquidityState)
-  //console.log("unicrypt content totalLiquidityState:: ", totalLiquidityState)
 
   const newArr = totalLiquidityState.map((item: any, index: number) => {
     return { x: index, y: parseFloat(item).toFixed(2) }
   });
 
   const reArr = totalLiquidityState.map((item: any, index: number) => {
-    // TODO: multiple by price and get $ value?
-    // It kinda doesn't make sense that the title shows the dollar amount and graph shows total tokens?
-    //return { x: index, y:('$' + parseFloat(item).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')) }
-    // displaying as is for now or we just hide this?
-    // Hiding this for now...
-
     return { x: index, y: parseFloat(item).toFixed(2) }
   });
 
@@ -83,18 +73,18 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
   return (
     <main id="m">
-    <div className="blc cl50">
-    <div>
-      <div className="top">
-        <h2>
-          <strong>
-            Coming Soon...
-          </strong>
-        </h2>
+      <div className="blc cl50">
+        <div>
+          <div className="top">
+            <h2>
+              <strong>
+                Coming Soon...
+              </strong>
+            </h2>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  </main>
+    </main>
     // <main id="m">
     //   <div>
     //     <div className="cl">
