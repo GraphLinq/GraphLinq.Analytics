@@ -27,5 +27,6 @@ yarn-error.log*
 .prod
 .pre
 package-lock.json
+yarn.lock
 dist/
 

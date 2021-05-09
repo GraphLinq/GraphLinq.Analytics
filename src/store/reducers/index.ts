@@ -6,7 +6,9 @@ import {
   uncxSelect,
   liquiditySelect,
   totalLiquiditySelect,
-  postGlqTradesSelect
+  postGlqTradesSelect,
+  postUncxTradesSelect,
+  uncxHistory
 } from "./glqReducers";
 
 const rootReducer = combineReducers({
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   uncxSelect,
   liquiditySelect,
   totalLiquiditySelect,
-  postGlqTradesSelect
+  postGlqTradesSelect,
+  postUncxTradesSelect,
+  uncxHistory
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -60,3 +60,21 @@ export const postGlqTradesSelect = (state = [], action: any) => {
       return state;
   }
 };
+
+export const postUncxTradesSelect = (state = [], action: any) => {
+  switch (action.type) {
+    case "POST_UNCX_TRADES_SUCCESS":
+      return action.payLoad;
+    default:
+      return state;
+  }
+};
+
+export const uncxHistory = (state = {}, action: any) => {
+  switch (action.type) {
+    case "POST_HISTORY_UNCX_SUCCESS":
+        return action.payLoad;
+    default:
+        return state;
+  }
+}

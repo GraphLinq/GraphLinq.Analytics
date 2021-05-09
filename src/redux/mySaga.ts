@@ -8,6 +8,8 @@ import { postUncxSelectInfo } from "../api/uncxAPI";
 import { postLiquiditySelectInfo } from "../api/liquidityAPI";
 import { postTotalLiquiditySelectInfo } from "../api/totalLiquidityAPI";
 import { postGlqTradesSelectInfo } from "../api/glqTradeAPI";
+import { postUncxTradesSelectInfo } from "../api/uncxTradeAPI";
+import { postUncxHistoryInfo } from "../api/uncxHistoryAPI";
 
 const call: any = Effects.call;
 const put: any = Effects.put;
@@ -129,6 +131,38 @@ function* postGlqTradesSelect(action: any) {
   }
 }
 
+function* postUncxTradesSelect(action: any) {
+  while (true) {
+    try {
+      const postUncxTradesInfo: ReturnType<
+        typeof postUncxTradesSelectInfo
+      > = yield call(postUncxTradesSelectInfo, action.payLoad);
+      yield put({
+        type: "POST_UNCX_TRADES_SUCCESS",
+        payLoad: postUncxTradesInfo,
+      });
+      yield call(delay, 3000);
+    } catch (e) {
+      yield put({ type: "POST_UNCX_TRADES_FAILED" });
+    }
+  }
+}
+
+function* postUncxHistory(action: any) {
+  while (true) {
+    try {
+      const uncxHistoryInfo: ReturnType<typeof postUncxHistoryInfo> = yield call(
+        postUncxHistoryInfo,
+        action.payLoad
+      );
+      yield put({ type: "POST_HISTORY_UNCX_SUCCESS", payLoad: uncxHistoryInfo });
+      yield call(delay, 3000);
+    } catch (e) {
+      yield put({ type: "POST_HISTORY_UNCX_FAILED" });
+    }
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqSelect);
   yield takeLatest(initialActions.POST_HISTORY_GLQ, postGlqHistory);
@@ -137,4 +171,6 @@ export default function* mySaga() {
   yield takeLatest(initialActions.POST_LIQUIDITY, postLiquiditySelect);
   yield takeLatest(initialActions.POST_TOTAL_LIQUIDITY, postTotalLiquiditySelect);
   yield takeLatest(initialActions.POST_GLQ_TRADES, postGlqTradesSelect);
+  yield takeLatest(initialActions.POST_UNCX_TRADES, postUncxTradesSelect);
+  yield takeLatest(initialActions.POST_HISTORY_UNCX, postUncxHistory);
 }
