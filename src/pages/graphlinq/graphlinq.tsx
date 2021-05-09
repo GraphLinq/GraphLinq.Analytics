@@ -104,18 +104,17 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     }
   } )
 
-  let buyArr = [];
+  let buyArr  = [];
   let sellArr = [];
 
   if (glqTrades && glqTrades.length) {
-    buyArr = glqTrades.filter((e: any) => (e.amount0In === 0))
+    buyArr  = glqTrades.filter((e: any) => (e.amount0In === 0))
     sellArr = glqTrades.filter((e: any) => (e.amount1In === 0))
   }
 
-  const buyPr  : any = ((buyArr.length / glqTrades.length) * 100).toFixed(2);
-  const sellPr : any = ((sellArr.length / glqTrades.length) * 100).toFixed(2);
-  // TODO: Use Largest Remainder Method and add/subtract a few percent abbove/below 50 to Pressure
-  const gaugePr: any = parseFloat(buyPr) / 100.0;
+  const buyPr   = parseFloat(((buyArr.length / glqTrades.length) * 100).toFixed(2));
+  const sellPr  = parseFloat(((sellArr.length / glqTrades.length) * 100).toFixed(2));
+  const gaugePr = buyPr / 100.0;
 
   function getBuyorSell(item: any, index: number) {
     const isNew = (glqTradesData.length - prevCount) > index;
@@ -350,11 +349,11 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                         percent={(isNaN(gaugePr) ? .5 : gaugePr)}
                         needleColor="#f20350"
                         style={{ width: '33%', margin: 'auto', top: '-25px' }}
-                        colors={['#ff052a', '#38ff17']}
-                        arcsLength={[0.5, 0.5]}
+                        colors={['#38ff17', '#ff052a']}
+                        arcsLength={[(isNaN(buyPr) ? 50 : buyPr), (isNaN(buyPr) ? 50 : sellPr)]}
                         hideText={true}
-                        arcPadding={0.04}
-                        cornerRadius={10}
+                        arcPadding={0.06}
+                        cornerRadius={8}
                       />
                     </div>
                   </div>
@@ -367,9 +366,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     </div>
                     <div className="tright">
                       <small>
-                        <span className="red"><FaCaretDown />&nbsp;{(isNaN(sellPr) ? 50 : sellPr)}%</span>
-                          &nbsp;&nbsp;&nbsp;&nbsp;
                         <span className="gre"><FaCaretUp />&nbsp;{(isNaN(buyPr) ? 50 : buyPr)}%</span>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span className="red"><FaCaretDown />&nbsp;{(isNaN(sellPr) ? 50 : sellPr)}%</span>
                       </small>
                     </div>
                   </div>
