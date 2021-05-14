@@ -158,3 +158,11 @@ export function deltaDirection(current: number, history: number) {
     };
   }
 }
+
+export function truncateString(str: string, num: number) {
+  let length = str.length;
+  let numEnd = str.length - num;
+  let subStr1 = str.substring(0, num);
+  let subStr2 = str.substring(numEnd, length);
+  return subStr1 + "..." + subStr2;
+}

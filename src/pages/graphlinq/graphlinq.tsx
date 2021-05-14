@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { POST_SELECTED_GLQ, POST_HISTORY_GLQ, POST_GLQ_TRADES } from '../../store/actionNames/glqAction';
+import { POST_SELECTED_GLQ, POST_HISTORY_GLQ, POST_GLQ_TRADES, POST_SELECTED_ETH_PRICE } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
-import { formatCur, formatSupply, deltaDirection } from '../../utils';
+import { formatCur, formatSupply, deltaDirection, truncateString } from '../../utils';
 import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
@@ -68,6 +68,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
   const glqTrades = useSelector((state: RootState) => state.postGlqTradesSelect);
+  const ethPrice = useSelector((state: RootState) => state.ethPriceSelect);
   const [count, setCount] = useState(0);
   const prevCount: number = usePrevious<number>(count);
 
@@ -75,6 +76,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
     dispatch({ type: POST_GLQ_TRADES, payLoad: glqTrades })
+    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice})
   }, []);
 
   useEffect(() => {
@@ -119,6 +121,12 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   function getBuyorSell(item: any, index: number) {
     const isNew = (glqTradesData.length - prevCount) > index;
     if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+      //hacky af USD from ETH price calculation
+      const totalUSDSpentB = ethPrice * item.amount1In;
+      const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+      const totalUSDwFeesB = totalUSDTradeB * 1.005;
+      // hacky af ETH amount
+      const totalEthSpendB = totalUSDwFeesB / ethPrice;
       return (
         <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
           <td>
@@ -127,16 +135,23 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
             </Moment>
           </td>
           <td><span className="gre">Buy</span></td>
-          <td>-</td>
-          <td>-</td>
+          <td>{formatSupply(totalUSDwFeesB, 4, 4)}</td>
+          <td>{formatSupply(totalEthSpendB, 6, 6)}</td>
           <td>{formatSupply(item.amount0Out, 0, 0)}</td>
           <td>{formatSupply(item.amount1In, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length - 7)}</a></td>
-          <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          <td><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
+          <td><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          {/*<td className="etherscan"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>*/}
           <td>-</td>
         </tr>
       )
     } else if ((item.amount0In > 0) && (item.amount1Out > 0)) {
+      //hacky af USD from ETH price calculation
+      const totalUSDSpentS = ethPrice * item.amount1Out;
+      const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+      const totalUSDwFeesS = totalUSDTradeS * 1.005;
+      // hacky af ETH amount
+      const totalEthSpendS = totalUSDwFeesS / ethPrice;
       return (
         <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
           <td>
@@ -145,12 +160,13 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
             </Moment>
           </td>
           <td><span className="red">Sell</span></td>
-          <td>-</td>
-          <td>-</td>
+          <td>{formatSupply(totalUSDwFeesS, 4, 4)}</td>
+          <td>{formatSupply(totalEthSpendS, 6, 6)}</td>
           <td>{formatSupply(item.amount0In, 0, 0)}</td>
           <td>{formatSupply(item.amount1Out, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length - 7)}</a></td>
-          <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          <td><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
+          <td><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          {/*<td className="etherscan"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>*/}
           <td>-</td>
         </tr>
       )

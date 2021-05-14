@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/83c5816ca5f37df77a048a87642d889ed67eb5c5a36f2022ad514640b7471dfb/uniswap/total_liquidity_v2`;
+const URL = `https://api-hosted.graphlinq.io/79d2fb12383272485f12f8fa0feae1cc0f41a8e0e5016cb361913631b5a409b1/uniswap/eth/price`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL)
 }
 
-export const postTotalLiquiditySelectInfo = async (state: any): Promise<any> => {
+export const postEthPriceSelectInfo = async (partient: any): Promise<any> => {
   try {
     const response = await axios.post(URL);
     return response.data;

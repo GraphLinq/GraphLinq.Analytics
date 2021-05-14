@@ -8,7 +8,8 @@ import {
   totalLiquiditySelect,
   postGlqTradesSelect,
   postUncxTradesSelect,
-  uncxHistory
+  uncxHistory,
+  ethPriceSelect
 } from "./glqReducers";
 
 const rootReducer = combineReducers({
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   totalLiquiditySelect,
   postGlqTradesSelect,
   postUncxTradesSelect,
-  uncxHistory
+  uncxHistory,
+  ethPriceSelect
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

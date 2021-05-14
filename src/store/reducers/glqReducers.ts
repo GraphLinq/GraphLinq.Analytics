@@ -78,3 +78,12 @@ export const uncxHistory = (state = {}, action: any) => {
         return state;
   }
 }
+
+export const ethPriceSelect = (state = {}, action: any) => {
+  switch (action.type) {
+    case "POST_SELECTED_ETH_PRICE_SUCCESS":
+        return action.payLoad;
+    default:
+        return state;
+  }
+}

@@ -48,9 +48,9 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
         <nav id="n">
           <ul>
             <li className="ac"><a href="/analytics/graphlinq" title=""><i className="fal fa-chart-line" /><span>Overview</span></a></li>
-            <li><a target="_blank" href="https://ide.graphlinq.io" title="GraphLinq IDE"><i className="fal fa-chart-network" /><span>Graph IDE</span></a></li>
-            <li><a target="_blank" href="https://app.graphlinq.io" title="GraphLinq Interface"><i className="fal fa-tachometer" /><span>Dashboard</span></a></li>
-            <li><a target="_blank" href="https://docs.graphlinq.io" title="GraphLinq Documentation"><i className="fal fa-folder-tree" /><span>Documentation</span></a></li>
+            <li><a rel="noreferrer" target="_blank" href="https://ide.graphlinq.io" title="GraphLinq IDE"><i className="fal fa-chart-network" /><span>Graph IDE</span></a></li>
+            <li><a rel="noreferrer" target="_blank" href="https://app.graphlinq.io" title="GraphLinq Interface"><i className="fal fa-tachometer" /><span>Dashboard</span></a></li>
+            <li><a rel="noreferrer" target="_blank" href="https://docs.graphlinq.io" title="GraphLinq Documentation"><i className="fal fa-folder-tree" /><span>Documentation</span></a></li>
           </ul>
         </nav>
         <div id="sl">

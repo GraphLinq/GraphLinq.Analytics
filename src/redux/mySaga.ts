@@ -10,6 +10,7 @@ import { postTotalLiquiditySelectInfo } from "../api/totalLiquidityAPI";
 import { postGlqTradesSelectInfo } from "../api/glqTradeAPI";
 import { postUncxTradesSelectInfo } from "../api/uncxTradeAPI";
 import { postUncxHistoryInfo } from "../api/uncxHistoryAPI";
+import { postEthPriceSelectInfo } from "../api/ethPriceAPI";
 
 const call: any = Effects.call;
 const put: any = Effects.put;
@@ -163,6 +164,21 @@ function* postUncxHistory(action: any) {
   }
 }
 
+function* postEthPriceSelect(action: any) {
+  while (true) {
+    try {
+      const ethPriceSelectInfo: ReturnType<typeof postEthPriceSelectInfo> = yield call(
+        postEthPriceSelectInfo,
+        action.payLoad
+      );
+      yield put({ type: "POST_SELECTED_ETH_PRICE_SUCCESS", payLoad: ethPriceSelectInfo });
+      yield call(delay, 3000);
+    } catch (e) {
+      yield put({ type: "POST_SELECTED_ETH_PRICE_FAILED" });
+    }
+  }
+}
+
 export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqSelect);
   yield takeLatest(initialActions.POST_HISTORY_GLQ, postGlqHistory);
@@ -173,4 +189,5 @@ export default function* mySaga() {
   yield takeLatest(initialActions.POST_GLQ_TRADES, postGlqTradesSelect);
   yield takeLatest(initialActions.POST_UNCX_TRADES, postUncxTradesSelect);
   yield takeLatest(initialActions.POST_HISTORY_UNCX, postUncxHistory);
+  yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postEthPriceSelect);
 }

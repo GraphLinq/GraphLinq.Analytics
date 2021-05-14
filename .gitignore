@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# .gitignore basic stuff
 
 # dependencies
 /node_modules
@@ -17,16 +17,23 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.swp
 
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# enviornment stuff
 .env
 .eslintcache
 .prod
 .pre
+
+# lock files
 package-lock.json
 yarn.lock
+
+# more misc
 dist/
 

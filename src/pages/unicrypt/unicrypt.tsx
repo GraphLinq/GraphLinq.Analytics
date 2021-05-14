@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY, POST_UNCX_TRADES, POST_HISTORY_UNCX } from '../../store/actionNames/glqAction';
+import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY, POST_UNCX_TRADES, POST_HISTORY_UNCX, POST_SELECTED_ETH_PRICE } from '../../store/actionNames/glqAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
 import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot } from 'react-vis';
 import { Box } from '@chakra-ui/react';
-import { formatCur, formatSupply, deltaDirection } from '../../utils';
+import { formatCur, formatSupply, deltaDirection, truncateString } from '../../utils';
 import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
 import { usePrevious } from '../../hooks';
 import Loader from "react-loader-spinner";
 import GaugeChart from 'react-gauge-chart';
-import { FaCaretUp, FaCaretDown, FaCog } from 'react-icons/fa';
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
+
 
 interface UnclProps {
 
@@ -77,6 +78,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const liquidityState = useSelector((state: RootState) => state.liquiditySelect[0] || {});
   const uncxHistory = useSelector((state: RootState) => state.uncxHistory || {});
   const uncxTrades = useSelector((state: RootState) => state.postUncxTradesSelect);
+  const ethPrice = useSelector((state: RootState) => state.ethPriceSelect);
   const [count, setCount] = useState(0);
   const prevCount: number = usePrevious<number>(count);
 
@@ -87,6 +89,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
     dispatch({ type: POST_HISTORY_UNCX, payLoad: uncxHistory })
     dispatch({ type: POST_UNCX_TRADES, payLoad: uncxTrades })
+    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice})
   }, [])
 
   useEffect(() => {
@@ -94,7 +97,6 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   }, [uncxTrades && uncxTrades.length]);
 
   const dc = uncxState.total_supply * uncxState.price;
-  const tb = maxSupply - uncxState.total_supply;
   const pd = deltaDirection(uncxState.price, uncxHistory.price);
   const hd = deltaDirection(uncxState.holders, uncxHistory.holders);
   const vd = deltaDirection(uncxState.volume, uncxHistory.volume);
@@ -113,6 +115,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   item.amount1Out === 0 ? parseFloat(item.amount1In) : parseFloat(item.amount1Out),
       to: item.to,
       from: item.from,
+      transactionHash: item.transactionHash,
     }
   } )
 
@@ -131,39 +134,51 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   function getBuyorSell(item: any, index: number) {
     const isNew = (uncxTradesData.length - prevCount) > index;
     if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+      //hacky af USD from ETH price calculation
+      const totalUSDSpentB = ethPrice * item.amount1In;
+      const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+      const totalUSDwFeesB = totalUSDTradeB * 1.005;
+      // hacky af ETH amount
+      const totalEthSpendB = totalUSDwFeesB / ethPrice;
       return (
         <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
-          <td>
+          <td className="trade-dates">
             <Moment interval={0}>
               {item.timestamp * 1000}
             </Moment>
           </td>
-          <td><span className="gre">Buy</span></td>
-          <td>-</td>
-          <td>-</td>
-          <td>{formatSupply(item.amount0Out, 0, 0)}</td>
-          <td>{formatSupply(item.amount1In, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length - 7)}</a></td>
-          <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
-          <td>-</td>
+          <td className="trade-types"><span className="gre">Buy</span></td>
+          <td className="trade-usds">{formatSupply(totalUSDwFeesB, 4, 4)}</td>
+          <td className="trade-eths">{formatSupply(totalEthSpendB, 4, 4)}</td>
+          <td className="trade-amounts">{formatSupply(item.amount0Out, 0, 0)}</td>
+          <td className="trade-eth-totals">{formatSupply(item.amount1In, 6, 6)}</td>
+          <td className="trade-makers"><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
+          <td className="trade-exs"><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          <td className="etherscan trade-others"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>
         </tr>
       )
     } else if ((item.amount0In > 0) && (item.amount1Out > 0)) {
+      //hacky af USD from ETH price calculation
+      const totalUSDSpentS = ethPrice * item.amount1Out;
+      const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+      const totalUSDwFeesS = totalUSDTradeS * 1.005;
+      // hacky af ETH amount
+      const totalEthSpendS = totalUSDwFeesS / ethPrice;
       return (
         <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
-          <td>
+          <td className="trade-dates">
             <Moment interval={0}>
               {item.timestamp * 1000}
             </Moment>
           </td>
-          <td><span className="red">Sell</span></td>
-          <td>-</td>
-          <td>-</td>
-          <td>{formatSupply(item.amount0In, 0, 0)}</td>
-          <td>{formatSupply(item.amount1Out, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} target="_blank">...{item.to.substr(item.to.length - 7)}</a></td>
-          <td><a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
-          <td>-</td>
+          <td className="trade-types"><span className="red">Sell</span></td>
+          <td className="trade-usds">{formatSupply(totalUSDwFeesS, 4, 4)}</td>
+          <td className="trade-eths">{formatSupply(totalEthSpendS, 4, 4)}</td>
+          <td className="trade-amounts">{formatSupply(item.amount0In, 0, 0)}</td>
+          <td className="trade-eth-totals">{formatSupply(item.amount1Out, 6, 6)}</td>
+          <td className="trade-makers"><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
+          <td className="trade-exs"><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
+          <td className="etherscan trade-others"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>
         </tr>
       )
     }
@@ -211,7 +226,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
         // If the number is bigger or equal do the abbreviation
         if(size <= num) {
              num = Math.round(num*decPlaces/size)/decPlaces;
-             if((num == 1000) && (i < abbrev.length - 1)) {
+             if((num === 1000) && (i < abbrev.length - 1)) {
                  num = 1;
                  i++;
              }
@@ -352,7 +367,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <h2>
                   <strong>
                     {
-                      uncxState.volume ? formatCur(uncxState.volume, 0, 0) : 'Loading...'
+                      uncxState.volume ? formatCur(uncxState.volume * uncxState.price, 0, 0) : 'Loading...'
                     }
                   </strong>
                   {uncxState.volume
@@ -387,9 +402,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {
+                    {/*
                       uncxState.price ? formatCur(uncxState.ath, 2, 2) : 'Loading...'
-                    }
+                    */}
                   </strong>
                 </h2>
               </div>
@@ -534,7 +549,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     <table>
                       <thead>
                         <tr>
-                          <th>
+                          <th id="trade-date">
                             <button
                               type="button"
                               onClick={() => requestSort('timestamp')}
@@ -543,7 +558,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                               Date ({z} {zz})
                             </button>
                           </th>
-                          <th>
+                          <th id="trade-type">
                             <button
                               onClick={() => requestSort('amount0In')}
                               className={getClassNamesFor('amount0In')}
@@ -551,9 +566,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                               Type
                             </button>
                           </th>
-                          <th><button className="sort-disabled">Price USD</button></th>
-                          <th><button className="sort-disabled">Price ETH</button></th>
-                          <th>
+                          <th id="trade-usd"><button className="sort-disabled">Price USD</button></th>
+                          <th id="trade-eth"><button className="sort-disabled">Price ETH</button></th>
+                          <th id="trade-amount">
                             <button
                               onClick={() => requestSort('amountuncx')}
                               className={getClassNamesFor('amountuncx')}
@@ -561,7 +576,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                               Amt UNCX
                             </button>
                           </th>
-                          <th>
+                          <th id="trade-eth-total">
                             <button
                               onClick={() => requestSort('totaleth')}
                               className={getClassNamesFor('totaleth')}
@@ -569,11 +584,11 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                               Total ETH
                             </button>
                           </th>
-                          <th>
+                          <th id="trade-maker">
                             <button className="sort-disabled">Maker</button>
                           </th>
-                          <th><button className="sort-disabled">Ex</button></th>
-                          <th><button className="sort-disabled">Other</button></th>
+                          <th id="trade-ex"><button className="sort-disabled">Ex</button></th>
+                          <th id="trade-other"><button className="sort-disabled">Other</button></th>
                         </tr>
                       </thead>
                       {
