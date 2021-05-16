@@ -1,18 +1,31 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination, Column } from "react-table";
 import { POST_SELECTED_GLQ, POST_HISTORY_GLQ, POST_GLQ_TRADES, POST_SELECTED_ETH_PRICE } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
-import { formatCur, formatSupply, deltaDirection, truncateString } from '../../utils';
+import '../../app.css'
+import { formatCur, formatSupply, deltaDirection } from '../../utils';
+import GaugeChart from 'react-gauge-chart';
 import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
-import { usePrevious } from '../../hooks';
-import Loader from "react-loader-spinner";
-import GaugeChart from 'react-gauge-chart';
-import { FaCaretUp, FaCaretDown, FaCog } from 'react-icons/fa';
+import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft, FaSortAmountDown, FaSortAmountUpAlt, FaSortAmountDownAlt, FaSortAmountUp } from 'react-icons/fa';
+import { Table } from "../../components/table";
 
 interface GlqProps {
 }
+type GlgDataType = {
+  timestamp: string;
+  side: string;
+  priceUsd: string;
+  priceEth: string;
+  amountglq: number;
+  totaleth: string;
+  maker: string;
+  exch: string;
+  other: string;
+}
+
 
 // TODO: refactor and move so all projects can access this
 Moment.globalFormat = "YYYY-MM-DD HH:mm:ss";
@@ -24,44 +37,102 @@ const zz = m.tz(tz).zoneAbbr();
 const circSupply = 323000000;
 const maxSupply  = 500000000;
 
-type SortType = {
-  key: string;
-  direction: string
+interface ColumnType {
+  column: {
+    filterValue: any,
+    setFilter: any,
+    preFilteredRows: any,
+    id: any
+  }
 }
 
-const useSortableData = (items: any, config: SortType) => {
-  const [sortConfig, setSortConfig] = useState<SortType>(config);
+const BuyOrSellFilter = ({column}: ColumnType) => {
+    const {filterValue, setFilter, preFilteredRows, id} = column;
+    const options = useMemo(() => {
+      const options = new Set()
+      preFilteredRows.forEach((row: any) => {
+        options.add(row.values[id])
+      })
+      return [...(options as any).values()]
+    }, [id, preFilteredRows])
 
-  const sortedItems = useMemo(() => {
-    let sortableItems = [...items];
-    if (sortConfig !== null) {
-      sortableItems.sort((a:any, b: any) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    return sortableItems;
-  }, [items, sortConfig]);
+    return (
+      <select
+        value={filterValue}
+        onChange={e => {
+          setFilter(e.target.value || undefined)
+        }}
+      >
+        <option value="">All</option>
+        {options.map((option: any, i: number) => (
+          <option key={i} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    )
+}
 
-  const requestSort = (key: any) => {
-    let direction = 'ascending';
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === 'ascending'
-    ) {
-      direction = 'descending';
-    }
-    setSortConfig({ key, direction });
-  };
+interface DefaultColumnType {
+  column: {
+    filterValue: any,
+    preFilteredRows: any, 
+    setFilter: any
+  }
+}
 
-  return { items: sortedItems, requestSort, sortConfig };
-};
+function DefaultColumnFilter({column}: DefaultColumnType) {
+  const { filterValue, preFilteredRows, setFilter} = column;
+  const count = preFilteredRows.length
+
+  return (
+    <input
+      value={filterValue || ''}
+      onChange={e => {
+        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+      }}
+      placeholder={`Search ${count} records...`}
+    />
+  )
+}
+
+interface TotalEthFilterType {
+  column: {
+    filterValue: any,
+    preFilteredRows: any, 
+    setFilter: any,
+    id: any
+  }
+}
+
+function TotalEthFilter({column}: TotalEthFilterType) {
+  const { filterValue, setFilter, preFilteredRows, id} = column;
+  const [min, max] = useMemo(() => {
+    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
+    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
+    preFilteredRows.forEach((row: any) => {
+      min = Math.min(row.values[id], min)
+      max = Math.max(row.values[id], max)
+    })
+    return [min, max]
+  }, [id, preFilteredRows])
+
+  return (
+    <div>
+      <input
+        className="rage-input"
+        type="range"
+        min={min}
+        max={max}
+        value={filterValue || min}
+        onChange={e => {
+          setFilter(parseInt(e.target.value, 10))
+        }}
+      />
+      <div className="totaleth-button" onClick={() => setFilter(undefined)}>Off</div>
+    </div>
+  )
+}
 
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
@@ -69,8 +140,6 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
   const glqTrades = useSelector((state: RootState) => state.postGlqTradesSelect);
   const ethPrice = useSelector((state: RootState) => state.ethPriceSelect);
-  const [count, setCount] = useState(0);
-  const prevCount: number = usePrevious<number>(count);
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
@@ -79,9 +148,11 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice})
   }, []);
 
-  useEffect(() => {
-    setCount(glqTrades.length);
-  }, [glqTrades && glqTrades.length]);
+  const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
+
+  const toggleSettingsModal = () => {
+    setOpenSettingsModal(!openSettingsModal);
+  };
 
   const dc = glqState.total_supply * glqState.price;
   const tb = maxSupply - glqState.total_supply;
@@ -90,26 +161,44 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
   const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
 
-  const glqTradesData = glqTrades.map((item: any, index: number) => {
-    return {
-      timestamp: item.timestamp,
-      amount0In: item.amount0In,
-      amount1In: item.amount1In,
-      amount0Out: item.amount0Out,
-      amount1Out: item.amount1Out,
-      amountglq: item.amount0In === 0 ? parseFloat(item.amount0Out) : parseFloat(item.amount0In) &&
-                  item.amount0Out === 0 ? parseFloat(item.amount0In) : parseFloat(item.amount0Out),
-      totaleth: item.amount1In === 0 ? parseFloat(item.amount1Out) : parseFloat(item.amount1In) &&
-                  item.amount1Out === 0 ? parseFloat(item.amount1In) : parseFloat(item.amount1Out),
-      to: item.to,
-      from: item.from,
-    }
-  } )
-
+  let glqTradesData: GlgDataType[] = [];
   let buyArr  = [];
   let sellArr = [];
 
   if (glqTrades && glqTrades.length) {
+    glqTradesData = glqTrades.slice(0).reverse().map((item: any, index: number) => {
+      if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+        return {
+          // timestamp: item.timestamp * 1000,
+          timestamp: (<Moment interval={0}>
+            {item.timestamp * 1000}
+				    </Moment>),
+          side: 'Buy',
+          priceUsd: '-',
+          priceEth: '-',
+          amountglq: item.amount0Out.toFixed(0),
+          totaleth: item.amount1In.toFixed(6),
+          maker: item.to,
+          other: '-'
+        }
+      }
+      else {
+        return {
+          // timestamp: item.timestamp * 1000,
+          timestamp: (<Moment interval={0}>
+            {item.timestamp * 1000}
+				    </Moment>),
+          side: 'Sell',
+          priceUsd: '-',
+          priceEth: '-',
+          amountglq: item.amount0In.toFixed(0),
+          totaleth: item.amount1Out.toFixed(6),
+          maker: item.to,
+          other: '-'
+        }
+      }
+
+    })
     buyArr  = glqTrades.filter((e: any) => (e.amount0In === 0))
     sellArr = glqTrades.filter((e: any) => (e.amount1In === 0))
   }
@@ -118,69 +207,112 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const sellPr  = parseFloat(((sellArr.length / glqTrades.length) * 100).toFixed(2));
   const gaugePr = buyPr / 100.0;
 
-  function getBuyorSell(item: any, index: number) {
-    const isNew = (glqTradesData.length - prevCount) > index;
-    if ((item.amount0Out > 0) && (item.amount1In > 0)) {
-      //hacky af USD from ETH price calculation
-      const totalUSDSpentB = ethPrice * item.amount1In;
-      const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
-      const totalUSDwFeesB = totalUSDTradeB * 1.005;
-      // hacky af ETH amount
-      const totalEthSpendB = totalUSDwFeesB / ethPrice;
-      return (
-        <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
-          <td>
-            <Moment interval={0}>
-              {item.timestamp * 1000}
-            </Moment>
-          </td>
-          <td><span className="gre">Buy</span></td>
-          <td>{formatSupply(totalUSDwFeesB, 4, 4)}</td>
-          <td>{formatSupply(totalEthSpendB, 6, 6)}</td>
-          <td>{formatSupply(item.amount0Out, 0, 0)}</td>
-          <td>{formatSupply(item.amount1In, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
-          <td><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
-          {/*<td className="etherscan"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>*/}
-          <td>-</td>
-        </tr>
-      )
-    } else if ((item.amount0In > 0) && (item.amount1Out > 0)) {
-      //hacky af USD from ETH price calculation
-      const totalUSDSpentS = ethPrice * item.amount1Out;
-      const totalUSDTradeS = totalUSDSpentS / item.amount0In;
-      const totalUSDwFeesS = totalUSDTradeS * 1.005;
-      // hacky af ETH amount
-      const totalEthSpendS = totalUSDwFeesS / ethPrice;
-      return (
-        <tr className={`ar ${isNew ? 'ar-new' : ''}`} key={index}>
-          <td>
-            <Moment interval={0}>
-              {item.timestamp * 1000}
-            </Moment>
-          </td>
-          <td><span className="red">Sell</span></td>
-          <td>{formatSupply(totalUSDwFeesS, 4, 4)}</td>
-          <td>{formatSupply(totalEthSpendS, 6, 6)}</td>
-          <td>{formatSupply(item.amount0In, 0, 0)}</td>
-          <td>{formatSupply(item.amount1Out, 6, 6)}</td>
-          <td><a href={`https://etherscan.io/address/${item.to}`} rel="noreferrer" target="_blank">{truncateString(item.to, 4)}</a></td>
-          <td><a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a></td>
-          {/*<td className="etherscan"><a rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img alt="" src="/template/img/etherscan-white.png" /></a></td>*/}
-          <td>-</td>
-        </tr>
-      )
-    }
-    return null;
-  }
+  const columns = React.useMemo<Column<GlgDataType>[]>(
+    () => [
+      {
+        Header: `date (${z} ${zz})`,
+        accessor: 'timestamp', // accessor is the "key" in the data
+      },
+      {
+        Header: 'side',
+        accessor: 'side',
+        Filter: BuyOrSellFilter,
+        filter: 'includes'
+      },
+      {
+        Header: 'price usd',
+        accessor: 'priceUsd',
+      },
+      {
+        Header: 'price eth',
+        accessor: 'priceEth',
+      },
+      {
+        Header: 'amount glq',
+        accessor: 'amountglq',
+        // Filter: TotalEthFilter,
+        // filter: 'equals',
+      },
+      {
+        Header: 'total eth',
+        accessor: 'totaleth',
+        // Filter: TotalEthFilter,
+        // filter: 'equals',
+      },
+      {
+        Header: 'MAKER',
+        accessor: 'maker',
+      },
+      {
+        Header: 'EX',
+        accessor: 'exch',
+      },
+      {
+        Header: 'OTHER',
+        accessor: 'other',
+      },
+    ],
+    []
+  )
 
-  const { items, requestSort, sortConfig } = useSortableData(glqTradesData, {key: 'timestamp', direction: 'descending'});
-  const getClassNamesFor = (timestamp: any) => {
-    if (!sortConfig) {
-      return;
-    }
-    return sortConfig.key === timestamp ? sortConfig.direction : undefined;
-  };
+
+  const data = React.useMemo<GlgDataType[]>(
+    () => glqTradesData,
+    [glqTradesData.length]
+  );
+
+  const defaultColumn = useMemo(
+    () => ({
+      Filter: DefaultColumnFilter,
+    }), []
+  );
+
+  const filterTypes = React.useMemo(
+    () => ({
+      text: (rows: any, id: any, filterValue: any) => {
+        return rows.filter((row: any) => {
+          const rowValue = row.values[id]
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true
+        })
+      },
+    }),
+    []
+  )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+
+    page,
+    canNextPage,
+    canPreviousPage,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    pageOptions,
+    state: { pageIndex, pageSize },
+
+    visibleColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable<GlgDataType>(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+      defaultColumn,
+      filterTypes,
+    },
+    useFilters, useGlobalFilter, useSortBy, usePagination,
+  );
 
   return (
     <main id="m">
@@ -344,12 +476,14 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
           </div>
           <div className="blc cl100">
             <div>
-              <div className="top">
-                <div className="tblc">
+              <div>
+                <div className="top">
                   <div className="tclearfix">
                     <div className="tzleft">
                       <small>
-                        { glqTrades.length ? 'Last ' + formatSupply(glqTrades.length, 0, 0) + ' Trades' : 'Loading...' }
+                        {
+                          glqTrades.length ? 'Last ' + formatSupply(glqTrades.length, 0, 0) + ' Trades' : 'Loading...'
+                        }
                       </small>
                       <h2>
                         <strong>GLQ Trades</strong>
@@ -404,61 +538,52 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
               <div className="tbl">
                 <div className="tblc">
                   <div>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>
-                            <button
-                              type="button"
-                              onClick={() => requestSort('timestamp')}
-                              className={getClassNamesFor('timestamp')}
-                            >
-                              Date ({z} {zz})
-                            </button>
-                          </th>
-                          <th>
-                            <button
-                              onClick={() => requestSort('amount0In')}
-                              className={getClassNamesFor('amount0In')}
-                            >
-                              Type
-                            </button>
-                          </th>
-                          <th><button className="sort-disabled">Price USD</button></th>
-                          <th><button className="sort-disabled">Price ETH</button></th>
-                          <th>
-                            <button
-                              onClick={() => requestSort('amountglq')}
-                              className={getClassNamesFor('amountglq')}
-                            >
-                              Amt GLQ
-                            </button>
-                          </th>
-                          <th>
-                            <button
-                              onClick={() => requestSort('totaleth')}
-                              className={getClassNamesFor('totaleth')}
-                            >
-                              Total ETH
-                            </button>
-                          </th>
-                          <th>
-                            <button className="sort-disabled">Maker</button>
-                          </th>
-                          <th><button className="sort-disabled">Ex</button></th>
-                          <th><button className="sort-disabled">Other</button></th>
-                        </tr>
-                      </thead>
-                      {
-                        glqTrades.length ? '' : <div className="tmp-spin"><Loader type="ThreeDots" color="#f20350" height={30} width={30} /></div>
-                      }
-                      {glqTrades.length >0 && <tbody>
-                        {items.map((item: any, index: number) => {
-                          return getBuyorSell(item, index)
-                        })}
-                      </tbody>
-                      }
-                    </table>
+                    <Table<GlgDataType>
+                      getTableProps={getTableProps}
+                      getTableBodyProps={getTableBodyProps}
+                      headerGroups={headerGroups}
+                      rows={page}
+                      prepareRow={prepareRow}
+                    />
+                  </div>
+                  <div className="pagination">
+                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                      {<FaAngleDoubleLeft />}
+                    </button>
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                      {<FaAngleLeft />}
+                    </button>
+                    <button>
+                      {pageIndex + 1} / {pageOptions.length}
+                    </button>
+                    <button onClick={() => nextPage()} disabled={!canNextPage}>
+                      {<FaAngleRight />}
+                    </button>
+                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                      {<FaAngleDoubleRight />}
+                    </button>
+                    <span>
+                      {' '} page:{' '}
+                      <input
+                        className="page-input"
+                        type="number"
+                        defaultValue={pageIndex + 1}
+                        onChange={e => {
+                          const page = e.target.value ? Number(e.target.value) - 1 : 0
+                          gotoPage(page)
+                        }}
+                      />{'  '}
+                    </span>
+                    <select
+                      value={pageSize}
+                      onChange={e => { setPageSize(Number(e.target.value)) }}
+                    >
+                      {[10, 20, 30, 40, 50].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                          Show {pageSize}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
