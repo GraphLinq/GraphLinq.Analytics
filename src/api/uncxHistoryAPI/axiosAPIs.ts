@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/4967e5f46d786b4bc9deea0644b5ba3202597d7aa87371a70b3ee366432e77bc/uncx?apiHistory`;
+const URL = `${process.env.REACT_APP_PROXY_API_URL}/edf1172bbc14fea77b40baf0590e9b2a61f10f13778ad2b5d0e5191aa21c3176/uncx?apiHistory`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL)

@@ -13,6 +13,7 @@ import { usePrevious } from '../../hooks';
 import Loader from "react-loader-spinner";
 import GaugeChart from 'react-gauge-chart';
 import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft, FaSortAmountDown, FaSortAmountUpAlt, FaSortAmountDownAlt, FaSortAmountUp } from 'react-icons/fa';
+import SettingsModal from '../../components/SettingsModal';
 import { Table } from "../../components/table";
 
 
@@ -25,8 +26,8 @@ type UncxType = {
   side: string;
   priceUsd: string;
   priceEth: string;
-  amountglq: number;
-  totaleth: string;
+  amount: number;
+  totalEth: string;
   maker: string;
   exch: string;
   other: string;
@@ -38,8 +39,8 @@ const tz = jstz.determine().name();
 const z  = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
-const circSupply = 36163;
-const maxSupply  = 47650;
+const circSupply = 34271;
+const maxSupply  = 50000;
 
 let pow = (Math.pow(10, 8));
 
@@ -52,8 +53,8 @@ interface ColumnType {
   }
 }
 
-const BuyOrSellFilter = ({column}: ColumnType) => {
-  const {filterValue, setFilter, preFilteredRows, id} = column;
+const BuyOrSellFilter = ({ column }: ColumnType) => {
+  const { filterValue, setFilter, preFilteredRows, id } = column;
   const options = useMemo(() => {
     const options = new Set()
     preFilteredRows.forEach((row: any) => {
@@ -82,14 +83,14 @@ const BuyOrSellFilter = ({column}: ColumnType) => {
 interface TotalEthFilterType {
   column: {
     filterValue: any,
-    preFilteredRows: any, 
+    preFilteredRows: any,
     setFilter: any,
     id: any
   }
 }
 
-function TotalEthFilter({column}: TotalEthFilterType) {
-  const { filterValue, setFilter, preFilteredRows, id} = column;
+function TotalEthFilter({ column }: TotalEthFilterType) {
+  const { filterValue, setFilter, preFilteredRows, id } = column;
   const [min, max] = useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
     let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -120,13 +121,13 @@ function TotalEthFilter({column}: TotalEthFilterType) {
 interface DefaultColumnType {
   column: {
     filterValue: any,
-    preFilteredRows: any, 
+    preFilteredRows: any,
     setFilter: any
   }
 }
 
-function DefaultColumnFilter({column}: DefaultColumnType) {
-  const { filterValue, preFilteredRows, setFilter} = column;
+function DefaultColumnFilter({ column }: DefaultColumnType) {
+  const { filterValue, preFilteredRows, setFilter } = column;
   const count = preFilteredRows.length
 
   return (
@@ -158,8 +159,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     dispatch({ type: POST_LIQUIDITY, payLoad: liqState })
     dispatch({ type: POST_HISTORY_UNCX, payLoad: uncxHistory })
     dispatch({ type: POST_UNCX_TRADES, payLoad: uncxTrades })
-    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice})
+    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice })
   }, [])
+
+  const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
+
+  const toggleSettingsModal = () => {
+    setOpenSettingsModal(!openSettingsModal);
+  };
 
   const dc = uncxState.total_supply * uncxState.price;
   const pd = deltaDirection(uncxState.price, uncxHistory.price);
@@ -178,14 +185,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
           // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
-				    </Moment>),
+          </Moment>),
           side: 'Buy',
           priceUsd: '-',
           priceEth: '-',
-          amountglq: item.amount0Out.toFixed(0),
-          totaleth: item.amount1In.toFixed(6),
+          amount: item.amount0Out.toFixed(0),
+          totalEth: item.amount1In.toFixed(6),
           maker: item.to,
-          other: '-'
+          other: item.transactionHash
         }
       }
       else {
@@ -193,14 +200,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
           // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
-				    </Moment>),
+          </Moment>),
           side: 'Sell',
           priceUsd: '-',
           priceEth: '-',
-          amountglq: item.amount0In.toFixed(0),
-          totaleth: item.amount1Out.toFixed(6),
+          amount: item.amount0In.toFixed(0),
+          totalEth: item.amount1Out.toFixed(6),
           maker: item.to,
-          other: '-'
+          other: item.transactionHash
         }
       }
 
@@ -257,14 +264,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     return num;
   }
 
-  const columns = React.useMemo<Column<UncxType>[]>(
+  const columns = useMemo<Column<UncxType>[]>(
     () => [
       {
         Header: `date (${z} ${zz})`,
         accessor: 'timestamp', // accessor is the "key" in the data
       },
       {
-        Header: 'type',
+        Header: 'side',
         accessor: 'side',
         Filter: BuyOrSellFilter,
         filter: 'includes'
@@ -278,14 +285,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
         accessor: 'priceEth',
       },
       {
-        Header: 'amount uncx',
-        accessor: 'amountglq',
-        //Filter: TotalEthFilter,
-        //filter: 'equals',
+        Header: 'amt uncx',
+        accessor: 'amount',
+        Filter: TotalEthFilter,
+        filter: 'equals',
       },
       {
         Header: 'total eth',
-        accessor: 'totaleth',
+        accessor: 'totalEth',
       },
       {
         Header: 'maker',
@@ -303,7 +310,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     []
   )
 
-  const data = React.useMemo<UncxType[]>(
+  const data = useMemo<UncxType[]>(
     () => uncxTradesData,
     [uncxTradesData.length]
   );
@@ -314,20 +321,33 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     }), []
   );
 
-  const filterTypes = React.useMemo(
+  const filterTypes = useMemo(
     () => ({
       text: (rows: any, id: any, filterValue: any) => {
         return rows.filter((row: any) => {
           const rowValue = row.values[id]
           return rowValue !== undefined
             ? String(rowValue)
-                .toLowerCase()
-                .startsWith(String(filterValue).toLowerCase())
+              .toLowerCase()
+              .startsWith(String(filterValue).toLowerCase())
             : true
         })
       },
     }),
     []
+  )
+
+  const IndeterminateCheckbox = React.forwardRef(
+    ({ indeterminate, ...rest }: any, ref) => {
+      const defaultRef = React.useRef()
+      const resolvedRef: any = ref || defaultRef
+
+      React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate
+      }, [resolvedRef, indeterminate])
+
+      return <input type="checkbox" ref={resolvedRef} {...rest} />
+    }
   )
 
   const {
@@ -351,6 +371,8 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
+    allColumns,
+    getToggleHideAllColumnsProps,
   } = useTable<UncxType>(
     {
       columns,
@@ -358,7 +380,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
       initialState: { pageIndex: 0 },
       defaultColumn,
       filterTypes,
-    },  useFilters, useGlobalFilter, useSortBy, usePagination,
+    }, useFilters, useGlobalFilter, useSortBy, usePagination,
   );
 
   return (
@@ -370,14 +392,14 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               <div className="top">
                 <small>Total Value Locked</small>
                 <h2>
-                  <strong>
-                    {
+                  <strong>Something
+                    {/*
                     formatCur(liqState.USDValue, 2, 2)
-                    }
+                    */}
                   </strong> <span className="gr">+4.73%</span>
                 </h2>
               </div>
-              <Box w="100%" pl={8}>
+              {/*<Box w="100%" pl={8}>
                 <FlexibleWidthXYPlot
                   height={250}
                   xDomain={[0, xMaxValue]}
@@ -391,7 +413,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     color="#f20350"
                     onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
                   />
-                  <YAxis  style={{text: {fill: '#b7aed6', fontWeight: 400}}}  tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
+                  <YAxis style={{ text: { fill: '#b7aed6', fontWeight: 400 } }} tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
                   <XAxis hideTicks />
                   {iscrosshair && <Crosshair values={crosshairValues}>
                     <div>
@@ -401,7 +423,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   }
 
                 </FlexibleWidthXYPlot>
-              </Box>
+              </Box>*/}
             </div>
           </div>
           <div className="blc cl33">
@@ -526,9 +548,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {/*
+                    {
                       uncxState.price ? formatCur(uncxState.ath, 2, 2) : 'Loading...'
-                    */}
+                    }
                   </strong>
                 </h2>
               </div>
@@ -636,8 +658,8 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                         colors={['#38ff17', '#ff052a']}
                         arcsLength={[(isNaN(buyPr) ? 50 : buyPr), (isNaN(buyPr) ? 50 : sellPr)]}
                         hideText={true}
-                        arcPadding={0.06}
-                        cornerRadius={8}
+                        arcPadding={0.03}
+                        cornerRadius={6}
                       />
                     </div>
                   </div>
@@ -658,10 +680,19 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   </div>
                   <div className="tclearfix">
                     <div className="tbleft">
-                      &nbsp;
+                      <button className="Settings-button" onClick={toggleSettingsModal}>
+                        <FaCog className="settings-modal" />
+                      </button>
+                      <SettingsModal
+                        openSettingsModal={openSettingsModal}
+                        toggleSettingsModal={toggleSettingsModal}
+                        allColumns={allColumns}
+                        IndeterminateCheckbox={IndeterminateCheckbox}
+                        getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}
+                      />
                     </div>
                     <div className="tbcenter">
-                     &nbsp;
+                      &nbsp;
                     </div>
                     <div className="tbright">
                       <small>{(isNaN(sellPr) ? 'Loading...' : 'Buy / Sell Pressure')}</small>

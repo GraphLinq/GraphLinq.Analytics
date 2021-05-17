@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
 import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft, FaSortAmountDown, FaSortAmountUpAlt, FaSortAmountDownAlt, FaSortAmountUp } from 'react-icons/fa';
+import SettingsModal from '../../components/SettingsModal';
 import { Table } from "../../components/table";
 
 interface GlqProps {
@@ -19,8 +20,8 @@ type GlgDataType = {
   side: string;
   priceUsd: string;
   priceEth: string;
-  amountglq: number;
-  totaleth: string;
+  amount: number;
+  totalEth: string;
   maker: string;
   exch: string;
   other: string;
@@ -46,50 +47,50 @@ interface ColumnType {
   }
 }
 
-const BuyOrSellFilter = ({column}: ColumnType) => {
-    const {filterValue, setFilter, preFilteredRows, id} = column;
-    const options = useMemo(() => {
-      const options = new Set()
-      preFilteredRows.forEach((row: any) => {
-        options.add(row.values[id])
-      })
-      return [...(options as any).values()]
-    }, [id, preFilteredRows])
+const BuyOrSellFilter = ({ column }: ColumnType) => {
+  const { filterValue, setFilter, preFilteredRows, id } = column;
+  const options = useMemo(() => {
+    const options = new Set()
+    preFilteredRows.forEach((row: any) => {
+      options.add(row.values[id])
+    })
+    return [...(options as any).values()]
+  }, [id, preFilteredRows])
 
-    return (
-      <select
-        value={filterValue}
-        onChange={e => {
-          setFilter(e.target.value || undefined)
-        }}
-      >
-        <option value="">All</option>
-        {options.map((option: any, i: number) => (
-          <option key={i} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    )
+  return (
+    <select
+      value={filterValue}
+      onChange={e => {
+        setFilter(e.target.value || undefined)
+      }}
+    >
+      <option value="">All</option>
+      {options.map((option: any, i: number) => (
+        <option key={i} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  )
 }
 
 interface DefaultColumnType {
   column: {
     filterValue: any,
-    preFilteredRows: any, 
+    preFilteredRows: any,
     setFilter: any
   }
 }
 
-function DefaultColumnFilter({column}: DefaultColumnType) {
-  const { filterValue, preFilteredRows, setFilter} = column;
+function DefaultColumnFilter({ column }: DefaultColumnType) {
+  const { filterValue, preFilteredRows, setFilter } = column;
   const count = preFilteredRows.length
 
   return (
     <input
       value={filterValue || ''}
       onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+        setFilter(e.target.value || undefined)
       }}
       placeholder={`Search ${count} records...`}
     />
@@ -99,14 +100,14 @@ function DefaultColumnFilter({column}: DefaultColumnType) {
 interface TotalEthFilterType {
   column: {
     filterValue: any,
-    preFilteredRows: any, 
+    preFilteredRows: any,
     setFilter: any,
     id: any
   }
 }
 
-function TotalEthFilter({column}: TotalEthFilterType) {
-  const { filterValue, setFilter, preFilteredRows, id} = column;
+function TotalEthFilter({ column }: TotalEthFilterType) {
+  const { filterValue, setFilter, preFilteredRows, id } = column;
   const [min, max] = useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
     let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -133,6 +134,10 @@ function TotalEthFilter({column}: TotalEthFilterType) {
     </div>
   )
 }
+
+
+
+
 
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
@@ -164,37 +169,50 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   let glqTradesData: GlgDataType[] = [];
   let buyArr  = [];
   let sellArr = [];
+console.log(ethPrice);
 
   if (glqTrades && glqTrades.length) {
     glqTradesData = glqTrades.slice(0).reverse().map((item: any, index: number) => {
       if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+        //hacky af USD from ETH price calculation
+        const totalUSDSpentB = ethPrice * item.amount1In;
+        const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+        const totalUSDwFeesB = totalUSDTradeB * .999;
+        // hacky af ETH amount
+        const totalEthSpendB = totalUSDwFeesB / ethPrice;
         return {
           // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
-				    </Moment>),
+          </Moment>),
           side: 'Buy',
-          priceUsd: '-',
-          priceEth: '-',
-          amountglq: item.amount0Out.toFixed(0),
-          totaleth: item.amount1In.toFixed(6),
+          priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
+          priceEth: formatSupply(totalEthSpendB, 6, 6),
+          amount: item.amount0Out.toFixed(0),
+          totalEth: item.amount1In.toFixed(6),
           maker: item.to,
-          other: '-'
+          other: item.transactionHash
         }
       }
       else {
+        //hacky af USD from ETH price calculation
+        const totalUSDSpentS = ethPrice * item.amount1Out;
+        const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+        const totalUSDwFeesS = totalUSDTradeS * .999;
+        // hacky af ETH amount
+        const totalEthSpendS = totalUSDwFeesS / ethPrice;
         return {
           // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
-				    </Moment>),
+          </Moment>),
           side: 'Sell',
-          priceUsd: '-',
-          priceEth: '-',
-          amountglq: item.amount0In.toFixed(0),
-          totaleth: item.amount1Out.toFixed(6),
+          priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
+          priceEth: formatSupply(totalEthSpendS, 6, 6),
+          amount: item.amount0In.toFixed(0),
+          totalEth: item.amount1Out.toFixed(6),
           maker: item.to,
-          other: '-'
+          other: item.transactionHash
         }
       }
 
@@ -207,11 +225,11 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const sellPr  = parseFloat(((sellArr.length / glqTrades.length) * 100).toFixed(2));
   const gaugePr = buyPr / 100.0;
 
-  const columns = React.useMemo<Column<GlgDataType>[]>(
+  const columns = useMemo<Column<GlgDataType>[]>(
     () => [
       {
         Header: `date (${z} ${zz})`,
-        accessor: 'timestamp', // accessor is the "key" in the data
+        accessor: 'timestamp',
       },
       {
         Header: 'side',
@@ -229,13 +247,11 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
       },
       {
         Header: 'amount glq',
-        accessor: 'amountglq',
-        // Filter: TotalEthFilter,
-        // filter: 'equals',
+        accessor: 'amount',
       },
       {
         Header: 'total eth',
-        accessor: 'totaleth',
+        accessor: 'totalEth',
         // Filter: TotalEthFilter,
         // filter: 'equals',
       },
@@ -255,8 +271,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     []
   )
 
-
-  const data = React.useMemo<GlgDataType[]>(
+  const data = useMemo<GlgDataType[]>(
     () => glqTradesData,
     [glqTradesData.length]
   );
@@ -267,20 +282,33 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     }), []
   );
 
-  const filterTypes = React.useMemo(
+  const filterTypes = useMemo(
     () => ({
       text: (rows: any, id: any, filterValue: any) => {
         return rows.filter((row: any) => {
           const rowValue = row.values[id]
           return rowValue !== undefined
             ? String(rowValue)
-                .toLowerCase()
-                .startsWith(String(filterValue).toLowerCase())
+              .toLowerCase()
+              .startsWith(String(filterValue).toLowerCase())
             : true
         })
       },
     }),
     []
+  )
+
+  const IndeterminateCheckbox = React.forwardRef(
+    ({ indeterminate, ...rest }: any, ref) => {
+      const defaultRef = React.useRef()
+      const resolvedRef: any = ref || defaultRef
+
+      React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate
+      }, [resolvedRef, indeterminate])
+
+      return <input type="checkbox" ref={resolvedRef} {...rest} />
+    }
   )
 
   const {
@@ -303,6 +331,9 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
+
+    allColumns,
+    getToggleHideAllColumnsProps,
   } = useTable<GlgDataType>(
     {
       columns,
@@ -502,8 +533,8 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                         colors={['#38ff17', '#ff052a']}
                         arcsLength={[(isNaN(buyPr) ? 50 : buyPr), (isNaN(buyPr) ? 50 : sellPr)]}
                         hideText={true}
-                        arcPadding={0.06}
-                        cornerRadius={8}
+                        arcPadding={0.03}
+                        cornerRadius={6}
                       />
                     </div>
                   </div>
@@ -524,10 +555,19 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                   </div>
                   <div className="tclearfix">
                     <div className="tbleft">
-                      &nbsp;
+                      <button className="Settings-button" onClick={toggleSettingsModal}>
+                        <FaCog className="settings-modal" />
+                      </button>
+                      <SettingsModal
+                        openSettingsModal={openSettingsModal}
+                        toggleSettingsModal={toggleSettingsModal}
+                        allColumns={allColumns}
+                        IndeterminateCheckbox={IndeterminateCheckbox}
+                        getToggleHideAllColumnsProps={getToggleHideAllColumnsProps}
+                      />
                     </div>
                     <div className="tbcenter">
-                     &nbsp;
+                      &nbsp;
                     </div>
                     <div className="tbright">
                       <small>{(isNaN(sellPr) ? 'Loading...' : 'Buy / Sell Pressure')}</small>

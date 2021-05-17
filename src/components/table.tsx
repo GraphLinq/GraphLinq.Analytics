@@ -47,13 +47,13 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 			return (<span className="red">Sell</span>);
 		} else if (item.column.id === 'maker') {
 			const val = item.row.values['maker']
-			return (<a href={`https://etherscan.io/address/${val}`} target="_blank">{truncateString(val, 5)}</a>)
+			return (<a rel="noreferrer" href={`https://etherscan.io/address/${val}`} target="_blank">{truncateString(val, 5)}</a>)
 		} else if (item.column.id === 'exch') {
-			return (<a target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a>);
+			return (<a rel="noreferrer" target="_blank" href="https://uniswap.exchange/swap/0x9f9c8ec3534c3ce16f928381372bfbfbfb9f4d24">&#129412;</a>);
 		} else if (item.column.id === 'other') {
-			return (<a className="etherscan" target="_blank" href={`https://etherscan.io/tx/${item.transactionHash}`}><img src="/template/img/etherscan-white.png" /></a>)
-		} else if (item.column.id === 'amountglq') {
-			return (formatSupply(item.row.values['amountglq'], 0, 0));
+			return (<a className="etherscan" rel="noreferrer" target="_blank" href={`https://etherscan.io/tx/${item.row.values['other']}`}><img alt="" src="/template/img/etherscan-white.png" /></a>)
+		} else if (item.column.id === 'amount') {
+			return (formatSupply(item.row.values['amount'], 0, 0));
 		}
 		else if (item.column.id === 'totaleth') {
 			return (formatSupply(item.row.values['totaleth'], 6, 6));
@@ -63,7 +63,7 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 
 	function renderHeader(item: any) {
 
-		if (item.id === 'priceUsd' || item.id === 'priceEth' || item.id === 'maker' || item.id === 'exch' || item.id === 'other') {
+		if (item.id === 'exch' || item.id === 'other') {
 			return (
 				<th
 					{...item.getHeaderProps()}
@@ -91,7 +91,7 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 								: <FaSortAmountUp />
 							: ''}
 					</span>
-					<div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div>
+					{/* <div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div> */}
 				</th>
 			)
 		}
@@ -103,7 +103,7 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 				style={{ fontWeight: '900', cursor: 'pointer' }}
 			>
 				{item.render("Header")}
-				<div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div>
+				{/* <div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div> */}
 			</th>
 		)
 
