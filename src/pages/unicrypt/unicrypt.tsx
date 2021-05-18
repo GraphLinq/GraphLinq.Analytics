@@ -3,7 +3,7 @@ import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQU
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination, Column } from "react-table";
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot } from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot, makeWidthFlexible } from 'react-vis';
 import { Box } from '@chakra-ui/react';
 import { formatCur, formatSupply, deltaDirection, truncateString } from '../../utils';
 import Moment from 'react-moment';
@@ -16,9 +16,7 @@ import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, F
 import SettingsModal from '../../components/SettingsModal';
 import { Table } from "../../components/table";
 
-
 interface UnclProps {
-
 }
 
 type UncxType = {
@@ -41,8 +39,6 @@ const zz = m.tz(tz).zoneAbbr();
 
 const circSupply = 34271;
 const maxSupply  = 50000;
-
-let pow = (Math.pow(10, 8));
 
 interface ColumnType {
   column: {
@@ -80,7 +76,7 @@ const BuyOrSellFilter = ({ column }: ColumnType) => {
   )
 }
 
-interface TotalEthFilterType {
+interface SliderColumnFilterType {
   column: {
     filterValue: any,
     preFilteredRows: any,
@@ -89,7 +85,7 @@ interface TotalEthFilterType {
   }
 }
 
-function TotalEthFilter({ column }: TotalEthFilterType) {
+function SliderColumnFilter({ column }: SliderColumnFilterType) {
   const { filterValue, setFilter, preFilteredRows, id } = column;
   const [min, max] = useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -116,6 +112,27 @@ function TotalEthFilter({ column }: TotalEthFilterType) {
       <div className="totaleth-button" onClick={() => setFilter(undefined)}>Off</div>
     </div>
   )
+}
+
+function filterGreaterThan(rows: any, id: any, filterValue: any) {
+  return rows.filter((row: any) => {
+    const rowValue = row.values[id]
+    return rowValue >= filterValue
+  })
+}
+
+filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number'
+
+function roundedMedian(leafValues: any) {
+  let min = leafValues[0] || 0
+  let max = leafValues[0] || 0
+
+  leafValues.forEach((value: any) => {
+    min = Math.min(min, value)
+    max = Math.max(max, value)
+  })
+
+  return Math.round((min + max) / 2)
 }
 
 interface DefaultColumnType {
@@ -161,8 +178,27 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     dispatch({ type: POST_UNCX_TRADES, payLoad: uncxTrades })
     dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice })
   }, [])
-
   const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
+  const [liquidityUSD, setLiquidityUSD] = useState([]);
+  const [pairCount, setPairCount] = useState([]);
+
+  useEffect(() => {
+    let liquid:any = [], pair:any = [];
+
+    tLiqState.map((state:any, index:any) => {
+      liquid.push({
+        y: state.totalLockedLiquidityUSD,
+        x: index,
+      });
+
+      pair.push({
+        y: state.pairCount,
+        x: index,
+      })
+    })
+    setLiquidityUSD(liquid);
+    setPairCount(pair);
+  }, [tLiqState])
 
   const toggleSettingsModal = () => {
     setOpenSettingsModal(!openSettingsModal);
@@ -181,14 +217,17 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   if (uncxTrades && uncxTrades.length) {
     uncxTradesData = uncxTrades.slice(0).reverse().map((item: any, index: number) => {
       if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+        const totalUSDSpentB = ethPrice * item.amount1In;
+        const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+        const totalUSDwFeesB = totalUSDTradeB * .999;
+        const totalEthSpendB = totalUSDwFeesB / ethPrice;
         return {
-          // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
           </Moment>),
           side: 'Buy',
-          priceUsd: '-',
-          priceEth: '-',
+          priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
+          priceEth: formatSupply(totalEthSpendB, 6, 6),
           amount: item.amount0Out.toFixed(0),
           totalEth: item.amount1In.toFixed(6),
           maker: item.to,
@@ -196,26 +235,29 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
         }
       }
       else {
+        const totalUSDSpentS = ethPrice * item.amount1Out;
+        const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+        const totalUSDwFeesS = totalUSDTradeS * .999;
+        const totalEthSpendS = totalUSDwFeesS / ethPrice;
         return {
-          // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
           </Moment>),
           side: 'Sell',
-          priceUsd: '-',
-          priceEth: '-',
+          priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
+          priceEth: formatSupply(totalEthSpendS, 6, 6),
           amount: item.amount0In.toFixed(0),
           totalEth: item.amount1Out.toFixed(6),
           maker: item.to,
           other: item.transactionHash
         }
       }
-
     })
     buyArr  = uncxTrades.filter((e: any) => (e.amount0In === 0))
     sellArr = uncxTrades.filter((e: any) => (e.amount1In === 0))
   }
 
+  const FlexibleXYPlot = makeWidthFlexible(XYPlot);
   const buyPr   = parseFloat(((buyArr.length / uncxTrades.length) * 100).toFixed(2));
   const sellPr  = parseFloat(((sellArr.length / uncxTrades.length) * 100).toFixed(2));
   const gaugePr = buyPr / 100.0;
@@ -232,43 +274,20 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     newArr, reArr
   ];
 
-  const [crosshairValues, setCrosshairValues] = useState<any[]>(totalLiquidityData);
+  const [crosshairValues1, setCrosshairValues1] = useState<any>();
+  const [crosshairValues2, setCrosshairValues2] = useState<any>();
   const [iscrosshair, setIscrosshair] = useState(false);
 
-  const yMinValue = (Math.floor(Math.min(...tLiqState) / 100000000) * 100000000);
-  const yMaxValue = Math.ceil(Math.max(...tLiqState) / 100000000) * 100000000;
-  const xMaxValue = (Math.floor(newArr.length / 20) + 1) * 20;
-
-  function abbrNum(num: any) {
-    // 2 decimal places => 100, 3 => 1000, etc
-    let decPlaces = Math.pow(10, 2);
-
-    // Enumerate number abbreviations
-    let abbrev = ["K", "M", "B", "T"];
-
-    // Go through the array backwards, so we do the largest first
-    for (let i = abbrev.length - 1; i >= 0; i--) {
-      // Convert array index to "1000", "1000000", etc
-      let size = Math.pow(10, (i + 1) * 3);
-      // If the number is bigger or equal do the abbreviation
-      if (size <= num) {
-        num = Math.round(num * decPlaces / size) / decPlaces;
-        if ((num == 1000) && (i < abbrev.length - 1)) {
-          num = 1;
-          i++;
-        }
-        num += abbrev[i];
-        break;
-      }
-    }
-    return num;
-  }
+  const yMinFirst = (Math.min.apply(null, liquidityUSD.map((a:any) => { return a.y; })));
+  const yMaxFirst = (Math.max.apply(null, liquidityUSD.map((a:any) => { return a.y; })));
+  const yMinSec = (Math.min.apply(null, pairCount.map((a:any) => { return a.y; })))
+  const yMaxSec = (Math.max.apply(null, pairCount.map((a:any) => { return a.y; })));
 
   const columns = useMemo<Column<UncxType>[]>(
     () => [
       {
         Header: `date (${z} ${zz})`,
-        accessor: 'timestamp', // accessor is the "key" in the data
+        accessor: 'timestamp',
       },
       {
         Header: 'side',
@@ -279,20 +298,34 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
       {
         Header: 'price usd',
         accessor: 'priceUsd',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'price eth',
         accessor: 'priceEth',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'amt uncx',
         accessor: 'amount',
-        Filter: TotalEthFilter,
-        filter: 'equals',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'total eth',
         accessor: 'totalEth',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'maker',
@@ -387,67 +420,48 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     <main id="m">
       <div>
         <div className="cl">
-          <div className="blc cl33">
+          <div className="blc cl50">
             <div>
               <div className="top">
-                <small>Total Value Locked</small>
+                <small>Total Locked</small>
                 <h2>
-                  <strong>Something
+                  <strong>Liquidity
                     {/*
                     formatCur(liqState.USDValue, 2, 2)
                     */}
-                  </strong> <span className="gr">+4.73%</span>
+                  </strong> <span className="gr">+0.00%</span>
                 </h2>
               </div>
-              {/*<Box w="100%" pl={8}>
-                <FlexibleWidthXYPlot
-                  height={250}
-                  xDomain={[0, xMaxValue]}
-                  yDomain={[yMinValue, yMaxValue]}
-                  onMouseLeave={() => setIscrosshair(false)}
-                  onMouseEnter={() => setIscrosshair(true)}
-                >
+              <Box w="100%" pl={22} pr={22}>
+                  <FlexibleXYPlot height={350}>
+                    <HorizontalGridLines />
+                    <YAxis tickFormat={tick => `${tick/1000000}M`} />
+                    <LineSeries
+                      color="#F20350"
+                      data={liquidityUSD}
+                    />
+                  </FlexibleXYPlot>
+              </Box>
+            </div>
+          </div>
+          <div className="blc cl50">
+            <div>
+              <div className="top">
+                <small>Total Locked</small>
+                <h2>
+                  <strong>Pair Count{/*liquidityState.Amount*/}</strong> <span className="gr">0.00%</span>
+                </h2>
+              </div>
+              <Box w="100%" pl={22} pr={22}>
+                <FlexibleXYPlot height={350}>
+                  <HorizontalGridLines />
+                  <YAxis />
                   <LineSeries
-                    curve={'curveLinear'}
-                    data={totalLiquidityData[0]}
-                    color="#f20350"
-                    onNearestX={(value, { index }) => setCrosshairValues(totalLiquidityData.map(d => d[index]))}
+                    color="#F20350"
+                    data={pairCount}
                   />
-                  <YAxis style={{ text: { fill: '#b7aed6', fontWeight: 400 } }} tickPadding={2} title="Value" tickLabelAngle={0} tickFormat={v => `${abbrNum(v)}`} tickValues={[yMinValue, 4.5 * pow, 5 * pow, 6 * pow, 7 * pow, 8 * pow, 9 * pow, 9.5 * pow, yMaxValue]} />
-                  <XAxis hideTicks />
-                  {iscrosshair && <Crosshair values={crosshairValues}>
-                    <div>
-                      <h3>{abbrNum(crosshairValues[1].y)}</h3>
-                    </div>
-                  </Crosshair>
-                  }
-
-                </FlexibleWidthXYPlot>
-              </Box>*/}
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Total Farming Liquidity</small>
-                <h2>
-                  <strong>Chart Amount{/*liquidityState.Amount*/}</strong> <span className="re">-4.73%</span>
-                </h2>
-              </div>
-              <div className="chart">
-              </div>
-            </div>
-          </div>
-          <div className="blc cl33">
-            <div>
-              <div className="top">
-                <small>Total Staked Liquidity</small>
-                <h2>
-                  <strong>Chart Amount{/*liquidityState.InitialAmount*/}</strong> <span className="re">-4.73%</span>
-                </h2>
-              </div>
-              <div className="chart">
-              </div>
+                </FlexibleXYPlot>
+              </Box>
             </div>
           </div>
           <div className="blc cl33">
@@ -455,7 +469,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               <div className="top">
                 <small>Staking Rewards Available</small>
                 <h2>
-                  <strong>Total Amount{/*liquidityState.UnlockDate*/}</strong> <span className="re">-4.73%</span>
+                  <strong>Total Amount{/*liquidityState.UnlockDate*/}</strong> <span className="gr">0.00%</span>
                 </h2>
               </div>
             </div>
@@ -465,7 +479,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               <div className="top">
                 <small>Staking Rewards Distributed</small>
                 <h2>
-                  <strong>Rewards{/*liquidityState.LockID*/}</strong> <span className="gr">-4.73%</span>
+                  <strong>Rewards{/*liquidityState.LockID*/}</strong> <span className="gr">0.00%</span>
                 </h2>
               </div>
             </div>
@@ -475,7 +489,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               <div className="top">
                 <small>Total Locked Liquidity</small>
                 <h2>
-                  <strong>Locked Amount{/*liquidityState.Owner*/}</strong> <span className="gr">-4.73%</span>
+                  <strong>Locked Amount{/*liquidityState.Owner*/}</strong> <span className="gr">0.00%</span>
                 </h2>
               </div>
             </div>
@@ -483,7 +497,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               <div className="top">
                 <small>Total Value Locked</small>
                 <h2>
-                  <strong>Vested Amount{/*liquidityState.USDValue*/}</strong> <span className="gr">-4.73%</span>
+                  <strong>Vested Amount{/*liquidityState.USDValue*/}</strong> <span className="gr">0.00%</span>
                 </h2>
               </div>
             </div>

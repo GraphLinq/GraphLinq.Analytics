@@ -71,7 +71,29 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 					style={{ cursor: 'not-allowed' }}
 				>
 					{item.render("Header")}
-					{/* <div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div> */}
+				</th>
+			)
+		}
+
+		if (item.id === 'timestamp') {
+			return (
+				<th
+					{...item.getHeaderProps()}
+					className="th-visable"
+					style={{ fontWeight: '900', cursor: 'pointer' }}
+				>
+					<div>
+						<span {...item.getSortByToggleProps()}>
+							{item.render("Header")}
+							<span style={{ color: 'red', marginLeft: '3px' }}>
+								{item.isSorted
+									? item.isSortedDesc
+										? <FaSortAmountDown />
+										: <FaSortAmountUp />
+									: ''}
+							</span>
+						</span>
+					</div>
 				</th>
 			)
 		}
@@ -79,34 +101,41 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 		if (item.isSorted || item.isSortedDesc) {
 			return (
 				<th
-					{...item.getHeaderProps(item.getSortByToggleProps())}
+					{...item.getHeaderProps()}
 					className="th-visable"
 					style={{ fontWeight: '900', cursor: 'pointer' }}
 				>
-					{item.render("Header")}
-					<span style={{ color: 'red', marginLeft: '3px' }}>
-						{item.isSorted
-							? item.isSortedDesc
-								? <FaSortAmountDown />
-								: <FaSortAmountUp />
-							: ''}
-					</span>
-					{/* <div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div> */}
+					<div>
+						<span style={{ color: 'red', marginLeft: '3px' }} {...item.getSortByToggleProps()}>
+							{item.render("Header")}
+							<span style={{ color: 'red', marginLeft: '3px'}}>
+								{item.isSorted
+									? item.isSortedDesc
+										? <FaSortAmountDown />
+										: <FaSortAmountUp />
+									: ''}
+							</span>
+						</span>
+					</div>
+					<div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div>
 				</th>
 			)
 		}
 
 		return (
 			<th
-				{...item.getHeaderProps(item.getSortByToggleProps())}
+				{...item.getHeaderProps()}
 				className="th-visable"
 				style={{ fontWeight: '900', cursor: 'pointer' }}
 			>
-				{item.render("Header")}
-				{/* <div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div> */}
+				<div>
+					<span style={{ color: 'red', marginLeft: '3px' }} {...item.getSortByToggleProps()}>
+						{item.render("Header")}
+					</span>
+				</div>
+				<div className="th-filter">{item.canFilter ? item.render('Filter') : null}</div>
 			</th>
 		)
-
 	}
 
 	function getRows(row: any, index: number) {

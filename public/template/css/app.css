@@ -261,6 +261,9 @@
     .tjcenter{text-align:center;}
     .tclearfix::after{content:""!important;clear:both!important;display:table!important;}
     .settings-modal:hover{color:#f20350;}
+    .settigs-modal{pointer-events: none;}
+    @media(prefers-reduced-motion: no-preference){.settings-modal{animation: settings-modal-spin infinite 5s linear;}}
+    @keyframes settings-modal-spin {from{transform: rotate(0deg);} to{transform: rotate(360deg);}}
     .tmp-spin {height:350px;margin:auto;padding:10px;right:auto;left:auto;text-align:center;}
     .sort-disabled {cursor:not-allowed;}
     .etherscan img{width:100%;max-width:12px;height:auto;vertical-align:middle;top:-2px;}
@@ -278,7 +281,7 @@
     .th-filter > select {padding: 2px;background: transparent;color: white;border: 1px solid #47ccde;border-radius: 5px;}
     .th-filter > select > option {background: #16132b!important;padding: 5px!important;}
     .totaleth-button {display: flex;justify-content: center;margin-top: -3px;}
-    .rage-input {padding: 0!important;margin-top: -1px!important;width: 100%;}
+    .rage-input {padding: 0!important;margin-top: -1px!important;width: 120px;}
 
 /*----------------------------------------------------< MEDIA QUERIES >---------------------------------------------------*/
 

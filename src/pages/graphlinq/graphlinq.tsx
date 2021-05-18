@@ -15,6 +15,7 @@ import { Table } from "../../components/table";
 
 interface GlqProps {
 }
+
 type GlgDataType = {
   timestamp: string;
   side: string;
@@ -27,8 +28,6 @@ type GlgDataType = {
   other: string;
 }
 
-
-// TODO: refactor and move so all projects can access this
 Moment.globalFormat = "YYYY-MM-DD HH:mm:ss";
 const m  = moment();
 const tz = jstz.determine().name();
@@ -97,7 +96,7 @@ function DefaultColumnFilter({ column }: DefaultColumnType) {
   )
 }
 
-interface TotalEthFilterType {
+interface SliderColumnFilterType {
   column: {
     filterValue: any,
     preFilteredRows: any,
@@ -106,7 +105,7 @@ interface TotalEthFilterType {
   }
 }
 
-function TotalEthFilter({ column }: TotalEthFilterType) {
+function SliderColumnFilter({ column }: SliderColumnFilterType) {
   const { filterValue, setFilter, preFilteredRows, id } = column;
   const [min, max] = useMemo(() => {
     let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
@@ -135,9 +134,26 @@ function TotalEthFilter({ column }: TotalEthFilterType) {
   )
 }
 
+function filterGreaterThan(rows: any, id: any, filterValue: any) {
+  return rows.filter((row: any) => {
+    const rowValue = row.values[id]
+    return rowValue >= filterValue
+  })
+}
 
+filterGreaterThan.autoRemove = (val: any) => typeof val !== 'number'
 
+function roundedMedian(leafValues: any) {
+  let min = leafValues[0] || 0
+  let max = leafValues[0] || 0
 
+  leafValues.forEach((value: any) => {
+    min = Math.min(min, value)
+    max = Math.max(max, value)
+  })
+
+  return Math.round((min + max) / 2)
+}
 
 const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const dispatch = useDispatch();
@@ -169,19 +185,15 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   let glqTradesData: GlgDataType[] = [];
   let buyArr  = [];
   let sellArr = [];
-console.log(ethPrice);
 
   if (glqTrades && glqTrades.length) {
     glqTradesData = glqTrades.slice(0).reverse().map((item: any, index: number) => {
       if ((item.amount0Out > 0) && (item.amount1In > 0)) {
-        //hacky af USD from ETH price calculation
         const totalUSDSpentB = ethPrice * item.amount1In;
         const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
         const totalUSDwFeesB = totalUSDTradeB * .999;
-        // hacky af ETH amount
         const totalEthSpendB = totalUSDwFeesB / ethPrice;
         return {
-          // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
           </Moment>),
@@ -195,14 +207,11 @@ console.log(ethPrice);
         }
       }
       else {
-        //hacky af USD from ETH price calculation
         const totalUSDSpentS = ethPrice * item.amount1Out;
         const totalUSDTradeS = totalUSDSpentS / item.amount0In;
         const totalUSDwFeesS = totalUSDTradeS * .999;
-        // hacky af ETH amount
         const totalEthSpendS = totalUSDwFeesS / ethPrice;
         return {
-          // timestamp: item.timestamp * 1000,
           timestamp: (<Moment interval={0}>
             {item.timestamp * 1000}
           </Moment>),
@@ -240,20 +249,34 @@ console.log(ethPrice);
       {
         Header: 'price usd',
         accessor: 'priceUsd',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'price eth',
         accessor: 'priceEth',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'amount glq',
         accessor: 'amount',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'total eth',
         accessor: 'totalEth',
-        // Filter: TotalEthFilter,
-        // filter: 'equals',
+        Filter: SliderColumnFilter,
+        filter: filterGreaterThan,
+        aggregate: roundedMedian,
+        Aggregated: ({ value }) => `${value} (med)`,
       },
       {
         Header: 'MAKER',
