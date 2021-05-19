@@ -10,7 +10,6 @@ interface LayoutProps {
 }
 
 const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
-
   let topRoute = [];
   let newRoutes = [];
   let sidebarRoutes = routes;
@@ -55,7 +54,7 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
         </nav>
         <div id="sl">
           <ul>
-            {sidebarRoutes.map((route: any, index) => (
+            {sidebarRoutes.map((route: any, index: number) => (
               <li key={index} >
                 <Link
                   as={NavLink}
@@ -63,14 +62,12 @@ const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
                   to={route.path}
                 >
                   <Box w="20px" p="2px" mr="15px" display="flex" alignItems="center" justifyContent="center">
-                    <Image maxH="full" maxW="full" src={route.imgSrc} alt="Unicrypt" />
+                    <img src={route.imgSrc} alt="Unicrypt" />
                   </Box>
                   <strong>{route.name}</strong>
                 </Link>
               </li>
             ))}
-            {/* <li className="sl"><a data-href=""><div className="illu"><img src="/template/img/unicrypt.svg" alt="Unicrypt" /></div><strong>Unicrypt</strong></a></li>
-              <li><a data-href=""><div className="illu"><img src="/template/img/unicrypt.svg" alt="Unicrypt" /></div><strong>Projet</strong></a></li> */}
           </ul>
         </div>
       </div>

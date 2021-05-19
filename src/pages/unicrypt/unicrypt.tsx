@@ -179,8 +179,8 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice })
   }, [])
   const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
-  const [liquidityUSD, setLiquidityUSD] = useState([]);
-  const [pairCount, setPairCount] = useState([]);
+  const [liquidityUSD, setLiquidityUSD] = useState<{x:any, y:any}[]>([]);
+  const [pairCount, setPairCount] = useState<{x:any, y:any}[]>([]);
 
   useEffect(() => {
     let liquid:any = [], pair:any = [];
@@ -276,12 +276,13 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
   const [crosshairValues1, setCrosshairValues1] = useState<any>();
   const [crosshairValues2, setCrosshairValues2] = useState<any>();
-  const [iscrosshair, setIscrosshair] = useState(false);
 
-  const yMinFirst = (Math.min.apply(null, liquidityUSD.map((a:any) => { return a.y; })));
-  const yMaxFirst = (Math.max.apply(null, liquidityUSD.map((a:any) => { return a.y; })));
-  const yMinSec = (Math.min.apply(null, pairCount.map((a:any) => { return a.y; })))
-  const yMaxSec = (Math.max.apply(null, pairCount.map((a:any) => { return a.y; })));
+  const firstLiquidity = liquidityUSD[0]?.y;
+  const lastLiquidity = liquidityUSD[liquidityUSD.length - 1]?.y;
+  const liquidPercentage = deltaDirection(lastLiquidity, firstLiquidity);
+  const firstPairCount = pairCount[0]?.y;
+  const lastPairCount = pairCount[liquidityUSD.length - 1]?.y;
+  const pairPercentage = deltaDirection(lastPairCount, firstPairCount);
 
   const columns = useMemo<Column<UncxType>[]>(
     () => [
@@ -423,22 +424,33 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
           <div className="blc cl50">
             <div>
               <div className="top">
-                <small>Total Locked</small>
+                <small>Total Locked Liquidity</small>
                 <h2>
-                  <strong>Liquidity
-                    {/*
-                    formatCur(liqState.USDValue, 2, 2)
-                    */}
-                  </strong> <span className="gr">+0.00%</span>
+                  <strong>
+                    {
+                      lastLiquidity ? formatCur(lastLiquidity, 2,2) : "Loading..."
+                    }
+                    </strong>
+                  {liquidPercentage
+                    ? <span className={liquidPercentage.color}> {liquidPercentage.caret} {liquidPercentage.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
               <Box w="100%" pl={22} pr={22}>
-                  <FlexibleXYPlot height={350}>
+                  <FlexibleXYPlot height={350} onMouseLeave={() => setCrosshairValues1([])}>
                     <HorizontalGridLines />
                     <YAxis tickFormat={tick => `${tick/1000000}M`} />
                     <LineSeries
                       color="#F20350"
                       data={liquidityUSD}
+                      onNearestX={(datapoint, event) => {
+                        setCrosshairValues1([datapoint]);
+                      }}
+                    />
+                    <Crosshair
+                      values={crosshairValues1}
+                      itemsFormat={(d) => [{title: 'Liquidity', value: d[0].y}]}
                     />
                   </FlexibleXYPlot>
               </Box>
@@ -447,18 +459,31 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
           <div className="blc cl50">
             <div>
               <div className="top">
-                <small>Total Locked</small>
+                <small>Total Locked Coin Pairs</small>
                 <h2>
-                  <strong>Pair Count{/*liquidityState.Amount*/}</strong> <span className="gr">0.00%</span>
+                  <strong>
+                    {formatSupply(lastPairCount, 0, 0)}
+                  </strong>
+                {pairPercentage
+                    ? <span className={pairPercentage.color}> {pairPercentage.caret} {pairPercentage.delta}</span>
+                    : ''
+                  }
                 </h2>
               </div>
               <Box w="100%" pl={22} pr={22}>
-                <FlexibleXYPlot height={350}>
+                <FlexibleXYPlot height={350} onMouseLeave={() => setCrosshairValues2([])}>
                   <HorizontalGridLines />
                   <YAxis />
                   <LineSeries
                     color="#F20350"
                     data={pairCount}
+                    onNearestX={(datapoint, event) => {
+                      setCrosshairValues2([datapoint]);
+                    }}
+                  />
+                  <Crosshair
+                    values={crosshairValues2}
+                    itemsFormat={(d) => [{title: 'PairCount', value: d[0].y}]}
                   />
                 </FlexibleXYPlot>
               </Box>
