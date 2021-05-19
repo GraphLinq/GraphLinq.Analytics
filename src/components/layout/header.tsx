@@ -56,7 +56,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
             <form>
               <fieldset>
                 <div data-search-res />
-                <label htmlFor="scr">Search token...</label>
+                <label htmlFor="scr">Search ...</label>
                 <input id="scr" type="text" onFocus={() => setIsOpen(true)} onBlur={() => onCloseMenu()} />
               </fieldset>
               {isOpen && <ul className="res">

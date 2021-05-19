@@ -450,7 +450,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     />
                     <Crosshair
                       values={crosshairValues1}
-                      itemsFormat={(d) => [{title: 'Liquidity', value: d[0].y}]}
+                      itemsFormat={(d) => [
+                        {title: 'Liquidity', value: ` ${d[0].y.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}$ ` }
+                      ]}
                     />
                   </FlexibleXYPlot>
               </Box>
