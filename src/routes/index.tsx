@@ -1,7 +1,7 @@
-import { lazy } from 'react'
+import { lazy } from "react";
 
-const Home = lazy(() => import('../pages/home'))
-const Analytics = lazy(() => import('../pages/analytics'))
+const Home = lazy(() => import("../pages/home"));
+const Analytics = lazy(() => import("../pages/analytics"));
 
 /**
  * These are internal routes
@@ -11,13 +11,13 @@ const Analytics = lazy(() => import('../pages/analytics'))
  */
 const routes = [
   {
-    path: '/home',
+    path: "/home",
     component: Home,
   },
   {
-    path: '/analytics',
+    path: "/analytics",
     component: Analytics,
-  }
-]
+  },
+];
 
-export default routes
+export default routes;

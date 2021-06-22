@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { NavLink, Route, useHistory } from 'react-router-dom';
-import routes from '../../routes/sidebar';
-import tabs from '../../routes/unicrypt';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/reducers';
-import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY } from '../../store/actionNames/glqAction';
-import { Link } from '@chakra-ui/react';
-import { SearchBar } from '../../components/SearchBar';
-import { formatCur } from '../../utils';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
+import { NavLink, Route } from "react-router-dom";
+import tabs from "../../routes/unicrypt";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/reducers";
+import {
+  POST_SELECTED_UNCL,
+  POST_SELECTED_UNCX,
+  POST_TOTAL_LIQUIDITY,
+  POST_LIQUIDITY,
+} from "../../store/actionNames/glqAction";
+import { Link } from "@chakra-ui/react";
+import { SearchBar } from "../../components/SearchBar";
+import { formatCur } from "../../utils";
 
-interface UnicyptProps {
-}
+interface UnicyptProps {}
 
-const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
-
+const HeaderLayout: React.FC<UnicyptProps> = () => {
   const dispatch = useDispatch();
   const unclState = useSelector((state: RootState) => state.unclSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
-  const totalLiquidityState = useSelector((state: RootState) => state.totalLiquiditySelect || {});
-  const liquidityState = useSelector((state: RootState) => state.liquiditySelect[0] || {});
+  const totalLiquidityState = useSelector(
+    (state: RootState) => state.totalLiquiditySelect || {}
+  );
+  const liquidityState = useSelector(
+    (state: RootState) => state.liquiditySelect[0] || {}
+  );
 
   useEffect(() => {
-    dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState })
-    dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState })
-    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState })
-    dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState })
-  }, [])
+    dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState });
+    dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState });
+    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState });
+    dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState });
+  }, []);
 
   return (
     <header id="h">
@@ -38,7 +45,9 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
               <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65" />
             </svg>
           </button>
-          <div className="illu"><img src="/template/img/unicrypt.svg" alt="unicrypt" /></div>
+          <div className="illu">
+            <img src="/template/img/unicrypt.svg" alt="unicrypt" />
+          </div>
           <div className="tit">
             <h1>Unicrypt</h1>
             <div className="pri">
@@ -49,20 +58,23 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
         </div>
         <div className="r">
           <SearchBar />
-          <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
+          <button className="b">
+            <span>Connect wallet</span>
+            <i className="fal fa-lock" />
+          </button>
         </div>
       </div>
       <div className="bot">
         <ul>
-          {tabs.map((tab: any) => (
-            <li>
+          {tabs.map((tab: any, index: number) => (
+            <li key={index}>
               <Link
                 as={NavLink}
                 exact
                 to={tab.path}
                 bgColor="#16132b"
                 color="#b7aed6"
-                _activeLink={{ bgColor: '#f20350', color: "#ffffff" }}
+                _activeLink={{ bgColor: "#f20350", color: "#ffffff" }}
               >
                 <Route path={tab.path} exact={tab.exact}></Route>
                 {tab.name}
@@ -73,6 +85,6 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
       </div>
     </header>
   );
-}
+};
 
 export default HeaderLayout;

@@ -1,16 +1,9 @@
-import React from 'react'
-import { Alert, AlertIcon, Grid, Heading } from '@chakra-ui/react';
+import React from "react";
 
-interface HomeProps {
+interface HomeProps {}
 
-}
-
-const Home: React.FC<HomeProps> = ({ }) => {
-  return (
-    <div>
-      Hello Home!
-    </div>
-  );
-}
+const Home: React.FC<HomeProps> = () => {
+  return <div>Hello Home!</div>;
+};
 
 export default Home;
