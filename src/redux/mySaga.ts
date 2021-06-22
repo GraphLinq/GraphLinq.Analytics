@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest} from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import * as initialActions from "../store/actionNames/glqAction";
 import { postGlqSelectInfo } from "../api/glqAPI";
 import { postGlqHistoryInfo } from "../api/glqHistoryAPI";
@@ -35,14 +35,17 @@ function* postAll(action: any) {
       ]);
       yield put({ type: "POST_SELECTED_GLQ_SUCCESS", payLoad: results[0] });
       yield put({ type: "POST_HISTORY_GLQ_SUCCESS", payLoad: results[1] });
-      yield put({type: "POST_GLQ_TRADES_SUCCESS",  payLoad: results[2]});
+      yield put({ type: "POST_GLQ_TRADES_SUCCESS", payLoad: results[2] });
       yield put({ type: "POST_SELECTED_UNCL_SUCCESS", payLoad: results[3] });
       yield put({ type: "POST_SELECTED_UNCX_SUCCESS", payLoad: results[4] });
       yield put({ type: "POST_LIQUIDITY_SUCCESS", payLoad: results[5] });
-      yield put({type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results[6]});
-      yield put({type: "POST_UNCX_TRADES_SUCCESS", payLoad: results[7]});
+      yield put({ type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results[6] });
+      yield put({ type: "POST_UNCX_TRADES_SUCCESS", payLoad: results[7] });
       yield put({ type: "POST_HISTORY_UNCX_SUCCESS", payLoad: results[8] });
-      yield put({ type: "POST_SELECTED_ETH_PRICE_SUCCESS", payLoad: results[9] });
+      yield put({
+        type: "POST_SELECTED_ETH_PRICE_SUCCESS",
+        payLoad: results[9],
+      });
       yield call(delay, 3000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
@@ -70,8 +73,11 @@ function* postGlqAll(action: any) {
       ]);
       yield put({ type: "POST_SELECTED_GLQ_SUCCESS", payLoad: results1[0] });
       yield put({ type: "POST_HISTORY_GLQ_SUCCESS", payLoad: results1[1] });
-      yield put({type: "POST_GLQ_TRADES_SUCCESS",  payLoad: results1[2]});
-      yield put({ type: "POST_SELECTED_ETH_PRICE_SUCCESS", payLoad: results1[3] });
+      yield put({ type: "POST_GLQ_TRADES_SUCCESS", payLoad: results1[2] });
+      yield put({
+        type: "POST_SELECTED_ETH_PRICE_SUCCESS",
+        payLoad: results1[3],
+      });
       yield call(delay, 30000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
@@ -97,10 +103,13 @@ function* postUncAll(action: any) {
       yield put({ type: "POST_SELECTED_UNCL_SUCCESS", payLoad: results2[0] });
       yield put({ type: "POST_SELECTED_UNCX_SUCCESS", payLoad: results2[1] });
       yield put({ type: "POST_LIQUIDITY_SUCCESS", payLoad: results2[2] });
-      yield put({type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results2[3]});
-      yield put({type: "POST_UNCX_TRADES_SUCCESS", payLoad: results2[4]});
+      yield put({ type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results2[3] });
+      yield put({ type: "POST_UNCX_TRADES_SUCCESS", payLoad: results2[4] });
       yield put({ type: "POST_HISTORY_UNCX_SUCCESS", payLoad: results2[5] });
-      yield put({ type: "POST_SELECTED_ETH_PRICE_SUCCESS", payLoad: results2[6] });
+      yield put({
+        type: "POST_SELECTED_ETH_PRICE_SUCCESS",
+        payLoad: results2[6],
+      });
       yield call(delay, 120000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_UNCL_FAILED" });

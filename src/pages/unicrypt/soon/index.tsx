@@ -1,5 +1,5 @@
-import React from 'react'
-import HeaderLayout from '../header'
+import React from "react";
+import HeaderLayout from "../header";
 
 function ComingSoon() {
   return (
@@ -10,9 +10,7 @@ function ComingSoon() {
           <div>
             <div className="top">
               <h2>
-                <strong>
-                  Coming Soon...
-                </strong>
+                <strong>Coming Soon...</strong>
               </h2>
             </div>
           </div>

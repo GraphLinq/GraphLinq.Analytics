@@ -1,18 +1,16 @@
-import React from 'react'
-import HeaderLayout from './header'
-import UnicryptContent from './unicrypt'
+import React from "react";
+import HeaderLayout from "./header";
+import UnicryptContent from "./unicrypt";
 
-interface UnclProps {
-}
+interface UnclProps {}
 
 const Unicrypt: React.FC<UnclProps> = () => {
-
   return (
     <div>
       <HeaderLayout />
       <UnicryptContent />
     </div>
   );
-}
+};
 
 export default Unicrypt;

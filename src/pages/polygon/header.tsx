@@ -1,16 +1,14 @@
-import React from 'react'
+import React from "react";
 // import { useDispatch, useSelector } from 'react-redux';
 // import { RootState } from '../../store/reducers';
-import { NavLink, Route } from 'react-router-dom';
-import tabs from '../../routes/polygon';
-import { Link } from '@chakra-ui/react';
-import { SearchBar } from '../../components/SearchBar';
+import { NavLink, Route } from "react-router-dom";
+import tabs from "../../routes/polygon";
+import { Link } from "@chakra-ui/react";
+import { SearchBar } from "../../components/SearchBar";
 
-interface HeaderLayoutProps {
-}
+interface HeaderLayoutProps {}
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
-
   //const dispatch = useDispatch();
   //const glqState = useSelector((state: RootState) => state.glqSelect || {});
 
@@ -29,7 +27,9 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
               <path className="l-3" d="M0,58h62c13,0,6-26-4-16L35,65" />
             </svg>
           </button>
-          <div className="illu"><img src="/template/img/polygon-small.svg" alt="polygon" /></div>
+          <div className="illu">
+            <img src="/template/img/polygon-small.svg" alt="polygon" />
+          </div>
           <div className="tit">
             <h1>Polygon</h1>
             <div className="pri">
@@ -37,12 +37,15 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
             </div>
           </div>
         </div>
-          <div className="r">
-            <SearchBar />
-            <button className="b"><span>Connect wallet</span><i className="fal fa-lock" /></button>
-          </div>
+        <div className="r">
+          <SearchBar />
+          <button className="b">
+            <span>Connect wallet</span>
+            <i className="fal fa-lock" />
+          </button>
         </div>
-        <div className="bot">
+      </div>
+      <div className="bot">
         <ul>
           {tabs.map((tab: any, index: number) => (
             <li key={index}>
@@ -52,7 +55,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
                 to={tab.path}
                 bgColor="#16132b"
                 color="#b7aed6"
-                _activeLink={{ bgColor: '#f20350', color: "#ffffff" }}
+                _activeLink={{ bgColor: "#f20350", color: "#ffffff" }}
               >
                 <Route path={tab.path} exact={tab.exact}></Route>
                 {tab.name}
@@ -60,9 +63,9 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
             </li>
           ))}
         </ul>
-        </div>
+      </div>
     </header>
   );
-}
+};
 
 export default HeaderLayout;

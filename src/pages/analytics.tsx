@@ -1,15 +1,9 @@
-import React from 'react'
+import React from "react";
 
-interface AnalyticsProps {
-
-}
+interface AnalyticsProps {}
 
 const Analytics: React.FC<AnalyticsProps> = () => {
-  return (
-    <div>
-      Hello analytics!
-    </div>
-  );
-}
+  return <div>Hello analytics!</div>;
+};
 
 export default Analytics;

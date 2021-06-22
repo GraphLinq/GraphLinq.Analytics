@@ -1,11 +1,16 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 import { useActiveWeb3React } from "./hooks";
 import Web3ReactManager from "./web3/web3Manager";
-import LayoutIndex from "./components/layout/index"
+import LayoutIndex from "./components/layout/index";
 import GraphLinq from "./pages/graphlinq";
 import Unicrypt from "./pages/unicrypt";
 //import Polygon from "./pages/polygon";
@@ -14,7 +19,6 @@ import UnicryptSoon from "./pages/unicrypt/soon";
 import PolygonSoon from "./pages/polygon/soon";
 
 const AppWrapper = () => {
-
   useActiveWeb3React();
 
   return (
@@ -26,7 +30,6 @@ const AppWrapper = () => {
 
 const App: React.FC = () => {
   return (
-
     <Router>
       <Web3ReactManager>
         <LayoutIndex>

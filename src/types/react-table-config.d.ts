@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import React, { MouseEventHandler } from "react";
 import {
   TableInstance,
   UseColumnOrderInstanceProps,
@@ -42,15 +42,17 @@ import {
   UseSortByInstanceProps,
   UseSortByOptions,
   UseSortByState,
-} from 'react-table'
+} from "react-table";
 
-declare module 'react-table' {
-  export interface UseFlexLayoutInstanceProps<D extends Record<string, unknown>> {
-    totalColumnsMinWidth: number
+declare module "react-table" {
+  export interface UseFlexLayoutInstanceProps<
+    D extends Record<string, unknown>
+  > {
+    totalColumnsMinWidth: number;
   }
 
   export interface UseFlexLayoutColumnProps<D extends Record<string, unknown>> {
-    totalMinWidth: number
+    totalMinWidth: number;
   }
 
   export interface TableOptions<D extends Record<string, unknown>>
@@ -64,14 +66,16 @@ declare module 'react-table' {
       UseRowSelectOptions<D>,
       UseSortByOptions<D> {}
 
-  export interface Hooks<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseExpandedHooks<D>,
+  export interface Hooks<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseExpandedHooks<D>,
       UseGroupByHooks<D>,
       UseRowSelectHooks<D>,
       UseSortByHooks<D> {}
 
-  export interface TableInstance<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseColumnOrderInstanceProps<D>,
+  export interface TableInstance<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseColumnOrderInstanceProps<D>,
       UseExpandedInstanceProps<D>,
       UseFiltersInstanceProps<D>,
       UseGlobalFiltersInstanceProps<D>,
@@ -82,8 +86,9 @@ declare module 'react-table' {
       UsePaginationInstanceProps<D>,
       UseSortByInstanceProps<D> {}
 
-  export interface TableState<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseColumnOrderState<D>,
+  export interface TableState<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseColumnOrderState<D>,
       UseExpandedState<D>,
       UseFiltersState<D>,
       UseGlobalFiltersState<D>,
@@ -92,25 +97,29 @@ declare module 'react-table' {
       UseResizeColumnsState<D>,
       UseRowSelectState<D>,
       UseSortByState<D> {
-    rowCount: number
+    rowCount: number;
   }
 
-  export interface ColumnInterface<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseFiltersColumnOptions<D>,
+  export interface ColumnInterface<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
       UseSortByColumnOptions<D> {
-    align?: string
+    align?: string;
   }
 
-  export interface ColumnInstance<D extends Record<string, unknown> = Record<string, unknown>>
-    extends UseFiltersColumnProps<D>,
+  export interface ColumnInstance<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
       UseFlexLayoutColumnProps<D>,
       UseSortByColumnProps<D> {}
 
-  export interface Cell<D extends Record<string, unknown> = Record<string, unknown>> extends UseGroupByCellProps<D> {}
+  export interface Cell<
+    D extends Record<string, unknown> = Record<string, unknown>
+  > extends UseGroupByCellProps<D> {}
 
   export interface Row<D extends object = {}>
     extends UseExpandedRowProps<D>,
@@ -118,4 +127,6 @@ declare module 'react-table' {
       UseRowSelectRowProps<D> {}
 }
 
-export type TableMouseEventHandler = (instance: TableInstance<T>) => MouseEventHandler
+export type TableMouseEventHandler = (
+  instance: TableInstance<T>
+) => MouseEventHandler;
