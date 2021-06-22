@@ -11,14 +11,15 @@ import { formatCur } from '../../utils';
 interface HeaderLayoutProps {
 }
 
-const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
+const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
 
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <header id="h">
@@ -41,13 +42,13 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
         </div>
           <div className="r">
             <SearchBar />
-            <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
+            <button className="b"><span>Connect wallet</span><i className="fal fa-lock" /></button>
           </div>
         </div>
         <div className="bot">
         <ul>
-          {tabs.map((tab: any) => (
-            <li>
+          {tabs.map((tab: any, index:number) => (
+            <li key={index}>
               <Link
                 as={NavLink}
                 exact

@@ -1,18 +1,18 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from 'react'
 import { POST_SELECTED_UNCL, POST_SELECTED_UNCX, POST_TOTAL_LIQUIDITY, POST_LIQUIDITY, POST_UNCX_TRADES, POST_HISTORY_UNCX, POST_SELECTED_ETH_PRICE } from '../../store/actionNames/glqAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination, Column } from "react-table";
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, Crosshair, VerticalGridLines, VerticalBarSeries, LineSeries, AreaSeries, FlexibleXYPlot, FlexibleWidthXYPlot, makeWidthFlexible } from 'react-vis';
+import { useTable, useFilters, useGlobalFilter, useSortBy, usePagination, Column } from "react-table";
+import { XAxis, YAxis, HorizontalGridLines, Crosshair,LineSeries, FlexibleXYPlot } from 'react-vis';
 import { Box } from '@chakra-ui/react';
-import { formatCur, formatSupply, deltaDirection, truncateString } from '../../utils';
+import { formatCur, formatSupply, deltaDirection } from '../../utils';
 import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
-import { usePrevious } from '../../hooks';
-import Loader from "react-loader-spinner";
 import GaugeChart from 'react-gauge-chart';
-import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft, FaSortAmountDown, FaSortAmountUpAlt, FaSortAmountDownAlt, FaSortAmountUp } from 'react-icons/fa';
+import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 import SettingsModal from '../../components/SettingsModal';
 import { Table } from "../../components/table";
 
@@ -158,7 +158,7 @@ function DefaultColumnFilter({ column }: DefaultColumnType) {
   )
 }
 
-const UnicryptContent: React.FC<UnclProps> = ({ }) => {
+const UnicryptContent: React.FC<UnclProps> = () => {
 
   const dispatch    = useDispatch();
   const unclState   = useSelector((state: RootState) => state.unclSelect || {});
@@ -166,8 +166,8 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const tLiqState   = useSelector((state: RootState) => state.totalLiquiditySelect || {});
   const liqState    = useSelector((state: RootState) => state.liquiditySelect[0] || {});
   const uncxHistory = useSelector((state: RootState) => state.uncxHistory || {});
-  const uncxTrades  = useSelector((state: RootState) => state.postUncxTradesSelect);
-  const ethPrice    = useSelector((state: RootState) => state.ethPriceSelect);
+  const uncxTrades  = useSelector((state: RootState) => state.postUncxTradesSelect || {});
+  const ethPrice    = useSelector((state: RootState) => state.ethPriceSelect || 0);
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState })
@@ -210,69 +210,59 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
   const vd = deltaDirection(uncxState.volume, uncxHistory.volume);
   const md = deltaDirection(uncxState.market_cap, uncxHistory.market_cap);
 
-  let uncxTradesData: UncxType[] = [];
+  const [uncxTradesData, setUncxTradesData] = useState([]);
   let buyArr  = [];
   let sellArr = [];
 
-  if (uncxTrades && uncxTrades.length) {
-    uncxTradesData = uncxTrades.slice(0).reverse().map((item: any, index: number) => {
-      if ((item.amount0Out > 0) && (item.amount1In > 0)) {
-        const totalUSDSpentB = ethPrice * item.amount1In;
-        const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
-        const totalUSDwFeesB = totalUSDTradeB * .999;
-        const totalEthSpendB = totalUSDwFeesB / ethPrice;
-        return {
-          timestamp: (<Moment interval={0}>
-            {item.timestamp * 1000}
-          </Moment>),
-          side: 'Buy',
-          priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
-          priceEth: formatSupply(totalEthSpendB, 6, 6),
-          amount: item.amount0Out.toFixed(0),
-          totalEth: item.amount1In.toFixed(6),
-          maker: item.to,
-          other: item.transactionHash
+  useEffect(() => {
+    if (uncxTrades && uncxTrades.length) {
+      setUncxTradesData(uncxTrades.slice(0).reverse().map((item: any, index: number) => {
+        if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+          const totalUSDSpentB = ethPrice * item.amount1In;
+          const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+          const totalUSDwFeesB = totalUSDTradeB * .999;
+          const totalEthSpendB = totalUSDwFeesB / ethPrice;
+          return {
+            timestamp: (<Moment interval={0}>
+              {item.timestamp * 1000}
+            </Moment>),
+            side: 'Buy',
+            priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
+            priceEth: formatSupply(totalEthSpendB, 6, 6),
+            amount: item.amount0Out.toFixed(0),
+            totalEth: item.amount1In.toFixed(6),
+            maker: item.to,
+            other: item.transactionHash
+          }
         }
-      }
-      else {
-        const totalUSDSpentS = ethPrice * item.amount1Out;
-        const totalUSDTradeS = totalUSDSpentS / item.amount0In;
-        const totalUSDwFeesS = totalUSDTradeS * .999;
-        const totalEthSpendS = totalUSDwFeesS / ethPrice;
-        return {
-          timestamp: (<Moment interval={0}>
-            {item.timestamp * 1000}
-          </Moment>),
-          side: 'Sell',
-          priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
-          priceEth: formatSupply(totalEthSpendS, 6, 6),
-          amount: item.amount0In.toFixed(0),
-          totalEth: item.amount1Out.toFixed(6),
-          maker: item.to,
-          other: item.transactionHash
+        else {
+          const totalUSDSpentS = ethPrice * item.amount1Out;
+          const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+          const totalUSDwFeesS = totalUSDTradeS * .999;
+          const totalEthSpendS = totalUSDwFeesS / ethPrice;
+          return {
+            timestamp: (<Moment interval={0}>
+              {item.timestamp * 1000}
+            </Moment>),
+            side: 'Sell',
+            priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
+            priceEth: formatSupply(totalEthSpendS, 6, 6),
+            amount: item.amount0In.toFixed(0),
+            totalEth: item.amount1Out.toFixed(6),
+            maker: item.to,
+            other: item.transactionHash
+          }
         }
-      }
-    })
-    buyArr  = uncxTrades.filter((e: any) => (e.amount0In === 0))
-    sellArr = uncxTrades.filter((e: any) => (e.amount1In === 0))
-  }
+      }));
+    }
+  }, [ethPrice]);
 
-  const FlexibleXYPlot = makeWidthFlexible(XYPlot);
+  buyArr  = uncxTrades.filter((e: any) => (e.amount0In === 0));
+  sellArr = uncxTrades.filter((e: any) => (e.amount1In === 0));
+
   const buyPr   = parseFloat(((buyArr.length / uncxTrades.length) * 100).toFixed(2));
   const sellPr  = parseFloat(((sellArr.length / uncxTrades.length) * 100).toFixed(2));
   const gaugePr = buyPr / 100.0;
-
-  const newArr = tLiqState.map((item: any, index: number) => {
-    return { x: index, y: parseFloat(item).toFixed(2) }
-  });
-
-  const reArr = tLiqState.map((item: any, index: number) => {
-    return { x: index, y: parseFloat(item).toFixed(2) }
-  });
-
-  const totalLiquidityData = [
-    newArr, reArr
-  ];
 
   const [crosshairValues1, setCrosshairValues1] = useState<any>();
   const [crosshairValues2, setCrosshairValues2] = useState<any>();
@@ -346,7 +336,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
 
   const data = useMemo<UncxType[]>(
     () => uncxTradesData,
-    [uncxTradesData.length]
+    [uncxTradesData]
   );
 
   const defaultColumn = useMemo(
@@ -388,9 +378,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
-
     page,
     canNextPage,
     canPreviousPage,
@@ -401,10 +389,6 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
     setPageSize,
     pageOptions,
     state: { pageIndex, pageSize },
-
-    visibleColumns,
-    preGlobalFilteredRows,
-    setGlobalFilter,
     allColumns,
     getToggleHideAllColumnsProps,
   } = useTable<UncxType>(
@@ -439,8 +423,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               </div>
               <Box w="100%" pl={22} pr={22}>
                   <FlexibleXYPlot height={350} onMouseLeave={() => setCrosshairValues1([])}>
-                    <HorizontalGridLines />
+                    <HorizontalGridLines style={{ opacity: 0.5, width: '1px' }} />
                     <YAxis tickFormat={tick => `${tick/1000000}M`} />
+                    <XAxis hideTicks />
                     <LineSeries
                       color="#F20350"
                       data={liquidityUSD}
@@ -450,10 +435,11 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                     />
                     <Crosshair
                       values={crosshairValues1}
-                      itemsFormat={(d) => [
-                        {title: 'Liquidity', value: ` ${d[0].y.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}$ ` }
-                      ]}
-                    />
+                    >
+                      <div>
+                        <h3 className="chartNum">Liquidity: {` ${crosshairValues1 && crosshairValues1.length > 0 ? crosshairValues1[0].y.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") : ''}$ `}</h3>
+                      </div>
+                    </Crosshair>
                   </FlexibleXYPlot>
               </Box>
             </div>
@@ -466,7 +452,7 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   <strong>
                     {formatSupply(lastPairCount, 0, 0)}
                   </strong>
-                {pairPercentage
+                  {pairPercentage
                     ? <span className={pairPercentage.color}> {pairPercentage.caret} {pairPercentage.delta}</span>
                     : ''
                   }
@@ -474,8 +460,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
               </div>
               <Box w="100%" pl={22} pr={22}>
                 <FlexibleXYPlot height={350} onMouseLeave={() => setCrosshairValues2([])}>
-                  <HorizontalGridLines />
+                  <HorizontalGridLines style={{ opacity: 0.5, width: '1px' }} />
                   <YAxis />
+                  <XAxis hideTicks />
                   <LineSeries
                     color="#F20350"
                     data={pairCount}
@@ -485,8 +472,9 @@ const UnicryptContent: React.FC<UnclProps> = ({ }) => {
                   />
                   <Crosshair
                     values={crosshairValues2}
-                    itemsFormat={(d) => [{title: 'PairCount', value: d[0].y}]}
-                  />
+                  >
+                    <h3 className="chartNum">PairCount: {crosshairValues2 && crosshairValues2.length > 0 ? crosshairValues2[0].y : ''}</h3>
+                  </Crosshair>
                 </FlexibleXYPlot>
               </Box>
             </div>

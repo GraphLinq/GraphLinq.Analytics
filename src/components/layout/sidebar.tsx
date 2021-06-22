@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Image, Box, Link } from '@chakra-ui/react';
+import { Box, Link } from '@chakra-ui/react';
 import { matchPath, NavLink, useLocation } from 'react-router-dom';
 
 import routes from '../../routes/sidebar';
@@ -9,7 +9,7 @@ interface LayoutProps {
 
 }
 
-const SideBarLayout: React.FC<LayoutProps> = ({ }) => {
+const SideBarLayout: React.FC<LayoutProps> = () => {
   let topRoute = [];
   let newRoutes = [];
   let sidebarRoutes = routes;

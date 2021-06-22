@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import HeaderLayout from './header'
 import PolygonContent from './polygon'
 interface PolygonProps {
 }
 
-const Polygon: React.FC<PolygonProps> = ({ }) => {
+const Polygon: React.FC<PolygonProps> = () => {
 
   return (
     <div>

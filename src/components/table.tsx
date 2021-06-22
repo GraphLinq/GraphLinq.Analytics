@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UseTableInstanceProps } from "react-table";
-import Moment from 'react-moment';
-import { FaSortAmountDown, FaSortAmountUp, FaSortAmountDownAlt } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { formatSupply } from '../utils';
 import { usePrevious } from '../hooks';
 import { truncateString } from '../utils';
@@ -30,14 +29,11 @@ export function Table<T extends object>(props: TableNewProps<T>) {
 
 	useEffect(() => {
 		setCount(rows.length);
-	}, [rows.length && rows])
+	}, [rows])
 
 	function rederCell(item: any) {
 		if (item.column.id === 'timestamp') {
 			return (
-				// <Moment interval={0}>
-				// 	{item.row.values['timestamp']}
-				// </Moment>
 				item.row.values['timestamp']
 			)
 		} else if (item.column.id === 'side') {

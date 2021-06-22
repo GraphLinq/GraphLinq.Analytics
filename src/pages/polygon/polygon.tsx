@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/reducers';
-import '../../app.css'
-import { Box } from '@chakra-ui/react';
+import React from 'react'
 
 interface PolygonProps {
 }
 
-const PolygonContent: React.FC<PolygonProps> = ({ }) => {
+const PolygonContent: React.FC<PolygonProps> = () => {
 
   return (
     <main id="m">

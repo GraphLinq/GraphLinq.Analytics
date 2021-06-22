@@ -1,21 +1,9 @@
-/*
-	Need to disable typescript check to outsmart Rodal package issue.
-	If you are making any changes to the code, remove this line temporarily
-	as we want to pass typecheck testing as much as possible.
-*/
-// @ts-nocheck
 import { React, useState } from 'react';
-//import {useSelector, useDispatch} from 'react-redux';
-import Switch from './Switch';
-//import {selectSlippageTolerance} from '../../redux/reducers/transaction';
-//import {setSlippageTolerance} from '../../redux/actions';
-
 /* eslint-disable */
 import Rodal from 'rodal';
 import 'rodal/lib/rodal.css';
 import Toggle from './Toggle';
 import './SettingsModal.scss';
-
 
 interface Props {
 	openSettingsModal: boolean;
@@ -26,8 +14,6 @@ interface Props {
 }
 
 const SettingsModal: React.FC<Props> = (props) => {
-	//const slippageTolerance = useSelector(selectSlippageTolerance);
-	//const dispatch = useDispatch();
 	const { openSettingsModal, toggleSettingsModal, allColumns, IndeterminateCheckbox, getToggleHideAllColumnsProps } = props;
 	const [value, setValue] = useState(false);
 

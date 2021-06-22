@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce, useSortBy, usePagination, Column } from "react-table";
+import { useTable, useFilters, useGlobalFilter, useSortBy, usePagination, Column } from "react-table";
 import { POST_SELECTED_GLQ, POST_HISTORY_GLQ, POST_GLQ_TRADES, POST_SELECTED_ETH_PRICE } from '../../store/actionNames/glqAction';
 import { RootState } from '../../store/reducers';
 import '../../app.css'
@@ -9,7 +10,7 @@ import GaugeChart from 'react-gauge-chart';
 import Moment from 'react-moment';
 import moment from 'moment-timezone';
 import jstz from 'jstz';
-import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft, FaSortAmountDown, FaSortAmountUpAlt, FaSortAmountDownAlt, FaSortAmountUp } from 'react-icons/fa';
+import { FaCaretUp, FaCaretDown, FaCog, FaAngleDoubleRight, FaAngleDoubleLeft, FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 import SettingsModal from '../../components/SettingsModal';
 import { Table } from "../../components/table";
 
@@ -29,13 +30,13 @@ type GlgDataType = {
 }
 
 Moment.globalFormat = "YYYY-MM-DD HH:mm:ss";
-const m  = moment();
+const m = moment();
 const tz = jstz.determine().name();
-const z  = moment().format("Z");
+const z = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
 const circSupply = 323000000;
-const maxSupply  = 500000000;
+const maxSupply = 500000000;
 
 interface ColumnType {
   column: {
@@ -155,18 +156,18 @@ function roundedMedian(leafValues: any) {
   return Math.round((min + max) / 2)
 }
 
-const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
+const GraphLinqContent: React.FC<GlqProps> = () => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const glqHistory = useSelector((state: RootState) => state.glqHistory || {});
-  const glqTrades = useSelector((state: RootState) => state.postGlqTradesSelect);
-  const ethPrice = useSelector((state: RootState) => state.ethPriceSelect);
+  const glqTrades = useSelector((state: RootState) => state.postGlqTradesSelect || {});
+  const ethPrice = useSelector((state: RootState) => state.ethPriceSelect || 0);
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_HISTORY_GLQ, payLoad: glqHistory })
     dispatch({ type: POST_GLQ_TRADES, payLoad: glqTrades })
-    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice})
+    dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice })
   }, []);
 
   const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
@@ -182,56 +183,58 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
   const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
 
-  let glqTradesData: GlgDataType[] = [];
-  let buyArr  = [];
+  const [glqTradesData, setGlqTradesData] = useState([]);
+  let buyArr = [];
   let sellArr = [];
 
-  if (glqTrades && glqTrades.length) {
-    glqTradesData = glqTrades.slice(0).reverse().map((item: any, index: number) => {
-      if ((item.amount0Out > 0) && (item.amount1In > 0)) {
-        const totalUSDSpentB = ethPrice * item.amount1In;
-        const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
-        const totalUSDwFeesB = totalUSDTradeB * .999;
-        const totalEthSpendB = totalUSDwFeesB / ethPrice;
-        return {
-          timestamp: (<Moment interval={0}>
-            {item.timestamp * 1000}
-          </Moment>),
-          side: 'Buy',
-          priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
-          priceEth: formatSupply(totalEthSpendB, 6, 6),
-          amount: item.amount0Out.toFixed(0),
-          totalEth: item.amount1In.toFixed(6),
-          maker: item.to,
-          other: item.transactionHash
+  useEffect(() => {
+    if (glqTrades && glqTrades.length) {
+      setGlqTradesData(glqTrades.slice(0).reverse().map((item: any, index: number) => {
+        if ((item.amount0Out > 0) && (item.amount1In > 0)) {
+          const totalUSDSpentB = ethPrice * item.amount1In;
+          const totalUSDTradeB = totalUSDSpentB / item.amount0Out;
+          const totalUSDwFeesB = totalUSDTradeB * .999;
+          const totalEthSpendB = totalUSDwFeesB / ethPrice;
+          return {
+            timestamp: (<Moment interval={0}>
+              {item.timestamp * 1000}
+            </Moment>),
+            side: 'Buy',
+            priceUsd: formatSupply(totalUSDwFeesB, 4, 4),
+            priceEth: formatSupply(totalEthSpendB, 6, 6),
+            amount: item.amount0Out.toFixed(0),
+            totalEth: item.amount1In.toFixed(6),
+            maker: item.to,
+            other: item.transactionHash
+          }
         }
-      }
-      else {
-        const totalUSDSpentS = ethPrice * item.amount1Out;
-        const totalUSDTradeS = totalUSDSpentS / item.amount0In;
-        const totalUSDwFeesS = totalUSDTradeS * .999;
-        const totalEthSpendS = totalUSDwFeesS / ethPrice;
-        return {
-          timestamp: (<Moment interval={0}>
-            {item.timestamp * 1000}
-          </Moment>),
-          side: 'Sell',
-          priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
-          priceEth: formatSupply(totalEthSpendS, 6, 6),
-          amount: item.amount0In.toFixed(0),
-          totalEth: item.amount1Out.toFixed(6),
-          maker: item.to,
-          other: item.transactionHash
+        else {
+          const totalUSDSpentS = ethPrice * item.amount1Out;
+          const totalUSDTradeS = totalUSDSpentS / item.amount0In;
+          const totalUSDwFeesS = totalUSDTradeS * .999;
+          const totalEthSpendS = totalUSDwFeesS / ethPrice;
+          return {
+            timestamp: (<Moment interval={0}>
+              {item.timestamp * 1000}
+            </Moment>),
+            side: 'Sell',
+            priceUsd: formatSupply(totalUSDwFeesS, 4, 4),
+            priceEth: formatSupply(totalEthSpendS, 6, 6),
+            amount: item.amount0In.toFixed(0),
+            totalEth: item.amount1Out.toFixed(6),
+            maker: item.to,
+            other: item.transactionHash
+          }
         }
-      }
+      }));
+    }
+  }, [ethPrice]);
 
-    })
-    buyArr  = glqTrades.filter((e: any) => (e.amount0In === 0))
-    sellArr = glqTrades.filter((e: any) => (e.amount1In === 0))
-  }
+  buyArr = glqTrades.filter((e: any) => (e.amount0In === 0))
+  sellArr = glqTrades.filter((e: any) => (e.amount1In === 0))
 
-  const buyPr   = parseFloat(((buyArr.length / glqTrades.length) * 100).toFixed(2));
-  const sellPr  = parseFloat(((sellArr.length / glqTrades.length) * 100).toFixed(2));
+  const buyPr = parseFloat(((buyArr.length / glqTrades.length) * 100).toFixed(2));
+  const sellPr = parseFloat(((sellArr.length / glqTrades.length) * 100).toFixed(2));
   const gaugePr = buyPr / 100.0;
 
   const columns = useMemo<Column<GlgDataType>[]>(
@@ -296,7 +299,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
 
   const data = useMemo<GlgDataType[]>(
     () => glqTradesData,
-    [glqTradesData.length]
+    [glqTradesData]
   );
 
   const defaultColumn = useMemo(
@@ -339,7 +342,6 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-
     page,
     canNextPage,
     canPreviousPage,
@@ -350,11 +352,6 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
     setPageSize,
     pageOptions,
     state: { pageIndex, pageSize },
-
-    visibleColumns,
-    preGlobalFilteredRows,
-    setGlobalFilter,
-
     allColumns,
     getToggleHideAllColumnsProps,
   } = useTable<GlgDataType>(
@@ -571,7 +568,7 @@ const GraphLinqContent: React.FC<GlqProps> = ({ }) => {
                     <div className="tright">
                       <small>
                         <span className="gre"><FaCaretUp />&nbsp;{(isNaN(buyPr) ? 50 : buyPr)}%</span>
-                          &nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <span className="red"><FaCaretDown />&nbsp;{(isNaN(sellPr) ? 50 : sellPr)}%</span>
                       </small>
                     </div>

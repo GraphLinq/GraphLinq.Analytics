@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./app";
@@ -7,7 +7,7 @@ import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
 import { NetworkContextName } from './constants/index';
 import getLibrary from './utils/getLibrary';
 
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
+import { ColorModeScript } from "@chakra-ui/react"
 
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName);

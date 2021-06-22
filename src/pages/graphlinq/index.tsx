@@ -5,7 +5,7 @@ import HeaderLayout from './header'
 interface GlqLinqProps {
 }
 
-const GraphLinq: React.FC<GlqLinqProps> = ({ }) => {
+const GraphLinq: React.FC<GlqLinqProps> = () => {
 
   return (
     <div>

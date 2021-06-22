@@ -9,7 +9,7 @@ import { formatCur } from '../utils';
 interface SearchBarProps {
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({}) => {
+export const SearchBar: React.FC<SearchBarProps> = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   let history = useHistory();
@@ -31,6 +31,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({}) => {
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function marketCap(project: string) {

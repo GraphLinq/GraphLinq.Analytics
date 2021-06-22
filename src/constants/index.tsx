@@ -1,5 +1,5 @@
 
-import { fortmatic, injected, portis, walletconnect, walletlink, bsc } from '../connectors/index'
+import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors/index'
 
 export const SUPPORTED_WALLETS = {
     INJECTED: {

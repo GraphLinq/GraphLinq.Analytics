@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import HeaderLayout from './header'
 import UnicryptContent from './unicrypt'
+
 interface UnclProps {
 }
 
-const Unicrypt: React.FC<UnclProps> = ({ }) => {
+const Unicrypt: React.FC<UnclProps> = () => {
 
   return (
     <div>

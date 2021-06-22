@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { NavLink, Route, useHistory } from 'react-router-dom';
-import routes from '../../routes/sidebar';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
+import { NavLink, Route} from 'react-router-dom';
 import tabs from '../../routes/unicrypt';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
@@ -12,7 +12,7 @@ import { formatCur } from '../../utils';
 interface UnicyptProps {
 }
 
-const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
+const HeaderLayout: React.FC<UnicyptProps> = () => {
 
   const dispatch = useDispatch();
   const unclState = useSelector((state: RootState) => state.unclSelect || {});
@@ -49,13 +49,13 @@ const HeaderLayout: React.FC<UnicyptProps> = ({ }) => {
         </div>
         <div className="r">
           <SearchBar />
-          <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
+          <button className="b"><span>Connect wallet</span><i className="fal fa-lock" /></button>
         </div>
       </div>
       <div className="bot">
         <ul>
-          {tabs.map((tab: any) => (
-            <li>
+          {tabs.map((tab: any, index: number) => (
+            <li key={index}>
               <Link
                 as={NavLink}
                 exact

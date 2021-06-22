@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import SideBarLayout from './sidebar';
-// import HeaderLayout from './header';
 
 interface LayoutProps {
 }
@@ -20,7 +19,6 @@ const IndexLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div id="app">
       <SideBarLayout />
-      {/* <HeaderLayout /> */}
       {children}
       <div id="x"><div id="xx"></div></div>
     </div>

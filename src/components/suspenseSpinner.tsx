@@ -1,11 +1,11 @@
-import { AbsoluteCenter, Center, Flex, Spinner } from '@chakra-ui/react';
+import { Center, Spinner } from '@chakra-ui/react';
 import React from 'react'
 
 interface SuspenseSpinnerProps {
 
 }
 
-export const SuspenseSpinner: React.FC<SuspenseSpinnerProps> = ({ }) => {
+export const SuspenseSpinner: React.FC<SuspenseSpinnerProps> = () => {
     return (
         <Center h="full">
             <Spinner

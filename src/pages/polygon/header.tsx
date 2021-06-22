@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/reducers';
+import React from 'react'
+// import { useDispatch, useSelector } from 'react-redux';
+// import { RootState } from '../../store/reducers';
 import { NavLink, Route } from 'react-router-dom';
 import tabs from '../../routes/polygon';
 import { Link } from '@chakra-ui/react';
@@ -9,7 +9,7 @@ import { SearchBar } from '../../components/SearchBar';
 interface HeaderLayoutProps {
 }
 
-const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
+const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
 
   //const dispatch = useDispatch();
   //const glqState = useSelector((state: RootState) => state.glqSelect || {});
@@ -39,13 +39,13 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({ }) => {
         </div>
           <div className="r">
             <SearchBar />
-            <a href="" className="b"><span>Connect wallet</span><i className="fal fa-lock" /></a>
+            <button className="b"><span>Connect wallet</span><i className="fal fa-lock" /></button>
           </div>
         </div>
         <div className="bot">
         <ul>
-          {tabs.map((tab: any) => (
-            <li>
+          {tabs.map((tab: any, index: number) => (
+            <li key={index}>
               <Link
                 as={NavLink}
                 exact
