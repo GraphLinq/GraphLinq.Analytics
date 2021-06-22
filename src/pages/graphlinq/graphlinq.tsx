@@ -34,7 +34,7 @@ const tz = jstz.determine().name();
 const z  = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
-const circSupply = 323000000;
+const circSupply = 373000000;
 const maxSupply  = 500000000;
 
 interface ColumnType {
