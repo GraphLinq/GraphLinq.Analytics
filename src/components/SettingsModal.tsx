@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { React, useState } from "react";
 /* eslint-disable */
 import Rodal from "rodal";
