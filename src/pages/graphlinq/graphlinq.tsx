@@ -209,6 +209,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
   const [glqTradesData, setGlqTradesData] = useState([]);
   let buyArr = [];
   let sellArr = [];
+  let presArr = [];
 
   useEffect(() => {
     if (glqTrades && glqTrades.length) {
@@ -257,14 +258,15 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
     }
   }, [ethPrice]);
 
-  buyArr = glqTrades.filter((e: any) => e.amount0In === 0);
-  sellArr = glqTrades.filter((e: any) => e.amount1In === 0);
+  presArr = glqTrades.slice(Math.max(glqTrades.length - 100, 0));
+  buyArr = presArr.filter((e: any) => e.amount0In === 0);
+  sellArr = presArr.filter((e: any) => e.amount1In === 0);
 
   const buyPr = parseFloat(
-    ((buyArr.length / glqTrades.length) * 100).toFixed(2)
+    ((buyArr.length / presArr.length) * 100).toFixed(2)
   );
   const sellPr = parseFloat(
-    ((sellArr.length / glqTrades.length) * 100).toFixed(2)
+    ((sellArr.length / presArr.length) * 100).toFixed(2)
   );
   const gaugePr = buyPr / 100.0;
 

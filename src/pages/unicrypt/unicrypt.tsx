@@ -252,6 +252,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   const [uncxTradesData, setUncxTradesData] = useState([]);
   let buyArr = [];
   let sellArr = [];
+  let presArr = [];
 
   useEffect(() => {
     if (uncxTrades && uncxTrades.length) {
@@ -300,14 +301,15 @@ const UnicryptContent: React.FC<UnclProps> = () => {
     }
   }, [ethPrice]);
 
-  buyArr = uncxTrades.filter((e: any) => e.amount0In === 0);
-  sellArr = uncxTrades.filter((e: any) => e.amount1In === 0);
+  presArr = uncxTrades.slice(Math.max(uncxTrades.length - 100, 0));
+  buyArr = presArr.filter((e: any) => e.amount0In === 0);
+  sellArr = presArr.filter((e: any) => e.amount1In === 0);
 
   const buyPr = parseFloat(
-    ((buyArr.length / uncxTrades.length) * 100).toFixed(2)
+    ((buyArr.length / presArr.length) * 100).toFixed(2)
   );
   const sellPr = parseFloat(
-    ((sellArr.length / uncxTrades.length) * 100).toFixed(2)
+    ((sellArr.length / presArr.length) * 100).toFixed(2)
   );
   const gaugePr = buyPr / 100.0;
 
