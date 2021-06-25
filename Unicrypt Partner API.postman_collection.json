@@ -1,90 +1,78 @@
 {
-	"info": {
-		"_postman_id": "1c445116-3325-477a-b773-31bd1185ddcd",
-		"name": "Unicrypt Partner API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Get UNCL Data",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://api-hosted.graphlinq.io/9766ce7ce0a2b054277f17169c953c2d3845ce8b805dd9514e517da35d846ee4/uncl",
-					"protocol": "https",
-					"host": [
-						"api-hosted",
-						"graphlinq",
-						"io"
-					],
-					"path": [
-						"9766ce7ce0a2b054277f17169c953c2d3845ce8b805dd9514e517da35d846ee4",
-						"uncl"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get UNCX Data",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://api-hosted.graphlinq.io/4967e5f46d786b4bc9deea0644b5ba3202597d7aa87371a70b3ee366432e77bc/uncx",
-					"protocol": "https",
-					"host": [
-						"api-hosted",
-						"graphlinq",
-						"io"
-					],
-					"path": [
-						"4967e5f46d786b4bc9deea0644b5ba3202597d7aa87371a70b3ee366432e77bc",
-						"uncx"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get GLQ Data",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://api-hosted.graphlinq.io/706364f99ee8354232b99bc8060fe59b0442986c1e5b147900e825f905080245/glq",
-					"protocol": "https",
-					"host": [
-						"api-hosted",
-						"graphlinq",
-						"io"
-					],
-					"path": [
-						"706364f99ee8354232b99bc8060fe59b0442986c1e5b147900e825f905080245",
-						"glq"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "1c445116-3325-477a-b773-31bd1185ddcd",
+    "name": "Unicrypt Partner API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get UNCL Data",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-hosted.graphlinq.io/9766ce7ce0a2b054277f17169c953c2d3845ce8b805dd9514e517da35d846ee4/uncl",
+          "protocol": "https",
+          "host": ["api-hosted", "graphlinq", "io"],
+          "path": [
+            "9766ce7ce0a2b054277f17169c953c2d3845ce8b805dd9514e517da35d846ee4",
+            "uncl"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get UNCX Data",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-hosted.graphlinq.io/4967e5f46d786b4bc9deea0644b5ba3202597d7aa87371a70b3ee366432e77bc/uncx",
+          "protocol": "https",
+          "host": ["api-hosted", "graphlinq", "io"],
+          "path": [
+            "4967e5f46d786b4bc9deea0644b5ba3202597d7aa87371a70b3ee366432e77bc",
+            "uncx"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get GLQ Data",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyIjoiMHg4OTg0ZTQyMkUzMDAzM0E4NEI3ODA0MjA1NjYwNDZkMjVFQjM1MTlhIiwiaWRfd2FsbGV0IjoxMCwiaWF0IjoxNjEyMDQ5NzczfQ.PWrmm9L061IeN8ggKXvxV_Vypmax7Zn4nckWR00XRfs",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-hosted.graphlinq.io/706364f99ee8354232b99bc8060fe59b0442986c1e5b147900e825f905080245/glq",
+          "protocol": "https",
+          "host": ["api-hosted", "graphlinq", "io"],
+          "path": [
+            "706364f99ee8354232b99bc8060fe59b0442986c1e5b147900e825f905080245",
+            "glq"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

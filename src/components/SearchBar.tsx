@@ -47,10 +47,9 @@ export const SearchBar: React.FC<SearchBarProps> = () => {
   }
 
   return (
-    <div id="sc">
-      <form>
+    <div id="sc" className={isOpen ? "open" : ""}>
+      <form autoComplete="off">
         <fieldset>
-          <div data-search-res />
           <label htmlFor="scr">Search token...</label>
           <input
             id="scr"

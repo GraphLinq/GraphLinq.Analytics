@@ -55,7 +55,7 @@ const z = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
 const circSupply = 373000000;
-const maxSupply  = 500000000;
+const maxSupply = 500000000;
 
 interface ColumnType {
   column: {
@@ -262,9 +262,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
   buyArr = presArr.filter((e: any) => e.amount0In === 0);
   sellArr = presArr.filter((e: any) => e.amount1In === 0);
 
-  const buyPr = parseFloat(
-    ((buyArr.length / presArr.length) * 100).toFixed(2)
-  );
+  const buyPr = parseFloat(((buyArr.length / presArr.length) * 100).toFixed(2));
   const sellPr = parseFloat(
     ((sellArr.length / presArr.length) * 100).toFixed(2)
   );

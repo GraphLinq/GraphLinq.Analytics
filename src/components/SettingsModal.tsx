@@ -35,11 +35,9 @@ const SettingsModal: React.FC<Props> = (props) => {
 
   return (
     <Rodal
-      width={480}
       customStyles={modalStyle}
       visible={openSettingsModal}
       onClose={toggleSettingsModal}
-      height={550}
       showCloseButton={true}
     >
       <div className="Settings-modal">

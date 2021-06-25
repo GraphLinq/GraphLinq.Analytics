@@ -12916,6 +12916,8 @@ body {
 
 .rodal-dialog {
   background-color: #16132b !important;
+  width: 480px !important;
+  height: 550px !important;
 }
 
 /*************select*************/
@@ -13254,6 +13256,9 @@ body {
   #sc .res {
     width: calc(88vw - 118px);
   }
+  .rodal-dialog {
+    left: 0 !important;
+  }
 }
 /************* max 600 **************/
 @media screen and (max-width: 600px) {
@@ -13322,5 +13327,9 @@ body {
   }
   #m .cl > .cl33x {
     min-width: 100%;
+  }
+  .rodal-dialog {
+    left: 0 !important;
+    width: 360px !important;
   }
 }

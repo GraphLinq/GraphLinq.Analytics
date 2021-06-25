@@ -305,9 +305,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   buyArr = presArr.filter((e: any) => e.amount0In === 0);
   sellArr = presArr.filter((e: any) => e.amount1In === 0);
 
-  const buyPr = parseFloat(
-    ((buyArr.length / presArr.length) * 100).toFixed(2)
-  );
+  const buyPr = parseFloat(((buyArr.length / presArr.length) * 100).toFixed(2));
   const sellPr = parseFloat(
     ((sellArr.length / presArr.length) * 100).toFixed(2)
   );
