@@ -258,16 +258,20 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
     }
   }, [ethPrice]);
 
-  presArr = glqTrades.slice(Math.max(glqTrades.length - 100, 0));
-  buyArr = presArr.filter((e: any) => e.amount0In === 0);
-  sellArr = presArr.filter((e: any) => e.amount1In === 0);
+  let gaugePr = 0.5;
+  let buyPr = 50;
+  let sellPr = 50;
+  if (glqTrades.length > 0 ) {
+    presArr = glqTrades.slice(Math.max(glqTrades.length - 100, 0));
+    buyArr = presArr.filter((e: any) => e.amount0In === 0);
+    sellArr = presArr.filter((e: any) => e.amount1In === 0);
 
-  const buyPr = parseFloat(((buyArr.length / presArr.length) * 100).toFixed(2));
-  const sellPr = parseFloat(
-    ((sellArr.length / presArr.length) * 100).toFixed(2)
-  );
-  const gaugePr = buyPr / 100.0;
-
+    buyPr = parseFloat(((buyArr.length / presArr.length) * 100).toFixed(2));
+    sellPr = parseFloat(
+      ((sellArr.length / presArr.length) * 100).toFixed(2)
+    );
+    gaugePr = buyPr / 100.0;
+  }
   const columns = useMemo<Column<GlgDataType>[]>(
     () => [
       {
