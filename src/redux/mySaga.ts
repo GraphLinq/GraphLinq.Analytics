@@ -2,7 +2,7 @@ import { all, call, put, takeLatest } from "redux-saga/effects";
 import * as initialActions from "../store/actionNames/glqAction";
 import { postGlqSelectInfo } from "../api/glqAPI";
 import { postGlqHistoryInfo } from "../api/glqHistoryAPI";
-import { postUnclSelectInfo } from "../api/unclAPI";
+//import { postUnclSelectInfo } from "../api/unclAPI";
 import { postUncxSelectInfo } from "../api/uncxAPI";
 import { postLiquiditySelectInfo } from "../api/liquidityAPI";
 import { postTotalLiquiditySelectInfo } from "../api/totalLiquidityAPI";
@@ -25,7 +25,7 @@ function* postAll(action: any) {
         call(postGlqSelectInfo, action.payLoad),
         call(postGlqHistoryInfo, action.payLoad),
         call(postGlqTradesSelectInfo, action.payLoad),
-        call(postUnclSelectInfo, action.payLoad),
+        //call(postUnclSelectInfo, action.payLoad),
         call(postUncxSelectInfo, action.payLoad),
         call(postLiquiditySelectInfo, action.payLoad),
         call(postTotalLiquiditySelectInfo, action.payLoad),
@@ -46,7 +46,7 @@ function* postAll(action: any) {
         type: "POST_SELECTED_ETH_PRICE_SUCCESS",
         payLoad: results[9],
       });
-      yield call(delay, 3000);
+      yield call(delay, 30000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
       yield put({ type: "POST_HISTORY_GLQ_FAILED" });
@@ -92,7 +92,7 @@ function* postUncAll(action: any) {
   while (true) {
     try {
       const results2: any[] = yield all([
-        call(postUnclSelectInfo, action.payLoad),
+        //call(postUnclSelectInfo, action.payLoad),
         call(postUncxSelectInfo, action.payLoad),
         call(postLiquiditySelectInfo, action.payLoad),
         call(postTotalLiquiditySelectInfo, action.payLoad),
@@ -100,7 +100,7 @@ function* postUncAll(action: any) {
         call(postUncxHistoryInfo, action.payLoad),
         call(postEthPriceSelectInfo, action.payLoad),
       ]);
-      yield put({ type: "POST_SELECTED_UNCL_SUCCESS", payLoad: results2[0] });
+      //yield put({ type: "POST_SELECTED_UNCL_SUCCESS", payLoad: results2[0] });
       yield put({ type: "POST_SELECTED_UNCX_SUCCESS", payLoad: results2[1] });
       yield put({ type: "POST_LIQUIDITY_SUCCESS", payLoad: results2[2] });
       yield put({ type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results2[3] });
@@ -125,7 +125,6 @@ function* postUncAll(action: any) {
 
 export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postAll);
-
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqAll);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUncAll);
 }

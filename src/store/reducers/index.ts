@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import {
   glqSelect,
   glqHistory,
-  unclSelect,
+  //unclSelect,
   uncxSelect,
   liquiditySelect,
   totalLiquiditySelect,
@@ -15,7 +15,7 @@ import {
 const rootReducer = combineReducers({
   glqSelect,
   glqHistory,
-  unclSelect,
+  //unclSelect,
   uncxSelect,
   liquiditySelect,
   totalLiquiditySelect,

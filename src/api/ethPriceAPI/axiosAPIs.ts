@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = `https://api-hosted.graphlinq.io/79d2fb12383272485f12f8fa0feae1cc0f41a8e0e5016cb361913631b5a409b1/uniswap/eth/price`;
+const URL = `https://api-hosted.graphlinq.io/fe6d7662f7df17ed666878f23140017c8f7154e19070b96641ea5293d2514641/uniswap/eth/price`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);

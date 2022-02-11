@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/83c5816ca5f37df77a048a87642d889ed67eb5c5a36f2022ad514640b7471dfb/uniswap/total_liquidity_v2`;
+const URL = `${process.env.REACT_APP_PROXY_API_URL}/fe6d7662f7df17ed666878f23140017c8f7154e19070b96641ea5293d2514641/uniswap/total_liquidity_v2`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);

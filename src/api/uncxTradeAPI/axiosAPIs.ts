@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/7b5390e2418c2f01902f1d0e3e5fe0985668cf2bb388e92d0942a048fe2faa91/uniswap/uncx/trades`;
+const URL = `${process.env.REACT_APP_PROXY_API_URL}/fe6d7662f7df17ed666878f23140017c8f7154e19070b96641ea5293d2514641/uniswap/uncx/trades`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);
