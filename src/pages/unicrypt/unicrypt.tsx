@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  POST_SELECTED_UNCL,
+  //POST_SELECTED_UNCL,
   POST_SELECTED_UNCX,
   POST_TOTAL_LIQUIDITY,
   POST_LIQUIDITY,
@@ -191,7 +191,7 @@ function DefaultColumnFilter({ column }: DefaultColumnType) {
 
 const UnicryptContent: React.FC<UnclProps> = () => {
   const dispatch = useDispatch();
-  const unclState = useSelector((state: RootState) => state.unclSelect || {});
+  //const unclState = useSelector((state: RootState) => state.unclSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
   const tLiqState = useSelector(
     (state: RootState) => state.totalLiquiditySelect || {}
@@ -208,7 +208,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   const ethPrice = useSelector((state: RootState) => state.ethPriceSelect || 0);
 
   useEffect(() => {
-    dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState });
+    //dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState });
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState });
     dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: tLiqState });
     dispatch({ type: POST_LIQUIDITY, payLoad: liqState });

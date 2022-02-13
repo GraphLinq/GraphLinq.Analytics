@@ -202,7 +202,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
   const dc = glqState.total_supply * glqState.price;
   const tb = maxSupply - glqState.total_supply;
   const pd = deltaDirection(glqState.price, glqHistory.price);
-  const hd = deltaDirection(glqState.holders, glqHistory.holders);
+  //const hd = deltaDirection(glqState.holders, glqHistory.holders);
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
   const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
 
@@ -449,7 +449,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25">
+          {/*<div className="blc cl25">
             <div>
               <div className="top">
                 <small>Holders (24Hrs)</small>
@@ -470,7 +470,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 </h2>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="blc cl25x">
             <div>
               <div className="top">
