@@ -4,8 +4,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   //POST_SELECTED_UNCL,
   POST_SELECTED_UNCX,
-  POST_TOTAL_LIQUIDITY,
-  POST_LIQUIDITY,
+  //POST_TOTAL_LIQUIDITY,
+  //POST_LIQUIDITY,
   POST_UNCX_TRADES,
   POST_HISTORY_UNCX,
   POST_SELECTED_ETH_PRICE,
@@ -20,15 +20,15 @@ import {
   usePagination,
   Column,
 } from "react-table";
-import {
-  XAxis,
-  YAxis,
-  HorizontalGridLines,
-  Crosshair,
-  LineSeries,
-  FlexibleXYPlot,
-} from "react-vis";
-import { Box } from "@chakra-ui/react";
+//import {
+//  XAxis,
+//  YAxis,
+//  HorizontalGridLines,
+//  Crosshair,
+//  LineSeries,
+//  FlexibleXYPlot,
+//} from "react-vis";
+//import { Box } from "@chakra-ui/react";
 import { formatCur, formatSupply, deltaDirection } from "../../utils";
 import Moment from "react-moment";
 import moment from "moment-timezone";
@@ -193,12 +193,12 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   const dispatch = useDispatch();
   //const unclState = useSelector((state: RootState) => state.unclSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
-  const tLiqState = useSelector(
-    (state: RootState) => state.totalLiquiditySelect || {}
-  );
-  const liqState = useSelector(
-    (state: RootState) => state.liquiditySelect[0] || {}
-  );
+  //const tLiqState = useSelector(
+  //  (state: RootState) => state.totalLiquiditySelect || {}
+  //);
+  //const liqState = useSelector(
+  //  (state: RootState) => state.liquiditySelect[0] || {}
+  //);
   const uncxHistory = useSelector(
     (state: RootState) => state.uncxHistory || {}
   );
@@ -210,34 +210,34 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   useEffect(() => {
     //dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState });
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState });
-    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: tLiqState });
-    dispatch({ type: POST_LIQUIDITY, payLoad: liqState });
+    //dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: tLiqState });
+    //dispatch({ type: POST_LIQUIDITY, payLoad: liqState });
     dispatch({ type: POST_HISTORY_UNCX, payLoad: uncxHistory });
     dispatch({ type: POST_UNCX_TRADES, payLoad: uncxTrades });
     dispatch({ type: POST_SELECTED_ETH_PRICE, payLoad: ethPrice });
   }, []);
   const [openSettingsModal, setOpenSettingsModal] = useState<boolean>(false);
-  const [liquidityUSD, setLiquidityUSD] = useState<{ x: any; y: any }[]>([]);
-  const [pairCount, setPairCount] = useState<{ x: any; y: any }[]>([]);
+  //const [liquidityUSD, setLiquidityUSD] = useState<{ x: any; y: any }[]>([]);
+  //const [pairCount, setPairCount] = useState<{ x: any; y: any }[]>([]);
 
-  useEffect(() => {
-    let liquid: any = [],
-      pair: any = [];
-
-    tLiqState.map((state: any, index: any) => {
-      liquid.push({
-        y: state.totalLockedLiquidityUSD,
-        x: index,
-      });
-
-      pair.push({
-        y: state.pairCount,
-        x: index,
-      });
-    });
-    setLiquidityUSD(liquid);
-    setPairCount(pair);
-  }, [tLiqState]);
+  //useEffect(() => {
+  //  let liquid: any = [],
+  //    pair: any = [];
+  //
+  //  tLiqState.map((state: any, index: any) => {
+  //    liquid.push({
+  //      y: state.totalLockedLiquidityUSD,
+  //      x: index,
+  //    });
+  //
+  //    pair.push({
+  //      y: state.pairCount,
+  //      x: index,
+  //    });
+  //  });
+  //  setLiquidityUSD(liquid);
+  //  setPairCount(pair);
+  //}, [tLiqState]);
 
   const toggleSettingsModal = () => {
     setOpenSettingsModal(!openSettingsModal);
@@ -245,7 +245,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
 
   const dc = uncxState.total_supply * uncxState.price;
   const pd = deltaDirection(uncxState.price, uncxHistory.price);
-  const hd = deltaDirection(uncxState.holders, uncxHistory.holders);
+  //const hd = deltaDirection(uncxState.holders, uncxHistory.holders);
   const vd = deltaDirection(uncxState.volume, uncxHistory.volume);
   const md = deltaDirection(uncxState.market_cap, uncxHistory.market_cap);
 
@@ -311,15 +311,15 @@ const UnicryptContent: React.FC<UnclProps> = () => {
   );
   const gaugePr = buyPr / 100.0;
 
-  const [crosshairValues1, setCrosshairValues1] = useState<any>();
-  const [crosshairValues2, setCrosshairValues2] = useState<any>();
+  //const [crosshairValues1, setCrosshairValues1] = useState<any>();
+  //const [crosshairValues2, setCrosshairValues2] = useState<any>();
 
-  const firstLiquidity = liquidityUSD[0]?.y;
-  const lastLiquidity = liquidityUSD[liquidityUSD.length - 1]?.y;
-  const liquidPercentage = deltaDirection(lastLiquidity, firstLiquidity);
-  const firstPairCount = pairCount[0]?.y;
-  const lastPairCount = pairCount[liquidityUSD.length - 1]?.y;
-  const pairPercentage = deltaDirection(lastPairCount, firstPairCount);
+  //const firstLiquidity = liquidityUSD[0]?.y;
+  //const lastLiquidity = liquidityUSD[liquidityUSD.length - 1]?.y;
+  //const liquidPercentage = deltaDirection(lastLiquidity, firstLiquidity);
+  //const firstPairCount = pairCount[0]?.y;
+  //const lastPairCount = pairCount[liquidityUSD.length - 1]?.y;
+  //const pairPercentage = deltaDirection(lastPairCount, firstPairCount);
 
   const columns = useMemo<Column<UncxType>[]>(
     () => [
@@ -454,6 +454,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
     <main id="m">
       <div>
         <div className="cl">
+          {/*
           <div className="blc cl50">
             <div>
               <div className="top">
@@ -550,12 +551,14 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               </Box>
             </div>
           </div>
+          */}
+          {/*
           <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Staking Rewards Available</small>
                 <h2>
-                  <strong>Total Amount{/*liquidityState.UnlockDate*/}</strong>{" "}
+                  <strong>Total Amount{liquidityState.UnlockDate}</strong>{" "}
                   <span className="gr">0.00%</span>
                 </h2>
               </div>
@@ -566,7 +569,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               <div className="top">
                 <small>Staking Rewards Distributed</small>
                 <h2>
-                  <strong>Rewards{/*liquidityState.LockID*/}</strong>{" "}
+                  <strong>Rewards{liquidityState.LockID}</strong>{" "}
                   <span className="gr">0.00%</span>
                 </h2>
               </div>
@@ -577,7 +580,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               <div className="top">
                 <small>Total Locked Liquidity</small>
                 <h2>
-                  <strong>Locked Amount{/*liquidityState.Owner*/}</strong>{" "}
+                  <strong>Locked Amount{liquidityState.Owner}</strong>{" "}
                   <span className="gr">0.00%</span>
                 </h2>
               </div>
@@ -586,12 +589,13 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               <div className="top">
                 <small>Total Value Locked</small>
                 <h2>
-                  <strong>Vested Amount{/*liquidityState.USDValue*/}</strong>{" "}
+                  <strong>Vested Amount{liquidityState.USDValue}</strong>{" "}
                   <span className="gr">0.00%</span>
                 </h2>
               </div>
             </div>
           </div>
+        */}
           <div className="blc cl25">
             <div>
               <div className="top">
@@ -636,6 +640,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               </div>
             </div>
           </div>
+          {/*
           <div className="blc cl25">
             <div>
               <div className="top">
@@ -658,6 +663,7 @@ const UnicryptContent: React.FC<UnclProps> = () => {
               </div>
             </div>
           </div>
+          */}
           <div className="blc cl25x">
             <div>
               <div className="top">

@@ -7,8 +7,8 @@ import { RootState } from "../../store/reducers";
 import {
   //POST_SELECTED_UNCL,
   POST_SELECTED_UNCX,
-  POST_TOTAL_LIQUIDITY,
-  POST_LIQUIDITY,
+  //POST_TOTAL_LIQUIDITY,
+  //POST_LIQUIDITY,
 } from "../../store/actionNames/glqAction";
 import { Link } from "@chakra-ui/react";
 import { SearchBar } from "../../components/SearchBar";
@@ -20,18 +20,18 @@ const HeaderLayout: React.FC<UnicyptProps> = () => {
   const dispatch = useDispatch();
   //const unclState = useSelector((state: RootState) => state.unclSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
-  const totalLiquidityState = useSelector(
-    (state: RootState) => state.totalLiquiditySelect || {}
-  );
-  const liquidityState = useSelector(
-    (state: RootState) => state.liquiditySelect[0] || {}
-  );
+  //const totalLiquidityState = useSelector(
+  //  (state: RootState) => state.totalLiquiditySelect || {}
+  //);
+  //const liquidityState = useSelector(
+  //  (state: RootState) => state.liquiditySelect[0] || {}
+  //);
 
   useEffect(() => {
     //dispatch({ type: POST_SELECTED_UNCL, payLoad: unclState });
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState });
-    dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState });
-    dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState });
+    //dispatch({ type: POST_TOTAL_LIQUIDITY, payLoad: totalLiquidityState });
+    //dispatch({ type: POST_LIQUIDITY, payLoad: liquidityState });
   }, []);
 
   return (
