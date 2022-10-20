@@ -95,37 +95,6 @@ function* postGlqAll(action: any) {
 }
 
 
-
-function* postPolygonAll(action: any) {
-  while (true) {
-    try {
-      const results1: any[] = yield all([
-        call(postPolygonSelectInfo, action.payLoad),
-        //call(postGlqHistoryInfo, action.payLoad),
-        //call(postGlqTradesSelectInfo, action.payLoad),
-        call(postEthPriceSelectInfo, action.payLoad),
-      ]);
-      yield put({ type: "POST_SELECTED_GLQ_SUCCESS", payLoad: results1[0] });
-      //yield put({ type: "POST_HISTORY_GLQ_SUCCESS", payLoad: results1[1] });
-      //yield put({ type: "POST_GLQ_TRADES_SUCCESS", payLoad: results1[2] });
-      yield put({
-        type: "POST_SELECTED_ETH_PRICE_SUCCESS",
-        payLoad: results1[3],
-      });
-      yield call(delay, 30000);
-    } catch (e) {
-      yield put({ type: "POST_SELECTED_GLQ_FAILED" });
-      //yield put({ type: "POST_HISTORY_GLQ_FAILED" });
-      //yield put({ type: "POST_GLQ_TRADES_FAILED" });
-      yield put({ type: "POST_SELECTED_ETH_PRICE_FAILED" });
-      yield call(delay, 30000);
-    }
-  }
-}
-
-
-
-
 function* postUncAll(action: any) {
   while (true) {
     try {

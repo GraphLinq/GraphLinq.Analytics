@@ -16,6 +16,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_POLYGON, payLoad: polygonState })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
