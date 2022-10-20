@@ -7,6 +7,15 @@ export const glqSelect = (state = {}, action: any) => {
   }
 };
 
+export const polygonSelect = (state = {}, action: any) => {
+  switch (action.type) {
+    case "POST_SELECTED_POLYGON_SUCCESS":
+      return action.payLoad;
+    default:
+      return state;
+  }
+};
+
 export const glqHistory = (state = {}, action: any) => {
   switch (action.type) {
     case "POST_HISTORY_GLQ_SUCCESS":

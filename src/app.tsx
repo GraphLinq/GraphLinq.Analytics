@@ -13,7 +13,7 @@ import Web3ReactManager from "./web3/web3Manager";
 import LayoutIndex from "./components/layout/index";
 import GraphLinq from "./pages/graphlinq";
 import Unicrypt from "./pages/unicrypt";
-//import Polygon from "./pages/polygon";
+import Polygon from "./pages/polygon";
 import GraphLinqSoon from "./pages/graphlinq/soon";
 import UnicryptSoon from "./pages/unicrypt/soon";
 import PolygonSoon from "./pages/polygon/soon";
@@ -37,6 +37,7 @@ const App: React.FC = () => {
             <Redirect exact from="/" to="/analytics/graphlinq" />
             <Route exact path="/analytics/graphlinq" component={GraphLinq} />
             <Route exact path="/analytics/unicrypt" component={Unicrypt} />
+            <Route exact path="/analytics/polygon" component={Polygon} />
             <Route path="/analytics/graphlinq" component={GraphLinqSoon} />
             <Route path="/analytics/unicrypt" component={UnicryptSoon} />
             <Route path="/analytics/polygon" component={PolygonSoon} />

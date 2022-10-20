@@ -10,6 +10,7 @@ import {
   postUncxTradesSelect,
   uncxHistory,
   ethPriceSelect,
+  polygonSelect,
 } from "./glqReducers";
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   postUncxTradesSelect,
   uncxHistory,
   ethPriceSelect,
+  polygonSelect,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

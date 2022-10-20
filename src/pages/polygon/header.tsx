@@ -1,20 +1,22 @@
-import React from "react";
-// import { useDispatch, useSelector } from 'react-redux';
-// import { RootState } from '../../store/reducers';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { POST_SELECTED_POLYGON } from "../../store/actionNames/glqAction";
+import { RootState } from '../../store/reducers';
 import { NavLink, Route } from "react-router-dom";
 import tabs from "../../routes/polygon";
 import { Link } from "@chakra-ui/react";
 import { SearchBar } from "../../components/SearchBar";
+import { formatCur } from "../../utils";
 
 interface HeaderLayoutProps {}
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
-  //const dispatch = useDispatch();
-  //const glqState = useSelector((state: RootState) => state.glqSelect || {});
+  const dispatch = useDispatch();
+  const polygonState = useSelector((state: RootState) => state.polygonSelect || {});
 
-  //useEffect(() => {
-  //  dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState })
-  //}, [])
+  useEffect(() => {
+    dispatch({ type: POST_SELECTED_POLYGON, payLoad: polygonState })
+  }, []);
 
   return (
     <header id="h">
@@ -33,7 +35,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
           <div className="tit">
             <h1>Polygon</h1>
             <div className="pri">
-              MATIC : <strong>Coming Soon...</strong>
+              MATIC : <strong>{formatCur(polygonState.price, 2, 5)}</strong>
             </div>
           </div>
         </div>
