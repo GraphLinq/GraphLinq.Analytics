@@ -86,7 +86,7 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <h2>
                   <strong>
                     {polygonState.market_cap
-                      ? formatCur(polygonState.market_cap, 2, 2)
+                      ? formatCur(polygonState.market_cap, 0, 0)
                       : "Loading..."}
                   </strong>
                   {polygonState.market_cap ? (

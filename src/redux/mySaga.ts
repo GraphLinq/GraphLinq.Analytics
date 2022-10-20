@@ -67,6 +67,21 @@ function* postAll(action: any) {
   }
 }
 
+function* postPolygonAll(action: any) {
+  while (true) {
+    try {
+      const resultsp: any[] = yield all([
+        call(postPolygonSelectInfo, action.payLoad),
+      ]);
+      yield put({ type: "POST_SELECTED_POLYGON_SUCCESS", payLoad: resultsp[0] });
+      yield call(delay, 30000);
+    } catch(e) {
+      yield put({ type: "POST_SELECTED_POLYGON_FAILED" });
+      yield call(delay, 30000);
+    }
+  }
+}
+
 function* postGlqAll(action: any) {
   while (true) {
     try {
@@ -135,4 +150,5 @@ export default function* mySaga() {
   yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postAll);
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqAll);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUncAll);
+  yield takeLatest(initialActions.POST_SELECTED_POLYGON, postPolygonAll);
 }

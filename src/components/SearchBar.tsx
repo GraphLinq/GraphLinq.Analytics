@@ -5,6 +5,7 @@ import routes from "../routes/sidebar";
 import {
   POST_SELECTED_GLQ,
   POST_SELECTED_UNCX,
+  POST_SELECTED_POLYGON,
 } from "../store/actionNames/glqAction";
 import { RootState } from "../store/reducers";
 import { formatCur } from "../utils";
@@ -28,10 +29,12 @@ export const SearchBar: React.FC<SearchBarProps> = () => {
   const dispatch = useDispatch();
   const glqState = useSelector((state: RootState) => state.glqSelect || {});
   const uncxState = useSelector((state: RootState) => state.uncxSelect || {});
+  const polygonState = useSelector((state: RootState) => state.polygonSelect || {});
 
   useEffect(() => {
     dispatch({ type: POST_SELECTED_GLQ, payLoad: glqState });
     dispatch({ type: POST_SELECTED_UNCX, payLoad: uncxState });
+    dispatch({ type: POST_SELECTED_POLYGON, payLoad: polygonState });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,7 +44,7 @@ export const SearchBar: React.FC<SearchBarProps> = () => {
     } else if (project === "Unicrypt") {
       return formatCur(uncxState.market_cap, 0, 0);
     } else if (project === "Polygon") {
-      return "Coming Soon...";
+      return formatCur(polygonState.market_cap, 0, 0);
     }
     return 0;
   }
