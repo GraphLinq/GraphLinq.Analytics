@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
+import { all, call, cancel, put, takeLatest } from "redux-saga/effects";
 import * as initialActions from "../store/actionNames/glqAction";
 import { postGlqSelectInfo } from "../api/glqAPI";
 import { postGlqHistoryInfo } from "../api/glqHistoryAPI";
@@ -14,7 +14,7 @@ import { postPolygonSelectInfo } from "../api/polygonAPI";
 
 function delay(duration: number) {
   const promise = new Promise((resolve) => {
-    setTimeout(() => resolve(true), duration);
+    setTimeout(() => resolve(false), duration);
   });
   return promise;
 }
@@ -74,7 +74,9 @@ function* postPolygonAll(action: any) {
         call(postPolygonSelectInfo, action.payLoad),
       ]);
       yield put({ type: "POST_SELECTED_POLYGON_SUCCESS", payLoad: resultsp[0] });
-      yield call(delay, 30000);
+      yield cancel()
+
+      // yield call(delay, 30000);
     } catch(e) {
       yield put({ type: "POST_SELECTED_POLYGON_FAILED" });
       yield call(delay, 30000);
@@ -98,7 +100,9 @@ function* postGlqAll(action: any) {
         type: "POST_SELECTED_ETH_PRICE_SUCCESS",
         payLoad: results1[3],
       });
-      yield call(delay, 30000);
+      yield cancel()
+
+      // yield call(delay, 30000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
       yield put({ type: "POST_HISTORY_GLQ_FAILED" });
@@ -132,7 +136,8 @@ function* postUncAll(action: any) {
         type: "POST_SELECTED_ETH_PRICE_SUCCESS",
         payLoad: results2[3],
       });
-      yield call(delay, 30000);
+      yield cancel()
+      // yield call(delay, 30000);
     } catch (e) {
       //yield put({ type: "POST_SELECTED_UNCL_FAILED" });
       yield put({ type: "POST_SELECTED_UNCX_FAILED" });
@@ -147,7 +152,7 @@ function* postUncAll(action: any) {
 }
 
 export default function* mySaga() {
-  yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postAll);
+  // yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postAll);
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqAll);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUncAll);
   yield takeLatest(initialActions.POST_SELECTED_POLYGON, postPolygonAll);
