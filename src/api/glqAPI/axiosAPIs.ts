@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/24dbfe60744d2f40dbdd09d490964467d882a1e25d94e3fd91897f5c6362c411/glq`;
+const URL = "https://api-hosted.graphlinq.io/5462472655de3e14dfc103b933a6b017f6a526abcff21e30bc018c33d653370a/glq";
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);

@@ -67,11 +67,34 @@ const SideBarLayout: React.FC<LayoutProps> = () => {
               <a
                 rel="noreferrer"
                 target="_blank"
+                href="https://docs.graphlinq.io"
+                title="GraphLinq Documentation"
+              >
+                <i className="fal fa-folder-tree" />
+                <span>Documentation</span>
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://graphlinq.io"
+                title="GraphLinq Documentation"
+              >
+                <i className="fal fa-home" />
+                <span>GraphLinq Homepage</span>
+              </a>
+            </li>
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
                 href="https://ide.graphlinq.io"
                 title="GraphLinq IDE"
               >
                 <i className="fal fa-chart-network" />
-                <span>Graph IDE</span>
+                <span>GraphLinq IDE</span>
               </a>
             </li>
             <li>
@@ -82,18 +105,51 @@ const SideBarLayout: React.FC<LayoutProps> = () => {
                 title="GraphLinq Interface"
               >
                 <i className="fal fa-tachometer" />
-                <span>Dashboard</span>
+                <span>App Dashboard</span>
               </a>
             </li>
             <li>
               <a
                 rel="noreferrer"
                 target="_blank"
-                href="https://docs.graphlinq.io"
+                href="https://marketplace.graphlinq.io"
                 title="GraphLinq Documentation"
               >
-                <i className="fal fa-folder-tree" />
-                <span>Documentation</span>
+                <i className="fal fa-handshake" />
+                <span>MarketPlace</span>
+              </a>
+            </li>
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://status.graphlinq.io"
+                title="GraphLinq Documentation"
+              >
+                <i className="fal fa-eye" />
+                <span>GLQ Chain Status</span>
+              </a>
+            </li>
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://explorer.graphlinq.io"
+                title="GraphLinq Documentation"
+              >
+                <i className="fal fa-compass" />
+                <span>GLQ Chain Explorer</span>
+              </a>
+            </li>
+            <li>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href="https://ai.graphlinq.io"
+                title="GraphLinq Documentation"
+              >
+                <i className="fal fa-compass" />
+                <span>AI</span>
               </a>
             </li>
           </ul>

@@ -19,7 +19,7 @@ function delay(duration: number) {
   return promise;
 }
 
-function* postAll(action: any) {
+/*function* postAll(action: any) {
   while (true) {
     try {
       const results: any[] = yield all([
@@ -66,7 +66,7 @@ function* postAll(action: any) {
     }
   }
 }
-
+*/
 function* postPolygonAll(action: any) {
   while (true) {
     try {

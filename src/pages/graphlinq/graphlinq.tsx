@@ -54,8 +54,10 @@ const tz = jstz.determine().name();
 const z = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
-const circSupply = 373000000;
-const maxSupply = 500000000;
+const circSupply = 340000000;
+const maxSupply = 650000000;
+const burnedTotal = 0;
+
 
 interface ColumnType {
   column: {
@@ -199,12 +201,12 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
     setOpenSettingsModal(!openSettingsModal);
   };
 
-  const dc = glqState.total_supply * glqState.price;
-  const tb = maxSupply - glqState.total_supply;
-  const pd = deltaDirection(glqState.price, glqHistory.price);
+  const dc = glqState.totalSupply * glqState.rate;
+  const tb = maxSupply - glqState.totalSupply;
+  const pd = deltaDirection(glqState.rate, glqHistory.rate);
   //const hd = deltaDirection(glqState.holders, glqHistory.holders);
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
-  const md = deltaDirection(glqState.market_cap, glqHistory.market_cap);
+  const md = deltaDirection(glqState.cap, glqHistory.cap);
 
   const [glqTradesData, setGlqTradesData] = useState([]);
   let buyArr = [];
@@ -409,11 +411,11 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    {glqState.price
-                      ? formatCur(glqState.price, 5, 5)
+                    {glqState.rate
+                      ? formatCur(glqState.rate, 5, 5)
                       : "Loading..."}
                   </strong>
-                  {glqState.price ? (
+                  {glqState.rate ? (
                     <span className={pd.color}>
                       {" "}
                       {pd.caret} {pd.delta}
@@ -475,8 +477,8 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {glqState.price
-                      ? formatCur(glqState.ath, 5, 5)
+                    {glqState.allTimeHighUSD
+                      ? formatCur(glqState.allTimeHighUSD, 5, 5)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -489,11 +491,11 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
-                    {glqState.market_cap
-                      ? formatCur(glqState.market_cap, 2, 2)
+                    {glqState.cap
+                      ? formatCur(glqState.cap, 2, 2)
                       : "Loading..."}
                   </strong>
-                  {glqState.market_cap ? (
+                  {glqState.cap ? (
                     <span className={md.color}>
                       {" "}
                       {md.caret} {md.delta}
@@ -515,7 +517,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25x">
+          { /*<div className="blc cl25x">
             <div>
               <div className="top">
                 <small>Burned</small>
@@ -524,7 +526,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 </h2>
               </div>
             </div>
-          </div>
+                  </div> */}
           <div className="blc cl25x">
             <div>
               <div className="top">
@@ -541,8 +543,8 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
                 <small>Total Supply</small>
                 <h2>
                   <strong>
-                    {glqState.total_supply
-                      ? formatSupply(glqState.total_supply, 0, 0)
+                    {glqState.totalSupply
+                      ? formatSupply(glqState.totalSupply, 0, 0)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -554,7 +556,11 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               <div className="top">
                 <small>Maximum Supply</small>
                 <h2>
-                  <strong>{formatSupply(maxSupply, 0, 0)}</strong>
+                <strong>
+                    {glqState.totalSupply
+                      ? formatSupply(glqState.totalSupply, 0, 0)
+                      : "Loading..."}
+                  </strong>
                 </h2>
               </div>
             </div>
