@@ -12,7 +12,7 @@ export const postGlqHistoryInfo = async (partient: any): Promise<any> => {
     const response = await axios.post(URL);
     return response.data;
   } catch (error) {
-    console.log("axios error: src/api/glqHistoryAPI", URL, error);
-    console.error("axios error: src/api/glqHistoryAPI | ", URL, error);
+    console.error("Axios Error: src/api/glqHistoryAPI | ", URL, error);
+    Sentry.captureException(error);
   }
 };
