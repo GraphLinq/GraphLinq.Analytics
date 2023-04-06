@@ -76,7 +76,6 @@ function* postPolygonAll(action: any) {
       yield put({ type: "POST_SELECTED_POLYGON_SUCCESS", payLoad: resultsp[0] });
       yield cancel()
 
-      // yield call(delay, 30000);
     } catch(e) {
       yield put({ type: "POST_SELECTED_POLYGON_FAILED" });
       yield call(delay, 30000);
@@ -102,7 +101,6 @@ function* postGlqAll(action: any) {
       });
       yield cancel()
 
-      // yield call(delay, 30000);
     } catch (e) {
       yield put({ type: "POST_SELECTED_GLQ_FAILED" });
       yield put({ type: "POST_HISTORY_GLQ_FAILED" });
@@ -118,18 +116,12 @@ function* postUncAll(action: any) {
   while (true) {
     try {
       const results2: any[] = yield all([
-        //call(postUnclSelectInfo, action.payLoad),
         call(postUncxSelectInfo, action.payLoad),
-        //call(postLiquiditySelectInfo, action.payLoad),
-        //call(postTotalLiquiditySelectInfo, action.payLoad),
         call(postUncxTradesSelectInfo, action.payLoad),
         call(postUncxHistoryInfo, action.payLoad),
         call(postEthPriceSelectInfo, action.payLoad),
       ]);
-      //yield put({ type: "POST_SELECTED_UNCL_SUCCESS", payLoad: results2[0] });
       yield put({ type: "POST_SELECTED_UNCX_SUCCESS", payLoad: results2[0] });
-      //yield put({ type: "POST_LIQUIDITY_SUCCESS", payLoad: results2[2] });
-      //yield put({ type: "POST_TOTAL_LIQUIDITY_SUCCESS", payLoad: results2[3] });
       yield put({ type: "POST_UNCX_TRADES_SUCCESS", payLoad: results2[1] });
       yield put({ type: "POST_HISTORY_UNCX_SUCCESS", payLoad: results2[2] });
       yield put({
@@ -137,12 +129,8 @@ function* postUncAll(action: any) {
         payLoad: results2[3],
       });
       yield cancel()
-      // yield call(delay, 30000);
     } catch (e) {
-      //yield put({ type: "POST_SELECTED_UNCL_FAILED" });
       yield put({ type: "POST_SELECTED_UNCX_FAILED" });
-      //yield put({ type: "POST_LIQUIDITY_FAILED" });
-      //yield put({ type: "POST_TOTAL_LIQUIDITY_FAILED" });
       yield put({ type: "POST_UNCX_TRADES_FAILED" });
       yield put({ type: "POST_HISTORY_UNCX_FAILED" });
       yield put({ type: "POST_SELECTED_ETH_PRICE_FAILED" });
@@ -152,7 +140,6 @@ function* postUncAll(action: any) {
 }
 
 export default function* mySaga() {
-  // yield takeLatest(initialActions.POST_SELECTED_ETH_PRICE, postAll);
   yield takeLatest(initialActions.POST_SELECTED_GLQ, postGlqAll);
   yield takeLatest(initialActions.POST_SELECTED_UNCL, postUncAll);
   yield takeLatest(initialActions.POST_SELECTED_POLYGON, postPolygonAll);

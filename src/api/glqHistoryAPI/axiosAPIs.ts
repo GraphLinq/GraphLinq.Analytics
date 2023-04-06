@@ -1,6 +1,7 @@
 import axios from "axios";
+import * as Sentry from "@sentry/react";
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/24dbfe60744d2f40dbdd09d490964467d882a1e25d94e3fd91897f5c6362c411/glq?apiHistory`;
+const URL = "https://api-hosted.graphlinq.io/06116afa2ee7d4b72204a8588e25a412390e49ec9853030332b381f4ebddf570/glq?apiHistory";
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);
@@ -11,6 +12,7 @@ export const postGlqHistoryInfo = async (partient: any): Promise<any> => {
     const response = await axios.post(URL);
     return response.data;
   } catch (error) {
-    console.log(error, "axios error");
+    console.log("axios error: src/api/glqHistoryAPI", URL, error);
+    console.error("axios error: src/api/glqHistoryAPI | ", URL, error);
   }
 };

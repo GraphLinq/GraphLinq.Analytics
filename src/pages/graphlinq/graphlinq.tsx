@@ -55,8 +55,8 @@ const z = moment().format("Z");
 const zz = m.tz(tz).zoneAbbr();
 
 const circSupply = 340000000;
-const maxSupply = 650000000;
-const burnedTotal = 0;
+//const maxSupply = 650000000;
+//const burnedTotal = 0;
 
 
 interface ColumnType {
@@ -202,7 +202,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
   };
 
   const dc = glqState.totalSupply * glqState.rate;
-  const tb = maxSupply - glqState.totalSupply;
+  //const tb = maxSupply - glqState.totalSupply;
   const pd = deltaDirection(glqState.rate, glqHistory.rate);
   //const hd = deltaDirection(glqState.holders, glqHistory.holders);
   const vd = deltaDirection(glqState.volume, glqHistory.volume);
@@ -405,7 +405,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
     <main id="m">
       <div>
         <div className="cl">
-          <div className="blc cl25">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Price (24Hrs)</small>
@@ -427,7 +427,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Volume (24Hrs)</small>
@@ -471,7 +471,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div> */}
-          <div className="blc cl25x">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>All-Time High</small>
@@ -485,7 +485,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl33x">
+          <div className="blc cl50">
             <div>
               <div className="top">
                 <small>Market Cap (24Hrs)</small>
@@ -507,7 +507,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl33x">
+          <div className="blc cl50">
             <div>
               <div className="top">
                 <small>Fully Diluted Market Cap</small>
@@ -527,7 +527,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
                   </div> */}
-          <div className="blc cl25x">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Circulating Supply</small>
@@ -537,7 +537,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25x">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Total Supply</small>
@@ -551,7 +551,7 @@ const GraphLinqContent: React.FC<GlqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25x">
+          <div className="blc cl33">
             <div>
               <div className="top">
                 <small>Maximum Supply</small>

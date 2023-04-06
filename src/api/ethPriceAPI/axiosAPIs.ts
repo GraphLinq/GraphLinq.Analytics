@@ -1,6 +1,7 @@
 import axios from "axios";
+import * as Sentry from "@sentry/react";
 
-const URL = `https://api-hosted.graphlinq.io/59a59e231c707580afc9417668fb6f71c4aff4e358887895e36a01389010cc58/uniswap/eth/price`;
+const URL = "https://api-hosted.graphlinq.io/3657fe25fe3f14ac5bb194420c9a49e1d0c74248cd9a822299cdbe7839e0541c/uniswap/eth/price";
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);
@@ -11,6 +12,7 @@ export const postEthPriceSelectInfo = async (partient: any): Promise<any> => {
     const response = await axios.post(URL);
     return response.data;
   } catch (error) {
-    console.log(error, "axios error");
+    console.error("Axios Error: src/api/ethPriceAPI | ", URL, error);
+    Sentry.captureException(error);
   }
 };

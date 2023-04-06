@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as Sentry from "@sentry/react";
 
 const URL = `${process.env.REACT_APP_PROXY_API_URL}/fe6d7662f7df17ed666878f23140017c8f7154e19070b96641ea5293d2514641/uniswap/total_liquidity_v2`;
 
@@ -13,6 +14,7 @@ export const postTotalLiquiditySelectInfo = async (
     const response = await axios.post(URL);
     return response.data;
   } catch (error) {
-    console.log(error, "axios error");
+    console.error("Axios Error: src/api/uncxTotalLiquidityAPI | ", URL, error);
+    Sentry.captureException(error);
   }
 };
