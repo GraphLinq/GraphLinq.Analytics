@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as Sentry from "@sentry/react";
 
-const URL = `${process.env.REACT_APP_PROXY_API_URL}/1923b4d57a5f00f2dbf71492808189f670d7a2a67b5374b76471e439ffd3d9a7/polygon`;
+const URL = `${process.env.REACT_APP_PROXY_API_URL}/6183005bf6098b482534cf92e2d167c461051065243ae5854dba547a724b50f2/polygon`;
 
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);

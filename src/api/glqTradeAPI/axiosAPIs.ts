@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as Sentry from "@sentry/react";
 
-const URL = "https://api-hosted.graphlinq.io/3657fe25fe3f14ac5bb194420c9a49e1d0c74248cd9a822299cdbe7839e0541c/uniswap/glq/trades";
+const URL = "https://api-hosted.graphlinq.io/908384af82593a4445d9a06bf182d833cab1d3c1e60b2cf7e3704d27a093b65e/uniswap/glq/trades";
 export function result(endPointURL: any) {
   return axios.post(URL + endPointURL);
 }
