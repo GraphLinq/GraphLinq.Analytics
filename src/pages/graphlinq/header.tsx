@@ -36,7 +36,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
           <div className="tit">
             <h1>GraphLinq</h1>
             <div className="pri">
-              GLQ : <strong>{formatCur(glqState.price, 2, 5)}</strong>
+              GLQ : <strong>{formatCur(glqState.rate, 2, 5)}</strong>
             </div>
           </div>
         </div>

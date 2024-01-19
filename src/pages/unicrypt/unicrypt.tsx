@@ -32,11 +32,11 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    {uncxState.price
-                      ? formatCur(uncxState.price, 5, 5)
+                    {uncxState.rate
+                      ? formatCur(uncxState.rate, 5, 5)
                       : "Loading..."}
                   </strong>
-                  {uncxState.price ? (
+                  {uncxState.rate ? (
                     <span>
                     </span>
                   ) : (
@@ -72,8 +72,8 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {uncxState.ath
-                      ? formatCur(uncxState.ath, 5, 5)
+                    {uncxState.allTimeHighUSD
+                      ? formatCur(uncxState.allTimeHighUSD, 5, 5)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -86,11 +86,11 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
-                    {uncxState.market_cap
-                      ? formatCur(uncxState.market_cap, 0, 0)
+                    {uncxState.cap
+                      ? formatCur(uncxState.cap, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {uncxState.market_cap ? (
+                  {uncxState.cap ? (
                     <span>
                     </span>
                   ) : (
@@ -110,7 +110,7 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                       ? formatSupply(uncxState.pairs, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {uncxState.market_pairs ? (
+                  {uncxState.pairs ? (
                     <span>
                     </span>
                   ) : (
@@ -146,11 +146,11 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>Circulating Supply</small>
                 <h2>
                 <strong>
-                    {uncxState.circ_supply
-                      ? formatSupply(uncxState.circ_supply, 0, 0)
+                    {uncxState.circulatingSupply
+                      ? formatSupply(uncxState.circulatingSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {uncxState.circ_supply ? (
+                  {uncxState.circulatingSupply ? (
                     <span>
                     </span>
                   ) : (
@@ -166,8 +166,8 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>Total Supply</small>
                 <h2>
                   <strong>
-                    {uncxState.total_supply
-                      ? formatSupply(uncxState.total_supply, 0, 0)
+                    {uncxState.totalSupply
+                      ? formatSupply(uncxState.totalSupply, 0, 0)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -180,11 +180,11 @@ const UnicryptContent: React.FC<UnicryptProps> = () => {
                 <small>Maximum Supply</small>
                 <h2>
                 <strong>
-                    {uncxState.max_supply
-                      ? formatSupply(uncxState.max_supply, 0, 0)
+                    {uncxState.maxSupply
+                      ? formatSupply(uncxState.maxSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {uncxState.max_supply ? (
+                  {uncxState.maxSupply ? (
                     <span>
                     </span>
                   ) : (

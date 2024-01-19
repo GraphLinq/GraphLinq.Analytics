@@ -40,11 +40,11 @@ export const SearchBar: React.FC<SearchBarProps> = () => {
 
   function marketCap(project: string) {
     if (project === "GraphLinq") {
-      return formatCur(glqState.market_cap, 0, 0);
+      return formatCur(glqState.mcap, 0, 0);
     } else if (project === "Unicrypt") {
-      return formatCur(uncxState.market_cap, 0, 0);
+      return formatCur(uncxState.cap, 0, 0);
     } else if (project === "Polygon") {
-      return formatCur(polygonState.market_cap, 0, 0);
+      return formatCur(polygonState.cap, 0, 0);
     }
     return 0;
   }

@@ -36,7 +36,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = () => {
           <div className="tit">
             <h1>Polygon</h1>
             <div className="pri">
-              MATIC : <strong>{formatCur(polygonState.price, 2, 5)}</strong>
+              MATIC : <strong>{formatCur(polygonState.rate, 2, 5)}</strong>
             </div>
           </div>
         </div>
