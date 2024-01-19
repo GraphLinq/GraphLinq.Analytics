@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as Sentry from "@sentry/react";
 
 const URL = "https://api-hosted.graphlinq.io/c1a8c6f6042d2d8af923a77b70eb099026e468a3a010f73398f8d1e3759787b5/uniswap/uncx/trades";
 
@@ -13,6 +12,5 @@ export const postUncxTradesSelectInfo = async (partient: any): Promise<any> => {
     return response.data;
   } catch (error) {
     console.error("Axios Error: src/api/uncxTradeAPI | ", URL, error);
-    Sentry.captureException(error);
   }
 };

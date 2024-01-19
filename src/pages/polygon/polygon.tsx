@@ -31,11 +31,11 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    {polygonState.price
-                      ? formatCur(polygonState.price, 5, 5)
+                    {polygonState.rate
+                      ? formatCur(polygonState.rate, 5, 5)
                       : "Loading..."}
                   </strong>
-                  {polygonState.price ? (
+                  {polygonState.rate ? (
                     <span>
                     </span>
                   ) : (
@@ -71,8 +71,8 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {polygonState.ath
-                      ? formatCur(polygonState.ath, 5, 5)
+                    {polygonState.allTimeHighUSD
+                      ? formatCur(polygonState.allTimeHighUSD, 5, 5)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -85,11 +85,11 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
-                    {polygonState.market_cap
-                      ? formatCur(polygonState.market_cap, 0, 0)
+                    {polygonState.cap
+                      ? formatCur(polygonState.cap, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {polygonState.market_cap ? (
+                  {polygonState.cap ? (
                     <span>
                     </span>
                   ) : (
@@ -145,11 +145,11 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>Circulating Supply</small>
                 <h2>
                 <strong>
-                    {polygonState.circ_supply
-                      ? formatSupply(polygonState.circ_supply, 0, 0)
+                    {polygonState.circulatingSupply
+                      ? formatSupply(polygonState.circulatingSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {polygonState.circ_supply ? (
+                  {polygonState.circulatingSupply ? (
                     <span>
                     </span>
                   ) : (
@@ -165,8 +165,8 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>Total Supply</small>
                 <h2>
                   <strong>
-                    {polygonState.total_supply
-                      ? formatSupply(polygonState.total_supply, 0, 0)
+                    {polygonState.totalSupply
+                      ? formatSupply(polygonState.totalSupply, 0, 0)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -179,11 +179,11 @@ const PolygonContent: React.FC<PolygonProps> = () => {
                 <small>Maximum Supply</small>
                 <h2>
                 <strong>
-                    {polygonState.max_supply
-                      ? formatSupply(polygonState.max_supply, 0, 0)
+                    {polygonState.maxSupply
+                      ? formatSupply(polygonState.maxSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {polygonState.max_supply ? (
+                  {polygonState.maxSupply ? (
                     <span>
                     </span>
                   ) : (

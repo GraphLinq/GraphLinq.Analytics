@@ -51,7 +51,7 @@ const HeaderLayout: React.FC<UnicyptProps> = () => {
           <div className="tit">
             <h1>Unicrypt</h1>
             <div className="pri">
-              UNCX: <strong> {formatCur(uncxState.price, 2, 2)}</strong>
+              UNCX: <strong> {formatCur(uncxState.rate, 2, 2)}</strong>
               {/* | UNCL: <strong> {formatCur(unclState.price, 2, 12)}</strong> */}
             </div>
           </div>

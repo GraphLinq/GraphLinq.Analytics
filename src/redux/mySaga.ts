@@ -78,7 +78,7 @@ function* postPolygonAll(action: any) {
 
     } catch(e) {
       yield put({ type: "POST_SELECTED_POLYGON_FAILED" });
-      yield call(delay, 30000);
+      yield call(delay, 60000);
     }
   }
 }
@@ -106,7 +106,7 @@ function* postGlqAll(action: any) {
       //yield put({ type: "POST_HISTORY_GLQ_FAILED" });
       //yield put({ type: "POST_GLQ_TRADES_FAILED" });
       //yield put({ type: "POST_SELECTED_ETH_PRICE_FAILED" });
-      yield call(delay, 30000);
+      yield call(delay, 60000);
     }
   }
 }
@@ -134,7 +134,7 @@ function* postUncAll(action: any) {
       //yield put({ type: "POST_UNCX_TRADES_FAILED" });
       //yield put({ type: "POST_HISTORY_UNCX_FAILED" });
       //yield put({ type: "POST_SELECTED_ETH_PRICE_FAILED" });
-      yield call(delay, 30000);
+      yield call(delay, 60000);
     }
   }
 }

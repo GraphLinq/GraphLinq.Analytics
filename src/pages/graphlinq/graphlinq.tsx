@@ -28,11 +28,11 @@ const GraphlinqContent: React.FC<GraphlinqProps> = () => {
                 <small>Price (24Hrs)</small>
                 <h2>
                   <strong>
-                    {glqState.price
-                      ? formatCur(glqState.price, 5, 5)
+                    {glqState.rate
+                      ? formatCur(glqState.rate, 5, 5)
                       : "Loading..."}
                   </strong>
-                  {glqState.price ? (
+                  {glqState.rate ? (
                     <span>
                     </span>
                   ) : (
@@ -68,8 +68,8 @@ const GraphlinqContent: React.FC<GraphlinqProps> = () => {
                 <small>All-Time High</small>
                 <h2>
                   <strong>
-                    {glqState.ath
-                      ? formatCur(glqState.ath, 5, 5)
+                    {glqState.allTimeHighUSD
+                      ? formatCur(glqState.allTimeHighUSD, 5, 5)
                       : "Loading..."}
                   </strong>
                 </h2>
@@ -82,11 +82,11 @@ const GraphlinqContent: React.FC<GraphlinqProps> = () => {
                 <small>Market Cap (24Hrs)</small>
                 <h2>
                   <strong>
-                    {glqState.market_cap
-                      ? formatCur(glqState.market_cap, 0, 0)
+                    {glqState.cap
+                      ? formatCur(glqState.cap, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {glqState.market_cap ? (
+                  {glqState.cap ? (
                     <span>
                     </span>
                   ) : (
@@ -136,17 +136,17 @@ const GraphlinqContent: React.FC<GraphlinqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25x">
+          <div className="blc cl25">
             <div>
               <div className="top">
                 <small>Circulating Supply</small>
                 <h2>
                 <strong>
-                    {glqState.circ_supply
-                      ? formatSupply(glqState.circ_supply, 0, 0)
+                    {glqState.circulatingSupply
+                      ? formatSupply(glqState.circulatingSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                  {glqState.circ_supply ? (
+                  {glqState.circulatingSupply ? (
                     <span>
                     </span>
                   ) : (
@@ -156,36 +156,16 @@ const GraphlinqContent: React.FC<GraphlinqProps> = () => {
               </div>
             </div>
           </div>
-          <div className="blc cl25x">
+          <div className="blc cl2x">
             <div>
               <div className="top">
                 <small>Total Supply</small>
                 <h2>
                   <strong>
-                    {glqState.total_supply
-                      ? formatSupply(glqState.total_supply, 0, 0)
+                    {glqState.totalSupply
+                      ? formatSupply(glqState.totalSupply, 0, 0)
                       : "Loading..."}
                   </strong>
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div className="blc cl25x">
-            <div>
-              <div className="top">
-                <small>Maximum Supply</small>
-                <h2>
-                <strong>
-                    {glqState.max_supply
-                      ? formatSupply(glqState.max_supply, 0, 0)
-                      : "Loading..."}
-                  </strong>
-                  {glqState.max_supply ? (
-                    <span>
-                    </span>
-                  ) : (
-                    ""
-                  )}
                 </h2>
               </div>
             </div>
